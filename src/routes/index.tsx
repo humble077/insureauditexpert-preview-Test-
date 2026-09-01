@@ -39,9 +39,9 @@ export const Route = createFileRoute("/")({
           name: "Insure Audit Expert",
           slogan: "Smart Audit. Safe Drive. Guaranteed Protection.",
           url: SITE_URL,
-          telephone: "+91-98765-43210",
+          telephone: "+91-87005-15288",
           parentOrganization: { "@type": "Organization", name: "Alexfintech Risk & Solutions OPC Pvt. Ltd." },
-          address: { "@type": "PostalAddress", streetAddress: "Connaught Place", addressLocality: "New Delhi", postalCode: "110001", addressCountry: "IN" },
+          address: { "@type": "PostalAddress", streetAddress: "B-3/91, Krishna Nagar, Safdarjung Enclave", addressLocality: "New Delhi", postalCode: "110029", addressCountry: "IN" },
           areaServed: { "@type": "Country", name: "India" },
           serviceType: ["Car Insurance", "Commercial Vehicle Insurance", "Fleet Insurance", "School Bus Insurance", "Health Insurance", "Vehicle Risk Audit"],
           hasOfferCatalog: {

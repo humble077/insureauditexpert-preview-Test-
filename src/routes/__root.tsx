@@ -119,15 +119,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           description: "Risk Management & Vehicle Safety Program — professional policy audits, AI dashcam with G-sensor and zero wiring-cut live tracking for individuals, fleets and schools across India.",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "Connaught Place",
+            streetAddress: "B-3/91, Krishna Nagar, Safdarjung Enclave",
             addressLocality: "New Delhi",
             addressRegion: "DL",
-            postalCode: "110001",
+            postalCode: "110029",
             addressCountry: "IN",
           },
           contactPoint: {
             "@type": "ContactPoint",
-            telephone: "+91-98765-43210",
+            telephone: "+91-87005-15288",
             contactType: "customer service",
             areaServed: "IN",
             availableLanguage: ["en", "hi"],

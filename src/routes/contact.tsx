@@ -69,31 +69,31 @@ function ContactPage() {
 
 
             <div className="mt-10 grid sm:grid-cols-2 gap-4">
-              <a href="tel:+919876543210" className="bg-white/10 border border-white/15 rounded-2xl p-5 hover:bg-white/15 transition">
+              <a href="tel:+918700515288" className="bg-white/10 border border-white/15 rounded-2xl p-5 hover:bg-white/15 transition">
                 <Phone className="w-5 h-5 text-accent-yellow"/>
                 <div className="mt-3 text-[12px] font-bold uppercase tracking-wider text-white/60">Phone</div>
-                <div className="font-bold text-white">+91 98765 43210</div>
+                <div className="font-bold text-white text-sm">+91 8700515288 / 9217955477</div>
               </a>
               <a href="mailto:info@insureauditexpert.com" className="bg-white/10 border border-white/15 rounded-2xl p-5 hover:bg-white/15 transition">
                 <Mail className="w-5 h-5 text-accent-yellow"/>
                 <div className="mt-3 text-[12px] font-bold uppercase tracking-wider text-white/60">Email</div>
                 <div className="font-bold text-white text-sm break-all">info@insureauditexpert.com</div>
               </a>
-              <a href="https://wa.me/919876543210" className="bg-white/10 border border-white/15 rounded-2xl p-5 hover:bg-white/15 transition">
+              <a href="https://wa.me/918700515288" target="_blank" rel="noreferrer" className="bg-white/10 border border-white/15 rounded-2xl p-5 hover:bg-white/15 transition">
                 <MessageCircle className="w-5 h-5 text-accent-yellow"/>
-                <div className="mt-3 text-[12px] font-bold uppercase tracking-wider text-white/60">WhatsApp</div>
-                <div className="font-bold text-white">+91 98765 43210</div>
+                <div className="mt-3 text-[12px] font-bold uppercase tracking-wider text-white/60">WhatsApp (24x7)</div>
+                <div className="font-bold text-white text-sm">+91 87005 15288</div>
               </a>
               <div className="bg-white/10 border border-white/15 rounded-2xl p-5">
                 <Clock className="w-5 h-5 text-accent-yellow"/>
                 <div className="mt-3 text-[12px] font-bold uppercase tracking-wider text-white/60">Hours</div>
-                <div className="font-bold text-white">Mon – Sat · 9 AM – 7 PM</div>
+                <div className="font-bold text-white text-sm">Mon – Sat · 9:30 AM – 6:30 PM</div>
               </div>
             </div>
 
             <div className="mt-6 flex items-start gap-2 text-sm text-white/80">
-              <MapPin className="w-4 h-4 text-accent-yellow mt-0.5"/>
-              <span>HQ: Connaught Place, New Delhi · Pan-India service across all states &amp; UTs.</span>
+              <MapPin className="w-4 h-4 text-accent-yellow mt-0.5 shrink-0"/>
+              <span>B-3/91, Krishna Nagar, Safdarjung Enclave, New Delhi - 110029 · Pan-India service across all states &amp; UTs.</span>
             </div>
           </div>
 

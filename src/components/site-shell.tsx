@@ -126,7 +126,7 @@ export function SiteFooter() {
         <div>
           <h5 className="text-white font-bold mb-4">Get In Touch</h5>
           <ul className="space-y-3 text-sm">
-            <li className="flex items-start gap-2"><MapPin className="w-4 h-4 text-brand shrink-0 mt-0.5"/> B-3/91 Krishna Nagar, Safdarjung Enclave, Delhi-110029</li>
+            <li className="flex items-start gap-2"><MapPin className="w-4 h-4 text-brand shrink-0 mt-0.5"/> B-3/91, Krishna Nagar, Safdarjung Enclave, New Delhi - 110029</li>
             <li className="flex items-center gap-2"><Phone className="w-4 h-4 text-brand"/> <a href="tel:+918700515288" className="hover:text-brand">+91 8700515288 / 9217955477</a></li>
             <li className="flex items-center gap-2"><Mail className="w-4 h-4 text-brand"/> <a href="mailto:info@insureauditexpert.com" className="hover:text-brand">info@insureauditexpert.com</a></li>
             <li className="flex items-center gap-2"><Clock className="w-4 h-4 text-brand"/> Mon – Sat · 9:30 AM – 6:30 PM</li>
