@@ -131,21 +131,48 @@ export function ScrollCinema({
       </div>
 
       {/* Main Center Wishlink Grid */}
-      <div className="max-w-[1240px] mx-auto px-6 w-full relative z-10 my-auto py-8">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 w-full relative z-10 my-auto py-4 sm:py-8">
         <div className="max-w-2xl">
-          {/* Wishlink Headline */}
-          <h2 className="text-[34px] sm:text-[46px] lg:text-[52px] font-extrabold text-white tracking-tight leading-[1.06]">
-            Har Trip Record. <br />
-            <span className="text-accent-yellow">Har Location Live.</span>
-          </h2>
-          <p className="mt-2.5 text-[15px] sm:text-[17px] text-white/75 font-medium">
-            In just 03 easy steps &amp; intelligent protection pillars
-          </p>
+          {/* Wishlink Headline - Compact on mobile */}
+          <div className="mb-4 sm:mb-8">
+            <h2 className="text-[24px] sm:text-[38px] lg:text-[48px] font-extrabold text-white tracking-tight leading-[1.1]">
+              Har Trip Record. <span className="text-accent-yellow">Har Location Live.</span>
+            </h2>
+            <p className="mt-1 sm:mt-2 text-[13px] sm:text-[16px] text-white/80 font-medium">
+              In just 03 easy steps &amp; intelligent protection pillars
+            </p>
+          </div>
 
-          {/* Wishlink Vertical Step Track + Content */}
-          <div className="mt-8 sm:mt-10 flex gap-6 sm:gap-8 items-start">
-            {/* Step Rail Numbers */}
-            <div className="flex flex-col items-center gap-3 pt-1 shrink-0">
+          {/* Mobile-Friendly Horizontal Stepper (< md) */}
+          <div className="flex md:hidden items-center gap-2 mb-3 overflow-x-auto pb-1">
+            {beats.map((b, i) => {
+              const on = i === active;
+              const stepNum = b.stepNumber || String(i + 1).padStart(2, "0");
+              return (
+                <button
+                  key={b.title || i}
+                  type="button"
+                  onClick={() => {
+                    setActive(i);
+                    setIsPaused(true);
+                  }}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold font-mono transition-all shrink-0 ${
+                    on
+                      ? "bg-accent-yellow text-night shadow-md ring-2 ring-accent-yellow/40"
+                      : "bg-night/70 text-white/70 border border-white/15 backdrop-blur-sm"
+                  }`}
+                >
+                  <span>{stepNum}</span>
+                  <span className="truncate max-w-[90px]">{b.kicker.split("·")[1]?.trim() || b.kicker}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Desktop & Mobile Step Layout */}
+          <div className="flex gap-4 sm:gap-8 items-start">
+            {/* Desktop Vertical Step Rail (Hidden on mobile) */}
+            <div className="hidden md:flex flex-col items-center gap-3 pt-1 shrink-0">
               {beats.map((b, i) => {
                 const on = i === active;
                 const stepNum = b.stepNumber || String(i + 1).padStart(2, "0");
@@ -177,8 +204,8 @@ export function ScrollCinema({
               })}
             </div>
 
-            {/* Dynamic Step Content Box */}
-            <div className="relative min-h-[220px] sm:min-h-[190px] flex-1 bg-night/85 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            {/* Dynamic Step Content Box - Compact & Translucent on Mobile */}
+            <div className="relative min-h-[170px] sm:min-h-[190px] flex-1 bg-night/75 sm:bg-night/85 backdrop-blur-xl border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl">
               {beats.map((b, i) => {
                 const on = i === active;
                 return (
@@ -187,37 +214,35 @@ export function ScrollCinema({
                     className={`transition-all duration-500 ease-out ${
                       on
                         ? "opacity-100 translate-y-0 pointer-events-auto"
-                        : "opacity-0 translate-y-4 pointer-events-none absolute inset-0 p-6 sm:p-8"
+                        : "opacity-0 translate-y-3 pointer-events-none absolute inset-0 p-4 sm:p-7"
                     }`}
                   >
-                    <div className="flex items-center gap-2.5 mb-2">
-                      <span className="w-8 h-8 rounded-lg bg-accent-yellow/20 border border-accent-yellow/40 grid place-items-center text-accent-yellow">
-                        <b.icon className="w-4 h-4" />
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-accent-yellow/20 border border-accent-yellow/40 grid place-items-center text-accent-yellow shrink-0">
+                        <b.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </span>
-                      <span className="text-xs font-bold uppercase tracking-wider text-accent-yellow font-mono">
+                      <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-accent-yellow font-mono truncate">
                         {b.kicker}
                       </span>
                     </div>
 
-                    <h3 className="text-[22px] sm:text-[28px] lg:text-[32px] font-extrabold text-white leading-tight">
+                    <h3 className="text-[17px] sm:text-[24px] lg:text-[28px] font-extrabold text-white leading-tight">
                       {b.title}
                     </h3>
 
-                    <p className="mt-3 text-[14.5px] sm:text-[16px] text-white/85 leading-relaxed font-normal">
+                    <p className="mt-2 text-[13px] sm:text-[15px] text-white/85 leading-relaxed font-normal line-clamp-3 sm:line-clamp-none">
                       {b.body}
                     </p>
 
                     {/* Step Progress Line */}
-                    <div className="mt-5 flex items-center justify-between gap-4 pt-3 border-t border-white/10">
-                      <div className="flex items-center gap-2 text-xs font-mono text-white/50">
-                        <span>Pillar {i + 1} of {beats.length}</span>
-                      </div>
+                    <div className="mt-3 sm:mt-4 flex items-center justify-between gap-3 pt-2.5 border-t border-white/10 text-[11px] sm:text-xs font-mono text-white/60">
+                      <span>Pillar {i + 1} of {beats.length}</span>
                       <div className="flex items-center gap-1.5">
                         {beats.map((_, dotIdx) => (
                           <span
                             key={dotIdx}
                             className={`h-1.5 rounded-full transition-all duration-300 ${
-                              dotIdx === active ? "w-6 bg-accent-yellow" : "w-1.5 bg-white/30"
+                              dotIdx === active ? "w-5 bg-accent-yellow" : "w-1.5 bg-white/30"
                             }`}
                           />
                         ))}
@@ -232,16 +257,16 @@ export function ScrollCinema({
       </div>
 
       {/* Bottom Floating Wishlink Pill Bar */}
-      <div className="max-w-[1240px] mx-auto px-6 w-full relative z-10">
-        <div className="bg-white/95 backdrop-blur-md text-night rounded-full px-5 sm:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xl border border-white/40">
-          <span className="text-[13.5px] sm:text-[14.5px] font-bold text-night text-center sm:text-left">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 w-full relative z-10">
+        <div className="bg-white/95 backdrop-blur-md text-night rounded-2xl sm:rounded-full px-4 sm:px-8 py-2.5 sm:py-3 flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 shadow-2xl border border-white/40">
+          <span className="text-[12px] sm:text-[14.5px] font-bold text-night text-center sm:text-left">
             Complimentary AI Dashcam &amp; GPS with Safety Membership
           </span>
           <Link
             to={ctaTo as "/ai-dashcam-tracking"}
-            className="sheen inline-flex items-center justify-center gap-2 bg-night hover:bg-brand text-white font-bold text-[13.5px] px-6 py-2.5 rounded-full transition shrink-0 shadow-sm"
+            className="sheen inline-flex items-center justify-center gap-2 bg-night hover:bg-brand text-white font-bold text-[12.5px] sm:text-[13.5px] px-5 sm:px-6 py-2 sm:py-2.5 rounded-full transition shrink-0 shadow-sm w-full sm:w-auto"
           >
-            {ctaLabel} <ArrowRight className="w-4 h-4 text-accent-yellow" />
+            {ctaLabel} <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-yellow" />
           </Link>
         </div>
       </div>
