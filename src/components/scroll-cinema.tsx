@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ComponentType } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Camera, MapPin, ShieldCheck } from "lucide-react";
+import { ArrowRight, Camera, MapPin, ShieldCheck, Play, Pause, Disc, Radio } from "lucide-react";
 import { usePrefersReducedMotion } from "@/lib/motion";
 
 export type CinemaBeat = {
@@ -23,186 +23,196 @@ type Props = {
 const DEFAULT_BEATS: CinemaBeat[] = [
   {
     icon: Camera,
-    kicker: "00:02 · Drive",
+    kicker: "Pillar 01 · Drive",
     title: "Har trip record hoti hai.",
-    body: "Full-HD front recording, night-vision clarity. Number plate raat mein bhi readable.",
+    body: "Full-HD loop front recording with night-vision clarity. Raat mein bhi vehicle number plates crystal clear readable rehti hain.",
   },
   {
     icon: MapPin,
-    kicker: "00:07 · Track",
+    kicker: "Pillar 02 · Track",
     title: "Har location live dikhti hai.",
-    body: "Zero wiring-cut GPS. Speed, route aur harsh-driving alerts seedha aapke mobile par.",
+    body: "Zero wiring-cut GPS tracking. Live speed, playback route history aur harsh-braking alerts seedha aapke mobile phone par.",
   },
   {
     icon: ShieldCheck,
-    kicker: "00:14 · Claim",
-    title: "Impact par footage lock.",
-    body: "G-sensor collision detect karta hai aur clip overwrite nahi hoti — surveyor ke liye clean proof.",
+    kicker: "Pillar 03 · Claim",
+    title: "Impact par footage instant lock.",
+    body: "G-sensor collision ya jhatka detect karte hi evidence clip ko permanently lock kar deta hai — surveyor aur police ke samne solid proof.",
   },
 ];
 
-/**
- * Scroll-scrubbed film strip: the video timeline is driven by scroll position
- * while captions cut in and out like an edited sequence.
- */
 export function ScrollCinema({
   sources = [
     { src: "/media/road-loop.webm", type: "video/webm" },
     { src: "/media/road-loop.mp4", type: "video/mp4" },
   ],
-  poster,
-  badge = "Evidence Reel",
+  poster = "/media/road-poster.jpg",
+  badge = "Live Evidence Reel",
   beats = DEFAULT_BEATS,
   ctaTo = "/ai-dashcam-tracking",
-  ctaLabel = "Dekhein kaise kaam karta hai",
+  ctaLabel = "Dekhein Kaise Kaam Karta Hai",
 }: Props) {
-  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const [active, setActive] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [p, setP] = useState(0);
   const reduced = usePrefersReducedMotion();
 
+  // Auto-advance tabs smoothly every 5 seconds if not paused
   useEffect(() => {
-    const wrap = wrapRef.current;
-    if (!wrap) return;
-    let raf = 0;
-    let target = 0;
-    let current = 0;
-
-    const measure = () => {
-      const r = wrap.getBoundingClientRect();
-      const total = r.height - window.innerHeight;
-      target = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0;
-    };
-
-    const loop = () => {
-      current += (target - current) * 0.12;
-      setP(current);
-      raf = requestAnimationFrame(loop);
-    };
-
-    measure();
-    current = target;
-    raf = requestAnimationFrame(loop);
-    window.addEventListener("scroll", measure, { passive: true });
-    window.addEventListener("resize", measure);
-    return () => {
-      window.removeEventListener("scroll", measure);
-      window.removeEventListener("resize", measure);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  /** Pause the clip when the section is off-screen so it never fights for bandwidth. */
-  useEffect(() => {
-    const wrap = wrapRef.current;
-    const v = videoRef.current;
-    if (!wrap || !v || reduced) return;
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) void v.play().catch(() => {});
-        else v.pause();
-      },
-      { threshold: 0.01 },
-    );
-    io.observe(wrap);
-    return () => io.disconnect();
-  }, [reduced]);
-
-  const active = Math.min(beats.length - 1, Math.floor(p * beats.length * 0.999));
+    if (!isPlaying || reduced) return;
+    const timer = setInterval(() => {
+      setActive((prev) => (prev + 1) % beats.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isPlaying, reduced, beats.length]);
 
   return (
-    <div ref={wrapRef} className="relative h-[220vh] sm:h-[280vh] bg-night" data-no-autoreveal>
-      <div className="sticky top-0 h-[100dvh] overflow-hidden">
-        <video
-          ref={videoRef}
-          poster={poster}
-          muted
-          playsInline
-          preload="auto"
-          autoPlay
-          loop
-          aria-hidden
-          className="absolute inset-0 h-full w-full object-cover will-change-transform"
-          style={{
-            transform: `translate3d(0, ${(p - 0.5) * -4}%, 0) scale(1.06)`,
-            filter: "saturate(1.02) contrast(1.02)",
-          }}
-        >
-          {sources.map((s) => (
-            <source key={s.src} src={s.src} type={s.type} />
-          ))}
-        </video>
+    <section className="py-14 sm:py-20 bg-night text-white relative overflow-hidden" data-no-autoreveal>
+      {/* Subtle background radial glows */}
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-brand/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-brand-deep/30 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="absolute inset-0 bg-gradient-to-r from-night via-night/70 to-night/10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-night via-transparent to-night/60" />
-
-        {/* scrub rail */}
-        <div className="absolute left-6 right-6 bottom-5 sm:left-12 sm:right-12 z-10">
-          <div className="flex items-center gap-4">
-            <span className="font-mono text-[11px] tracking-[0.22em] text-accent-yellow">
-              REC {String(Math.round(p * 100)).padStart(3, "0")}%
+      <div className="max-w-[1240px] mx-auto px-6 relative z-10">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <span className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-accent-yellow text-[12px] font-bold uppercase tracking-[0.2em] px-3.5 py-1.5 rounded-full mb-3 shadow-xs">
+              <Disc className="w-3.5 h-3.5 animate-spin" /> {badge}
             </span>
-            <div className="relative h-[3px] flex-1 rounded-full bg-white/15">
-              <div
-                className="absolute inset-y-0 left-0 rounded-full bg-accent-yellow"
-                style={{ width: `${p * 100}%` }}
-              />
-              {beats.map((b, i) => (
-                <span
-                  key={b.title}
-                  className="absolute top-1/2 h-2 w-2 -translate-y-1/2 rounded-full"
-                  style={{
-                    left: `${(i / beats.length) * 100}%`,
-                    background: i <= active ? "var(--accent-yellow)" : "rgba(255,255,255,0.3)",
-                  }}
-                />
-              ))}
-            </div>
+            <h2 className="text-[32px] sm:text-[42px] lg:text-[48px] font-extrabold text-white tracking-tight leading-[1.08]">
+              Har Trip Record. Har Location Live.
+            </h2>
+            <p className="mt-2 text-[15px] sm:text-[16px] text-white/70 max-w-2xl">
+              Real-time dashcam footage aur live GPS telematics — incident ke waqt aapki baat ko 100% video proof ke saath support karta hai.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => setIsPlaying(!isPlaying)}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/70 hover:text-white bg-white/10 hover:bg-white/15 px-3 py-1.5 rounded-lg transition"
+            >
+              {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+              <span>{isPlaying ? "Auto-playing" : "Paused"}</span>
+            </button>
           </div>
         </div>
 
-        <div className="relative h-full w-full max-w-[1240px] mx-auto px-5 sm:px-6 flex items-end sm:items-center pt-16 pb-28 sm:pb-32">
-          <div className="w-full max-w-[300px] sm:max-w-[360px]">
-            <span className="inline-flex items-center gap-2 bg-night/60 backdrop-blur border border-accent-yellow/40 text-accent-yellow text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1.5 rounded-full">
-              {badge}
-            </span>
-            <div className="mt-4 grid">
+        {/* Evidence Cinema Theater Frame */}
+        <div className="rounded-3xl border border-white/15 bg-white/[0.03] backdrop-blur-md overflow-hidden shadow-2xl grid lg:grid-cols-[1.25fr_1fr]">
+          {/* Left: Video / Live HUD Player */}
+          <div className="relative min-h-[340px] sm:min-h-[420px] lg:min-h-[480px] bg-black/80 flex items-center justify-center overflow-hidden">
+            <video
+              ref={videoRef}
+              poster={poster}
+              muted
+              playsInline
+              preload="auto"
+              autoPlay
+              loop
+              aria-hidden
+              className="absolute inset-0 h-full w-full object-cover opacity-85"
+            >
+              {sources.map((s) => (
+                <source key={s.src} src={s.src} type={s.type} />
+              ))}
+            </video>
+
+            {/* Overlays */}
+            <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-transparent to-night/40 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-r from-night/40 via-transparent to-transparent pointer-events-none" />
+
+            {/* Top HUD Bar */}
+            <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none text-[11px] font-mono tracking-wider text-white/90">
+              <div className="flex items-center gap-2 bg-night/80 backdrop-blur px-3 py-1 rounded-md border border-white/10">
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+                <span className="text-red-400 font-bold">● REC</span>
+                <span className="text-white/60">1080P · 60FPS</span>
+              </div>
+              <div className="flex items-center gap-2 bg-night/80 backdrop-blur px-3 py-1 rounded-md border border-white/10 text-accent-yellow">
+                <Radio className="w-3.5 h-3.5 text-brand" />
+                <span>GPS LIVE · 48 KM/H</span>
+              </div>
+            </div>
+
+            {/* Bottom HUD Bar */}
+            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between pointer-events-none text-[11px] font-mono text-white/80">
+              <div className="bg-night/80 backdrop-blur px-3 py-1.5 rounded-md border border-white/10">
+                <span className="text-white/50">G-SENSOR: </span>
+                <span className="text-brand font-bold">ARMED (0.02G)</span>
+              </div>
+              <div className="bg-night/80 backdrop-blur px-3 py-1.5 rounded-md border border-white/10">
+                <span className="text-white/50">STORAGE: </span>
+                <span className="text-accent-yellow font-bold">LOCK PROTECTED</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Interactive Beat Cards */}
+          <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-between gap-6 border-t lg:border-t-0 lg:border-l border-white/10 bg-night/60">
+            <div className="space-y-3">
               {beats.map((b, i) => {
                 const on = i === active;
                 return (
-                  <div
+                  <button
                     key={b.title}
-                    className="col-start-1 row-start-1 rounded-xl border border-white/10 bg-night/35 backdrop-blur-sm p-4 transition-all duration-700"
-                    style={{
-                      opacity: on ? 1 : 0,
-                      transform: on ? "translate3d(0,0,0)" : `translate3d(0,${i < active ? -24 : 24}px,0)`,
-                      filter: on ? "blur(0)" : "blur(6px)",
-                      pointerEvents: on ? "auto" : "none",
+                    type="button"
+                    onClick={() => {
+                      setActive(i);
+                      setIsPlaying(false);
                     }}
+                    className={`w-full text-left p-4 sm:p-5 rounded-2xl transition-all duration-300 border ${
+                      on
+                        ? "bg-white/10 border-accent-yellow/50 shadow-lg"
+                        : "bg-white/[0.02] border-white/5 hover:bg-white/[0.05] opacity-70 hover:opacity-100"
+                    }`}
                   >
-                    <div className="flex items-center gap-2.5">
-                      <span className="w-8 h-8 shrink-0 rounded-lg bg-accent-yellow/15 border border-accent-yellow/30 grid place-items-center">
-                        <b.icon className="w-4 h-4 text-accent-yellow" />
-                      </span>
-                      <span className="font-mono text-[10px] tracking-[0.2em] text-white/55">{b.kicker}</span>
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <span
+                          className={`w-9 h-9 rounded-xl grid place-items-center transition-colors ${
+                            on ? "bg-accent-yellow text-night font-bold shadow-xs" : "bg-white/10 text-white/70"
+                          }`}
+                        >
+                          <b.icon className="w-4 h-4" />
+                        </span>
+                        <span className="text-[12px] font-bold uppercase tracking-wider text-accent-yellow font-mono">
+                          {b.kicker}
+                        </span>
+                      </div>
+                      {on && (
+                        <span className="text-[11px] font-bold text-brand bg-brand-soft/20 border border-brand/40 px-2.5 py-0.5 rounded-full">
+                          Active Reel
+                        </span>
+                      )}
                     </div>
-                    <h3 className="mt-3 text-[19px] sm:text-[22px] leading-[1.12] font-extrabold text-white">
+                    <h3 className="mt-2.5 text-[17px] sm:text-[19px] font-bold text-white leading-snug">
                       {b.title}
                     </h3>
-                    <p className="mt-2 text-[13px] text-white/70 leading-snug">{b.body}</p>
-                    <Link
-                      to={ctaTo as "/contact"}
-                      className="mt-4 inline-flex items-center gap-2 bg-accent-yellow text-night font-bold text-[12px] px-4 py-2 rounded-full hover:bg-white transition"
-                    >
-                      {ctaLabel} <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
+                    <p className="mt-1.5 text-[13.5px] sm:text-[14px] text-white/75 leading-relaxed font-normal">
+                      {b.body}
+                    </p>
+                  </button>
                 );
               })}
+            </div>
+
+            {/* Bottom CTA Row */}
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 border-t border-white/10">
+              <div className="text-[12px] text-white/60">
+                <span>Free installation with Membership</span>
+              </div>
+              <Link
+                to={ctaTo as "/ai-dashcam-tracking"}
+                className="sheen inline-flex items-center justify-center gap-2 bg-accent-yellow hover:bg-white text-night font-bold text-[14px] px-6 py-3 rounded-xl transition shadow-md"
+              >
+                {ctaLabel} <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -22,26 +22,26 @@ export function SiteHeader() {
     <>
       <ScrollProgressBar />
       <CursorGlow />
-      <div className="bg-accent-yellow text-night text-[12px] font-semibold overflow-hidden">
-        <div className="flex animate-marquee whitespace-nowrap py-1.5">
+      <div className="bg-accent-yellow text-night text-[13px] sm:text-[13.5px] font-bold overflow-hidden">
+        <div className="flex animate-marquee whitespace-nowrap py-2">
           {Array.from({ length: 6 }).map((_, i) => (
             <span key={i} className="mx-6 inline-flex items-center gap-2">
-              <Sparkles className="w-3 h-3"/> Smart Audit. Safe Drive. Guaranteed Protection. · AI Dashcam &amp; G-Sensor · Zero Wiring-Cut Tracking · 24x7 Claim Support (+91 8700515288)
+              <Sparkles className="w-3.5 h-3.5"/> Smart Audit. Safe Drive. Guaranteed Protection. · AI Dashcam &amp; G-Sensor · Zero Wiring-Cut Tracking · 24x7 Claim Support (+91 8700515288)
             </span>
           ))}
         </div>
       </div>
 
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-ink/5">
-        <div className="max-w-[1240px] mx-auto px-6 h-[60px] flex items-center justify-between gap-3">
-          <Link to="/" className="flex items-center gap-2.5 group shrink-0">
-            <img src={logoUrl} alt="Insure Audit Expert — Smart Audit. Safe Drive. Guaranteed Protection." className="h-9 w-auto transition-transform group-hover:scale-105"/>
+      <header className="sticky top-0 z-50 bg-white/98 backdrop-blur border-b border-ink/8 shadow-2xs">
+        <div className="max-w-[1240px] mx-auto px-6 h-[68px] flex items-center justify-between gap-4">
+          <Link to="/" className="flex items-center gap-3 group shrink-0">
+            <img src={logoUrl} alt="Insure Audit Expert — Smart Audit. Safe Drive. Guaranteed Protection." className="h-10 w-auto transition-transform group-hover:scale-105"/>
             <span className="hidden md:block leading-tight">
-              <span className="block text-[14px] font-extrabold text-night">Insure Audit Expert</span>
-              <span className="hidden 2xl:block text-[10px] font-semibold tracking-wide text-brand uppercase">Smart Audit. Safe Drive. Guaranteed Protection.</span>
+              <span className="block text-[16px] font-extrabold text-night tracking-tight">Insure Audit Expert</span>
+              <span className="hidden 2xl:block text-[11px] font-bold tracking-wide text-brand uppercase">Smart Audit. Safe Drive. Guaranteed Protection.</span>
             </span>
           </Link>
-          <nav className="hidden lg:flex items-center gap-3 xl:gap-4 text-[12px] xl:text-[12.5px] font-semibold text-ink/80 whitespace-nowrap">
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-6 text-[14px] xl:text-[15px] font-semibold text-ink/85 whitespace-nowrap">
             {NAV.map((n) => (
               <Link
                 key={n.to}
@@ -54,22 +54,22 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Link
               to="/support"
-              className="hidden sm:inline-flex items-center gap-1 text-[11.5px] font-bold text-brand hover:text-brand-deep bg-brand-soft px-2.5 py-1.5 rounded-md transition"
+              className="hidden sm:inline-flex items-center gap-1.5 text-[13px] font-bold text-brand hover:text-brand-deep bg-brand-soft px-3 py-2 rounded-lg transition"
             >
-              <MessageCircle className="w-3.5 h-3.5" /> Support
+              <MessageCircle className="w-4 h-4" /> Support
             </Link>
             <Magnetic strength={0.22}>
-              <Link to="/insurance" className="sheen inline-flex items-center gap-1.5 bg-night hover:bg-brand text-white font-bold text-[12px] px-3 xl:px-4 py-2 rounded-md transition-colors shrink-0">
-                <ShieldCheck className="w-3.5 h-3.5"/> <span className="hidden 2xl:inline">Get Insurance&nbsp;</span>Quote
+              <Link to="/insurance" className="sheen inline-flex items-center gap-2 bg-night hover:bg-brand text-white font-bold text-[13.5px] px-4 py-2.5 rounded-xl transition-colors shrink-0 shadow-2xs">
+                <ShieldCheck className="w-4 h-4 text-accent-yellow"/> <span className="hidden sm:inline">Get Quote</span>
               </Link>
             </Magnetic>
           </div>
         </div>
-        <div className="lg:hidden border-t border-ink/5 overflow-x-auto">
-          <div className="flex items-center gap-4 px-6 py-2 text-[12px] font-semibold text-ink/80 whitespace-nowrap">
+        <div className="lg:hidden border-t border-ink/5 overflow-x-auto bg-white">
+          <div className="flex items-center gap-5 px-6 py-2.5 text-[13.5px] font-semibold text-ink/80 whitespace-nowrap">
             {NAV.map((n) => (
               <Link key={n.to} to={n.to} activeProps={{ className: "text-brand font-bold" }} className="hover:text-brand transition">{n.label}</Link>
             ))}
@@ -93,66 +93,66 @@ const PROGRAM_LINKS = [
 
 export function SiteFooter() {
   return (
-    <footer className="bg-night text-white/75 pt-20 pb-10">
+    <footer className="bg-night text-white/80 pt-20 pb-12">
       <div className="max-w-[1240px] mx-auto px-6 grid md:grid-cols-4 gap-10">
         <div>
-          <div className="mb-4 inline-block bg-white/95 rounded-xl p-3">
+          <div className="mb-4 inline-block bg-white/95 rounded-xl p-3 shadow-xs">
             <img src={logoUrl} alt="Insure Audit Expert" className="h-14 w-auto"/>
           </div>
-          <p className="text-[13px] font-semibold text-accent-yellow tracking-wide">Smart Audit. Safe Drive. Guaranteed Protection.</p>
-          <p className="mt-3 text-sm leading-relaxed">
+          <p className="text-[14px] font-bold text-accent-yellow tracking-wide">Smart Audit. Safe Drive. Guaranteed Protection.</p>
+          <p className="mt-3 text-[14px] leading-relaxed text-white/75">
             A Risk Management &amp; Vehicle Safety Program — professional policy audits, AI dashcam with G-sensor, and smart live tracking installed without cutting a single wire.
           </p>
         </div>
         <div>
-          <h5 className="text-white font-bold mb-4">Insurance &amp; Programs</h5>
-          <ul className="space-y-2 text-sm">
+          <h5 className="text-[17px] font-bold text-white mb-4 tracking-wide">Insurance &amp; Programs</h5>
+          <ul className="space-y-2.5 text-[14.5px]">
             {PROGRAM_LINKS.map((s) => (
-              <li key={s.label}><Link to={s.to} className="link-sweep hover:text-brand transition">{s.label}</Link></li>
+              <li key={s.label}><Link to={s.to} className="link-sweep hover:text-brand transition text-white/80 hover:text-white">{s.label}</Link></li>
             ))}
           </ul>
         </div>
         <div>
-          <h5 className="text-white font-bold mb-4">Quick Links</h5>
-          <ul className="space-y-2 text-sm">
-            <li><Link to="/" className="hover:text-brand transition">Home</Link></li>
-            <li><Link to="/about" className="hover:text-brand transition">About Us</Link></li>
-            <li><Link to="/support" className="hover:text-brand transition">Support</Link></li>
-            <li><Link to="/privacy-policy" className="hover:text-brand transition">Privacy Policy</Link></li>
-            <li><Link to="/blogs" className="hover:text-brand transition">Knowledge Hub</Link></li>
-            <li><Link to="/contact" className="hover:text-brand transition">Contact Us</Link></li>
+          <h5 className="text-[17px] font-bold text-white mb-4 tracking-wide">Quick Links</h5>
+          <ul className="space-y-2.5 text-[14.5px]">
+            <li><Link to="/" className="hover:text-brand transition text-white/80 hover:text-white">Home</Link></li>
+            <li><Link to="/about" className="hover:text-brand transition text-white/80 hover:text-white">About Us</Link></li>
+            <li><Link to="/support" className="hover:text-brand transition text-white/80 hover:text-white">Support Helpdesk</Link></li>
+            <li><Link to="/privacy-policy" className="hover:text-brand transition text-white/80 hover:text-white">Privacy Policy</Link></li>
+            <li><Link to="/blogs" className="hover:text-brand transition text-white/80 hover:text-white">Knowledge Hub</Link></li>
+            <li><Link to="/contact" className="hover:text-brand transition text-white/80 hover:text-white">Contact Us</Link></li>
           </ul>
         </div>
         <div>
-          <h5 className="text-white font-bold mb-4">Get In Touch</h5>
-          <ul className="space-y-3 text-sm">
-            <li className="flex items-start gap-2"><MapPin className="w-4 h-4 text-brand shrink-0 mt-0.5"/> B-3/91, Krishna Nagar, Safdarjung Enclave, New Delhi - 110029</li>
-            <li className="flex items-center gap-2"><Phone className="w-4 h-4 text-brand"/> <a href="tel:+918700515288" className="hover:text-brand">+91 8700515288 / 9217955477</a></li>
-            <li className="flex items-center gap-2"><Mail className="w-4 h-4 text-brand"/> <a href="mailto:info@insureauditexpert.com" className="hover:text-brand">info@insureauditexpert.com</a></li>
-            <li className="flex items-center gap-2"><Clock className="w-4 h-4 text-brand"/> Mon – Sat · 9:30 AM – 6:30 PM</li>
-            <li className="flex items-center gap-2"><MessageCircle className="w-4 h-4 text-brand"/> <a href="https://wa.me/918700515288" target="_blank" rel="noreferrer" className="hover:text-brand font-semibold text-brand">WhatsApp Us (24x7)</a></li>
+          <h5 className="text-[17px] font-bold text-white mb-4 tracking-wide">Get In Touch</h5>
+          <ul className="space-y-3 text-[14.5px]">
+            <li className="flex items-start gap-2.5 text-white/80"><MapPin className="w-4 h-4 text-brand shrink-0 mt-1"/> B-3/91, Krishna Nagar, Safdarjung Enclave, New Delhi - 110029</li>
+            <li className="flex items-center gap-2.5"><Phone className="w-4 h-4 text-brand shrink-0"/> <a href="tel:+918700515288" className="text-white/80 hover:text-white transition">+91 8700515288 / 9217955477</a></li>
+            <li className="flex items-center gap-2.5"><Mail className="w-4 h-4 text-brand shrink-0"/> <a href="mailto:info@insureauditexpert.com" className="text-white/80 hover:text-white transition">info@insureauditexpert.com</a></li>
+            <li className="flex items-center gap-2.5 text-white/80"><Clock className="w-4 h-4 text-brand shrink-0"/> Mon – Sat · 9:30 AM – 6:30 PM</li>
+            <li className="flex items-center gap-2.5 pt-1"><MessageCircle className="w-4 h-4 text-brand shrink-0"/> <a href="https://wa.me/918700515288" target="_blank" rel="noreferrer" className="hover:underline font-bold text-accent-yellow">WhatsApp Us (24x7 Support)</a></li>
           </ul>
         </div>
       </div>
 
       <div className="max-w-[1240px] mx-auto px-6 mt-14">
-        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-[12.5px] leading-relaxed text-white/60 space-y-3">
-          <h6 className="text-white/85 font-bold text-[13px] uppercase tracking-wider">Regulatory &amp; Transparency Disclosure</h6>
+        <div className="rounded-2xl border border-white/12 bg-white/[0.05] p-6 text-[13.5px] sm:text-[14px] leading-relaxed text-white/70 space-y-3">
+          <h6 className="text-white font-bold text-[14px] uppercase tracking-wider text-accent-yellow">Regulatory &amp; Transparency Disclosure</h6>
           <p>
-            Insure Audit Expert is a brand owned and managed by <strong className="text-white/80">Alexfintech Risk &amp; Solutions OPC Pvt. Ltd.</strong>
+            Insure Audit Expert is a brand owned and managed by <strong className="text-white">Alexfintech Risk &amp; Solutions OPC Pvt. Ltd.</strong>
           </p>
           <p>
-            Insure Audit Expert is a technology, risk-audit and vehicle-safety service provider. We do not underwrite or issue insurance policies. All insurance products are arranged and issued through our licensed distribution partner <strong className="text-white/80">PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.)</strong> and other IRDAI-registered insurers and brokers. Policies are issued at <strong className="text-white/80">standard insurance rates</strong> as filed with and approved by IRDAI.
+            Insure Audit Expert is a technology, risk-audit and vehicle-safety service provider. We do not underwrite or issue insurance policies. All insurance products are arranged and issued through our licensed distribution partner <strong className="text-white">PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.)</strong> and other IRDAI-registered insurers and brokers. Policies are issued at <strong className="text-white">standard insurance rates</strong> as filed with and approved by IRDAI.
           </p>
           <p>
-            Our AI dashcam, live-tracking device and professional audit services are offered as a <strong className="text-white/80">Complimentary Tech Membership</strong> bundled with our risk-management program. This membership is a technology and safety service — it is not a rebate, cashback, cash discount or inducement of any kind, and no part of the insurance premium or commission is returned to the customer. Insurance is the subject matter of solicitation.
+            Our AI dashcam, live-tracking device and professional audit services are offered as a <strong className="text-white">Complimentary Tech Membership</strong> bundled with our risk-management program. This membership is a technology and safety service — it is not a rebate, cashback, cash discount or inducement of any kind, and no part of the insurance premium or commission is returned to the customer. Insurance is the subject matter of solicitation.
           </p>
         </div>
       </div>
 
-      <div className="max-w-[1240px] mx-auto px-6 mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/50">
+      <div className="max-w-[1240px] mx-auto px-6 mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[13.5px] text-white/60">
         <span>© {new Date().getFullYear()} Insure Audit Expert · Alexfintech Risk &amp; Solutions OPC Pvt. Ltd. · All rights reserved</span>
-        <div className="flex flex-wrap items-center gap-3 sm:gap-5 text-white/70">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-white/80">
           <Link to="/privacy-policy" className="hover:text-white transition font-medium hover:underline underline-offset-4">Privacy Policy</Link>
           <span>·</span>
           <Link to="/support" className="hover:text-white transition font-medium hover:underline underline-offset-4">Support</Link>
