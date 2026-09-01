@@ -667,51 +667,35 @@ function SupportPage() {
                     Apne registered email se <strong>info@insureauditexpert.com</strong> par request bhejein. Hum aapke fleet admin aur LustreX ke sath data deletion confirm karenge.
                   </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-brand/15 space-y-2.5">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <a
-                      href="mailto:info@insureauditexpert.com?subject=Insure%20Track%20Account%20Deletion%20Request&body=Hello%20InsureAuditExpert%20Team,%0A%0APlease%20delete%20my%20Insure%20Track%20mobile%20app%20account%20and%20associated%20data.%0A%0ARegistered%20Phone:%20%0AFleet%20Name:%20%0A%0AThank%20you."
-                      className="text-xs font-bold bg-brand text-white hover:bg-brand-deep px-3 py-1.5 rounded-lg transition inline-flex items-center gap-1 shadow-2xs"
-                      title="Open Mail App"
-                    >
-                      <Mail className="w-3.5 h-3.5" /> Mail App
-                    </a>
-                    <a
-                      href="https://mail.google.com/mail/?view=cm&fs=1&to=info@insureauditexpert.com&su=Insure%20Track%20Account%20Deletion%20Request&body=Hello%20InsureAuditExpert%20Team,%0A%0APlease%20delete%20my%20Insure%20Track%20mobile%20app%20account%20and%20associated%20data.%0A%0ARegistered%20Phone:%20%0AFleet%20Name:%20%0A%0AThank%20you."
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-xs font-bold bg-white border border-brand/30 text-brand-deep hover:bg-brand-soft px-3 py-1.5 rounded-lg transition inline-flex items-center gap-1"
-                      title="Open in Gmail Browser (PC)"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5" /> Gmail (PC)
-                    </a>
-                    <button
-                      type="button"
-                      onClick={handleCopyDeletionEmail}
-                      className="text-xs font-bold bg-white border border-ink/15 text-ink/80 hover:text-brand px-3 py-1.5 rounded-lg transition inline-flex items-center gap-1"
-                    >
-                      {copiedDeletionEmail ? (
-                        <>
-                          <Check className="w-3 h-3 text-brand" />
-                          <span className="text-brand">Copied!</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3 h-3 text-ink/60" />
-                          <span>Copy</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                  <div className="text-[11px] text-ink/60">
-                    <Link
-                      to="/privacy-policy"
-                      hash="insure-track-app"
-                      className="font-bold text-brand-deep hover:underline"
-                    >
-                      → Privacy Policy Section 07 Details
-                    </Link>
-                  </div>
+                <div className="mt-4 pt-3 border-t border-brand/15 flex items-center justify-between gap-3">
+                  <a
+                    href="mailto:info@insureauditexpert.com?subject=Insure%20Track%20Account%20Deletion%20Request&body=Hello%20InsureAuditExpert%20Team,%0A%0APlease%20delete%20my%20Insure%20Track%20mobile%20app%20account%20and%20associated%20data.%0A%0ARegistered%20Phone:%20%0AFleet%20Name:%20%0A%0AThank%20you."
+                    onClick={() => {
+                      navigator.clipboard?.writeText("info@insureauditexpert.com");
+                      setCopiedDeletionEmail(true);
+                      setTimeout(() => setCopiedDeletionEmail(false), 3000);
+                    }}
+                    className="text-xs font-bold bg-brand hover:bg-brand-deep text-white px-3.5 py-2 rounded-xl transition inline-flex items-center gap-1.5 shadow-2xs active:scale-95"
+                  >
+                    {copiedDeletionEmail ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-accent-yellow" />
+                        <span>Email Copied &amp; Opening...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Mail className="w-3.5 h-3.5" />
+                        <span>Send Deletion Mail</span>
+                      </>
+                    )}
+                  </a>
+                  <Link
+                    to="/privacy-policy"
+                    hash="insure-track-app"
+                    className="text-[11.5px] font-bold text-brand-deep hover:underline"
+                  >
+                    Section 07 Details →
+                  </Link>
                 </div>
               </div>
 

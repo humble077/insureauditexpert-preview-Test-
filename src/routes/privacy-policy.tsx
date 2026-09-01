@@ -562,7 +562,7 @@ function PrivacyPolicyPage() {
                 </div>
 
                 {/* 4. Deleting app account and data */}
-                <div className="bg-cloud/80 border border-ink/12 rounded-2xl p-6 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                <div className="bg-cloud/80 border border-ink/12 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div>
                     <h3 className="text-base font-bold text-night flex items-center gap-2">
                       <Trash2 className="w-5 h-5 text-brand" /> App Account Aur Data Delete Karwana (Account &amp; Data Deletion)
@@ -571,42 +571,27 @@ function PrivacyPolicyPage() {
                       App accounts fleet administrator dwara create kiye jaate hain. Apna account aur juda hua data delete karwane ke liye apne registered email se <strong>info@insureauditexpert.com</strong> par request bhejein. Hum aapki request acknowledge karenge, fleet admin aur LustreX ke sath coordinate karke deletion confirm karenge.
                     </p>
                   </div>
-                  <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-                    <a
-                      href="mailto:info@insureauditexpert.com?subject=Insure%20Track%20Account%20Deletion%20Request&body=Hello%20InsureAuditExpert%20Team,%0A%0APlease%20delete%20my%20Insure%20Track%20mobile%20app%20account%20and%20associated%20data.%0A%0ARegistered%20Phone:%20%0AFleet%20Name:%20%0A%0AThank%20you."
-                      className="inline-flex items-center gap-1.5 bg-night hover:bg-brand text-white text-xs font-bold px-3.5 py-2.5 rounded-xl transition shadow-xs"
-                      title="Open in Mail App (Mobile/Outlook)"
-                    >
-                      <Mail className="w-4 h-4" /> Mail App Me Kholein
-                    </a>
-                    <a
-                      href="https://mail.google.com/mail/?view=cm&fs=1&to=info@insureauditexpert.com&su=Insure%20Track%20Account%20Deletion%20Request&body=Hello%20InsureAuditExpert%20Team,%0A%0APlease%20delete%20my%20Insure%20Track%20mobile%20app%20account%20and%20associated%20data.%0A%0ARegistered%20Phone:%20%0AFleet%20Name:%20%0A%0AThank%20you."
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 bg-white border border-ink/15 hover:border-brand text-night hover:text-brand text-xs font-bold px-3.5 py-2.5 rounded-xl transition shadow-2xs"
-                      title="Open in Gmail Browser (PC/Desktop)"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5 text-brand" /> Gmail (PC Web)
-                    </a>
-                    <button
-                      type="button"
-                      onClick={handleCopyEmail}
-                      className="inline-flex items-center gap-1.5 bg-white border border-ink/15 hover:border-brand text-ink hover:text-brand text-xs font-bold px-3 py-2.5 rounded-xl transition shadow-2xs"
-                      title="Copy email address to clipboard"
-                    >
-                      {copiedEmail ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-brand" />
-                          <span className="text-brand font-bold">Email Copied!</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5 text-ink/60" />
-                          <span>Copy Email</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
+                  <a
+                    href="mailto:info@insureauditexpert.com?subject=Insure%20Track%20Account%20Deletion%20Request&body=Hello%20InsureAuditExpert%20Team,%0A%0APlease%20delete%20my%20Insure%20Track%20mobile%20app%20account%20and%20associated%20data.%0A%0ARegistered%20Phone:%20%0AFleet%20Name:%20%0A%0AThank%20you."
+                    onClick={() => {
+                      navigator.clipboard?.writeText("info@insureauditexpert.com");
+                      setCopiedEmail(true);
+                      setTimeout(() => setCopiedEmail(false), 3000);
+                    }}
+                    className="inline-flex items-center gap-2 bg-night hover:bg-brand text-white text-xs sm:text-sm font-bold px-5 py-3 rounded-xl transition shadow-xs hover:shadow-md shrink-0 active:scale-95"
+                  >
+                    {copiedEmail ? (
+                      <>
+                        <Check className="w-4 h-4 text-accent-yellow" />
+                        <span>Email Copied &amp; Opening...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Mail className="w-4 h-4" />
+                        <span>Deletion Request Bhejein</span>
+                      </>
+                    )}
+                  </a>
                 </div>
 
                 {/* 5. Google Play Data Safety Table in Hinglish */}
