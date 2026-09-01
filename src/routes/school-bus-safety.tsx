@@ -6,9 +6,9 @@ import { VIDEO, mp4 } from "@/lib/videos";
 import svcClaim from "@/assets/svc-claim.jpg";
 
 const BUS_BEATS = [
-  { icon: Bus, kicker: "07:15 · Pick-up", title: "Bus nikli — parents ko pata chal gaya.", body: "Har stop par arrival aur departure notification, bina transport desk ko call kiye." },
-  { icon: MapPin, kicker: "07:40 · Route", title: "Route se hatte hi alert.", body: "Geo-fenced approved route. Deviation hote hi school admin ko instant notification." },
-  { icon: Eye, kicker: "08:05 · Drop", title: "Har incident recorded.", body: "AI dashcam evidence with G-sensor impact lock — disputed claims ke against solid proof." },
+  { stepNumber: "01", icon: Bus, kicker: "Pillar 01 · Pick-up Alerts", title: "Bus nikli — parents ko pata chal gaya.", body: "Har stop par arrival aur departure notification, bina transport desk ko call kiye." },
+  { stepNumber: "02", icon: MapPin, kicker: "Pillar 02 · Route Fence", title: "Route se hatte hi alert.", body: "Geo-fenced approved route. Deviation hote hi school admin ko instant notification." },
+  { stepNumber: "03", icon: Eye, kicker: "Pillar 03 · Incident Record", title: "Har incident recorded.", body: "AI dashcam evidence with G-sensor impact lock — disputed claims ke against solid proof." },
 ];
 
 const SITE_URL = "https://audacious-audit-spark.lovable.app";

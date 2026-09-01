@@ -8,9 +8,9 @@ import svcFleet from "@/assets/svc-fleet.jpg";
 import svcWhatsapp from "@/assets/svc-whatsapp.jpg";
 
 const INSTALL_BEATS = [
-  { icon: Cable, kicker: "Step 01 · Fit", title: "Ek bhi wire nahi kati.", body: "Plug-based install, 30 minute mein. Manufacturer warranty poori tarah intact." },
-  { icon: Video, kicker: "Step 02 · Record", title: "Camera hamesha on.", body: "Loop recording, night vision aur event snapshots — har trip ka clean record." },
-  { icon: Radio, kicker: "Step 03 · Connect", title: "Mobile par live feed.", body: "Location, speed aur alerts seedha aapke phone par, real time." },
+  { stepNumber: "01", icon: Cable, kicker: "Step 01 · Fit", title: "Ek bhi wire nahi kati.", body: "Plug-based install, 30 minute mein. Manufacturer warranty poori tarah intact." },
+  { stepNumber: "02", icon: Video, kicker: "Step 02 · Record", title: "Camera hamesha on.", body: "Loop recording, night vision aur event snapshots — har trip ka clean record." },
+  { stepNumber: "03", icon: Radio, kicker: "Step 03 · Connect", title: "Mobile par live feed.", body: "Location, speed aur alerts seedha aapke phone par, real time." },
 ];
 
 const SITE_URL = "https://audacious-audit-spark.lovable.app";

@@ -6,9 +6,27 @@ import { VIDEO, mp4 } from "@/lib/videos";
 import svcAudit from "@/assets/svc-audit.jpg";
 
 const AUDIT_BEATS = [
-  { icon: FileSearch, kicker: "Slide 01 · Review", title: "Aapki policy line-by-line padhi jaati hai.", body: "Coverage, IDV, exclusions aur add-ons — sab kuch ek structured review sheet mein." },
-  { icon: AlertTriangle, kicker: "Slide 02 · Gaps", title: "Gaps ko presentation mein dikhaya jaata hai.", body: "Kaunsa clause claim reject kara sakta hai — plain Hinglish mein, jargon ke bina." },
-  { icon: ClipboardCheck, kicker: "Slide 03 · Action", title: "Ek clear action plan.", body: "Kya badalna hai, kis order mein aur kitna kharcha — written audit report ke saath." },
+  {
+    icon: FileSearch,
+    stepNumber: "01",
+    kicker: "Pillar 01 · Policy Review",
+    title: "Aapki policy line-by-line padhi jaati hai.",
+    body: "Coverage, IDV, exclusions aur add-ons — sab kuch ek structured review sheet mein audit hota hai.",
+  },
+  {
+    icon: AlertTriangle,
+    stepNumber: "02",
+    kicker: "Pillar 02 · Hidden Gaps",
+    title: "Gaps ko live dikhaya jaata hai.",
+    body: "Kaunsa clause claim reject kara sakta hai — plain Hinglish mein, bina kisi confusing jargon ke.",
+  },
+  {
+    icon: ClipboardCheck,
+    stepNumber: "03",
+    kicker: "Pillar 03 · Written Action Plan",
+    title: "Clear audit action plan.",
+    body: "Kya badalna hai, kis order mein aur kitna benefit — fully transparent written audit report ke saath.",
+  },
 ];
 
 const SITE_URL = "https://audacious-audit-spark.lovable.app";

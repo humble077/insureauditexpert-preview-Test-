@@ -6,9 +6,9 @@ import { VIDEO, mp4 } from "@/lib/videos";
 import svcCorporate from "@/assets/svc-corporate.jpg";
 
 const FLEET_BEATS = [
-  { icon: Truck, kicker: "Highway · 02:14", title: "Poora fleet ek screen par.", body: "Har truck ki live location, halt aur route deviation — Delhi office se Chennai run tak." },
-  { icon: Gauge, kicker: "Driver · Score 78", title: "Driver behaviour measurable ho gaya.", body: "Over-speed, harsh braking aur night hours ka monthly scorecard, driver ke naam ke saath." },
-  { icon: ShieldCheck, kicker: "Claim · Locked", title: "Highway accident? Footage ready.", body: "G-sensor clip lock hoti hai — third-party dispute mein aapki side ka verifiable proof." },
+  { stepNumber: "01", icon: Truck, kicker: "Pillar 01 · Live Fleet", title: "Poora fleet ek screen par.", body: "Har truck ki live location, halt aur route deviation — Delhi office se Chennai run tak." },
+  { stepNumber: "02", icon: Gauge, kicker: "Pillar 02 · Driver Scores", title: "Driver behaviour measurable ho gaya.", body: "Over-speed, harsh braking aur night hours ka monthly scorecard, driver ke naam ke saath." },
+  { stepNumber: "03", icon: ShieldCheck, kicker: "Pillar 03 · Claim Proof", title: "Highway accident? Footage ready.", body: "G-sensor clip lock hoti hai — third-party dispute mein aapki side ka verifiable proof." },
 ];
 
 const SITE_URL = "https://audacious-audit-spark.lovable.app";

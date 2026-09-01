@@ -4,6 +4,7 @@ import {
   MapPin, MessageCircle, ShieldCheck, Truck,
 } from "lucide-react";
 import { PageShell } from "@/components/site-shell";
+import { ScrollCinema } from "@/components/scroll-cinema";
 import svcAudit from "@/assets/svc-audit.jpg";
 
 const SITE_URL = "https://audacious-audit-spark.lovable.app";
@@ -98,26 +99,35 @@ function InsurancePage() {
         </div>
       </section>
 
-      <section className="bg-night text-white py-20">
-        <div className="max-w-[1240px] mx-auto px-6">
-          <h2 className="text-[34px] sm:text-[42px] font-extrabold text-center max-w-3xl mx-auto">Dashcam aur tracking kyun zaroori hai — insurance ke liye</h2>
-          <p className="mt-4 text-center text-white/70 max-w-2xl mx-auto">Policy sirf ek promise hai. Claim tab pass hota hai jab facts sabit hon. Isliye hamare har insurance customer ko safety tech membership milti hai.</p>
-          <div className="mt-12 grid md:grid-cols-3 gap-6">
-            {WHY_TECH.map((w) => (
-              <div key={w.t} className="h-full rounded-3xl border border-white/12 bg-white/[0.04] p-7">
-                <div className="w-12 h-12 rounded-xl bg-brand grid place-items-center mb-4"><w.icon className="w-6 h-6 text-white"/></div>
-                <h3 className="text-[17px] font-bold">{w.t}</h3>
-                <p className="mt-2.5 text-[13.5px] text-white/70 leading-relaxed">{w.d}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-10 text-center">
-            <Link to="/ai-dashcam-tracking" className="inline-flex items-center gap-2 bg-accent-yellow text-night font-bold px-7 py-4 rounded-full hover:bg-white transition">
-              See the safety tech <ArrowRight className="w-4 h-4"/>
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Wishlink Video & Pillar Showcase */}
+      <ScrollCinema
+        badge="Insurance Evidence Reel"
+        beats={[
+          {
+            icon: Camera,
+            stepNumber: "01",
+            kicker: "Pillar 01 · Video Evidence",
+            title: "Video proof stops false claims.",
+            body: "G-sensor locked dashcam footage aapki version ko instantly sabit karti hai — surveyor claim fast pass karta hai aur false liability aap par nahi aati.",
+          },
+          {
+            icon: MapPin,
+            stepNumber: "02",
+            kicker: "Pillar 02 · GPS Location Record",
+            title: "GPS trail proves the facts.",
+            body: "Exact speed, timestamped route aur location data surveyor aur police ke samne 100% indisputable evidence banata hai.",
+          },
+          {
+            icon: FileSearch,
+            stepNumber: "03",
+            kicker: "Pillar 03 · Pre-Audit Protection",
+            title: "Audit kills rejection reasons.",
+            body: "Hidden policy exclusions, galat IDV aur expired add-on gaps policy buy karne se pehle hi audit karke fix kiye jaate hain.",
+          },
+        ]}
+        ctaTo="/contact"
+        ctaLabel="Get audited insurance quote"
+      />
 
       <section className="py-20">
         <div className="max-w-[900px] mx-auto px-6 text-center">
