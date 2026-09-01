@@ -61,93 +61,59 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-/* ---------- Scroll-scrubbed process rail (60fps.fr-style sticky scene) ----------
-   Animated on scroll-down. Reverts to a static, basic layout on scroll-up.        */
+/* ---------- Process rail (responsive & iOS-stable) ---------- */
 function ProcessRail() {
   const { ref, p } = useElementProgress<HTMLDivElement>();
-  const dir = useScrollDirection();
   const active = Math.min(PROCESS.length - 1, Math.floor(p * PROCESS.length + 0.0001));
 
-  // Static/basic version when user is scrolling back up.
-  if (dir === "up") {
-    return (
-      <div ref={ref} className="py-16">
-        <div className="max-w-[1240px] mx-auto px-6">
-          <div className="flex items-end justify-between gap-6">
-            <h2 className="text-[30px] sm:text-[38px] font-extrabold text-night">Kaise kaam karta hai</h2>
-            <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink/40 tabular-nums">
-              {String(PROCESS.length).padStart(2, "0")} steps
-            </span>
+  return (
+    <div ref={ref} className="py-20">
+      <div className="max-w-[1240px] mx-auto px-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-brand">Prakriya · Process</span>
+            <h2 className="text-[32px] sm:text-[42px] font-extrabold text-night mt-1">Kaise kaam karta hai</h2>
           </div>
-          <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {PROCESS.map((s) => (
+          <span className="text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50 tabular-nums">
+            {String(PROCESS.length).padStart(2, "0")} Simple Steps
+          </span>
+        </div>
+
+        {/* travelling progress rail */}
+        <div className="mt-8 h-[3px] bg-ink/10 relative overflow-hidden rounded-full">
+          <div
+            className="absolute inset-y-0 left-0 bg-brand rounded-full transition-all duration-300"
+            style={{ width: `${Math.max(10, Math.min(100, p * 100))}%` }}
+          />
+        </div>
+
+        <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
+          {PROCESS.map((s, i) => {
+            const on = i <= active;
+            return (
               <div
                 key={s.n}
-                className="rounded-lg border border-ink/12 p-5 bg-white"
+                className={`rounded-2xl border p-6 bg-white transition-all duration-300 hover:-translate-y-1 ${
+                  on ? "border-brand/40 shadow-md" : "border-ink/10 shadow-xs opacity-85"
+                }`}
               >
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="w-10 h-10 rounded-xl bg-brand text-white grid place-items-center">
+                <div className="flex items-center justify-between gap-3 mb-4">
+                  <span
+                    className={`w-11 h-11 rounded-xl grid place-items-center transition-colors duration-300 ${
+                      on ? "bg-brand text-white" : "bg-cloud text-ink/60"
+                    }`}
+                  >
                     <s.icon className="w-5 h-5" />
                   </span>
-                  <span className="text-[11px] font-bold tracking-widest text-brand tabular-nums">{s.n}</span>
+                  <span className="text-[12px] font-extrabold tracking-widest text-brand tabular-nums bg-brand-soft px-2.5 py-1 rounded-full">
+                    {s.n}
+                  </span>
                 </div>
-                <h3 className="text-[15.5px] font-bold text-night">{s.t}</h3>
-                <p className="mt-1.5 text-[13px] text-ink/65 leading-relaxed">{s.d}</p>
+                <h3 className="text-[16px] font-bold text-night leading-snug">{s.t}</h3>
+                <p className="mt-2 text-[13px] text-ink/70 leading-relaxed font-normal">{s.d}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div ref={ref} className="relative" style={{ height: `${PROCESS.length * 60}vh` }}>
-      <div className="sticky top-[84px] py-8">
-        <div className="max-w-[1240px] mx-auto px-6">
-          <div className="flex items-end justify-between gap-6">
-            <h2 className="text-[34px] sm:text-[42px] font-extrabold text-night">Kaise kaam karta hai</h2>
-            <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink/40 tabular-nums">
-              Step {String(active + 1).padStart(2, "0")} / {String(PROCESS.length).padStart(2, "0")}
-            </span>
-          </div>
-
-          {/* travelling rail */}
-          <div className="mt-6 h-[2px] bg-ink/10 relative overflow-hidden">
-            <div
-              className="absolute inset-y-0 left-0 bg-brand"
-              style={{ width: `${Math.max(4, p * 100)}%`, transition: "width 120ms linear" }}
-            />
-          </div>
-
-          <div className="mt-8 grid md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {PROCESS.map((s, i) => {
-              const on = i <= active;
-              const now = i === active;
-              return (
-                <div
-                  key={s.n}
-                  className={`rounded-lg border p-5 bg-white transition-all duration-500 ${
-                    now ? "border-brand shadow-xl -translate-y-1.5" : on ? "border-ink/15" : "border-ink/10"
-                  }`}
-                  style={{ opacity: on ? 1 : 0.42 }}
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <span
-                      className={`w-10 h-10 rounded-xl grid place-items-center transition-colors duration-500 ${
-                        on ? "bg-brand text-white" : "bg-cloud text-ink/40"
-                      }`}
-                    >
-                      <s.icon className="w-5 h-5" />
-                    </span>
-                    <span className="text-[11px] font-bold tracking-widest text-brand tabular-nums">{s.n}</span>
-                  </div>
-                  <h3 className="text-[15.5px] font-bold text-night">{s.t}</h3>
-                  <p className="mt-1.5 text-[13px] text-ink/65 leading-relaxed">{s.d}</p>
-                </div>
-              );
-            })}
-          </div>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { Phone, Mail, Clock, MapPin, Sparkles, ShieldCheck, MessageCircle, ChevronUp } from "lucide-react";
-import type { ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { ScrollProgressBar, Magnetic, CursorGlow, useAutoReveal } from "@/lib/motion";
 import logoUrl from "@/assets/logo.png";
 
@@ -165,10 +165,27 @@ export function SiteFooter() {
 }
 
 export function BackToTop() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setVisible(window.scrollY > 450);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  if (!visible) return null;
+
   return (
-    <a href="#top" className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-night text-white grid place-items-center shadow-xl hover:bg-brand hover:-translate-y-1 transition z-40">
+    <button
+      type="button"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      aria-label="Back to top"
+      className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-night/90 backdrop-blur text-white grid place-items-center shadow-2xl hover:bg-brand active:scale-95 transition-all z-40"
+    >
       <ChevronUp className="w-5 h-5"/>
-    </a>
+    </button>
   );
 }
 

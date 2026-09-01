@@ -111,8 +111,8 @@ export function ScrollCinema({
   const active = Math.min(beats.length - 1, Math.floor(p * beats.length * 0.999));
 
   return (
-    <div ref={wrapRef} className="relative h-[320vh] bg-night" data-no-autoreveal>
-      <div className="sticky top-0 h-screen overflow-hidden">
+    <div ref={wrapRef} className="relative h-[220vh] sm:h-[280vh] bg-night" data-no-autoreveal>
+      <div className="sticky top-0 h-[100dvh] overflow-hidden">
         <video
           ref={videoRef}
           poster={poster}
