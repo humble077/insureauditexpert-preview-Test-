@@ -21,7 +21,7 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Get an Insurance Quote | Car, Fleet & Health Insurance — Insure Audit Expert" },
-      { name: "description", content: "Request a car, commercial vehicle, fleet, school bus or health insurance quote at standard IRDAI-approved rates, with a free policy audit first. New Delhi HQ (Connaught Place), pan-India service, reply within 24 hours." },
+      { name: "description", content: "Request a car, commercial vehicle, fleet, school bus or health insurance quote at standard IRDAI-approved rates, with a free policy audit first. New Delhi HQ (Safdarjung Enclave), pan-India service, reply within 24 hours." },
       { name: "keywords", content: "insurance quote India, car insurance quote, commercial vehicle insurance quote, fleet insurance quote Delhi, health insurance quote, free policy audit" },
       { property: "og:title", content: "Get an Insurance Quote | Insure Audit Expert" },
       { property: "og:description", content: "Free policy audit, then a best-fit quote at standard insurance rates. Delhi HQ · pan-India." },
@@ -93,7 +93,9 @@ function ContactPage() {
 
             <div className="mt-6 flex items-start gap-2 text-sm text-white/80">
               <MapPin className="w-4 h-4 text-accent-yellow mt-0.5 shrink-0"/>
-              <span>B-3/91, Krishna Nagar, Safdarjung Enclave, New Delhi - 110029 · Pan-India service across all states &amp; UTs.</span>
+              <a href="https://www.google.com/maps/place/28%C2%B033'39.5%22N+77%C2%B011'31.7%22E/@28.5608467,77.1920417,20.64z/data=!4m4!3m3!8m2!3d28.5609581!4d77.1921258?hl=en&entry=ttu&g_ep=EgoyMDI2MDgzMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noreferrer" className="hover:text-white transition hover:underline">
+                B-5/55, Safdarjung Enclave, New Delhi - 110029 · Pan-India service across all states &amp; UTs.
+              </a>
             </div>
           </div>
 

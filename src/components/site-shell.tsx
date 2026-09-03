@@ -126,7 +126,7 @@ export function SiteFooter() {
         <div>
           <h5 className="text-[17px] font-bold text-white mb-4 tracking-wide">Get In Touch</h5>
           <ul className="space-y-3 text-[14.5px]">
-            <li className="flex items-start gap-2.5 text-white/80"><MapPin className="w-4 h-4 text-brand shrink-0 mt-1"/> B-3/91, Krishna Nagar, Safdarjung Enclave, New Delhi - 110029</li>
+            <li className="flex items-start gap-2.5 text-white/80"><MapPin className="w-4 h-4 text-brand shrink-0 mt-1"/> <a href="https://www.google.com/maps/place/28%C2%B033'39.5%22N+77%C2%B011'31.7%22E/@28.5608467,77.1920417,20.64z/data=!4m4!3m3!8m2!3d28.5609581!4d77.1921258?hl=en&entry=ttu&g_ep=EgoyMDI2MDgzMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noreferrer" className="hover:text-white transition">B-5/55, Safdarjung Enclave, New Delhi - 110029</a></li>
             <li className="flex items-center gap-2.5"><Phone className="w-4 h-4 text-brand shrink-0"/> <a href="tel:+918700515288" className="text-white/80 hover:text-white transition">+91 8700515288 / 9217955477</a></li>
             <li className="flex items-center gap-2.5"><Mail className="w-4 h-4 text-brand shrink-0"/> <a href="mailto:info@insureauditexpert.com" className="text-white/80 hover:text-white transition">info@insureauditexpert.com</a></li>
             <li className="flex items-center gap-2.5 text-white/80"><Clock className="w-4 h-4 text-brand shrink-0"/> Mon – Sat · 9:30 AM – 6:30 PM</li>
@@ -135,20 +135,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="max-w-[1240px] mx-auto px-6 mt-14">
-        <div className="rounded-2xl border border-white/12 bg-white/[0.05] p-6 text-[13.5px] sm:text-[14px] leading-relaxed text-white/70 space-y-3">
-          <h6 className="text-white font-bold text-[14px] uppercase tracking-wider text-accent-yellow">Regulatory &amp; Transparency Disclosure</h6>
-          <p>
-            Insure Audit Expert is a brand owned and managed by <strong className="text-white">Alexfintech Risk &amp; Solutions OPC Pvt. Ltd.</strong>
-          </p>
-          <p>
-            Insure Audit Expert is a technology, risk-audit and vehicle-safety service provider. We do not underwrite or issue insurance policies. All insurance products are arranged and issued through our licensed distribution partner <strong className="text-white">PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.)</strong> and other IRDAI-registered insurers and brokers. Policies are issued at <strong className="text-white">standard insurance rates</strong> as filed with and approved by IRDAI.
-          </p>
-          <p>
-            Our AI dashcam, live-tracking device and professional audit services are offered as a <strong className="text-white">Complimentary Tech Membership</strong> bundled with our risk-management program. This membership is a technology and safety service — it is not a rebate, cashback, cash discount or inducement of any kind, and no part of the insurance premium or commission is returned to the customer. Insurance is the subject matter of solicitation.
-          </p>
-        </div>
-      </div>
+
 
       <div className="max-w-[1240px] mx-auto px-6 mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[13.5px] text-white/60">
         <span>© {new Date().getFullYear()} Insure Audit Expert · Alexfintech Risk &amp; Solutions OPC Pvt. Ltd. · All rights reserved</span>

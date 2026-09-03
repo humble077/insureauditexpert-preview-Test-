@@ -695,7 +695,9 @@ function PrivacyPolicyPage() {
                       <h3 className="font-bold text-sm">Registered &amp; Corporate Office</h3>
                     </div>
                     <p className="text-sm text-white/90 leading-relaxed font-medium">
-                      B-3/91, Krishna Nagar, Safdarjung Enclave, New Delhi - 110029, India
+                      <a href="https://www.google.com/maps/place/28%C2%B033'39.5%22N+77%C2%B011'31.7%22E/@28.5608467,77.1920417,20.64z/data=!4m4!3m3!8m2!3d28.5609581!4d77.1921258?hl=en&entry=ttu&g_ep=EgoyMDI2MDgzMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noreferrer" className="hover:text-accent-yellow transition hover:underline">
+                        B-5/55, Safdarjung Enclave, New Delhi - 110029, India
+                      </a>
                     </p>
                     <p className="text-xs text-white/60 mt-1">
                       (Near Safdarjung Hospital &amp; AIIMS metro corridor · Pan-India Fleet &amp; Claim Support)

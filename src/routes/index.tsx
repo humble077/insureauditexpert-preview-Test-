@@ -41,7 +41,9 @@ export const Route = createFileRoute("/")({
           url: SITE_URL,
           telephone: "+91-87005-15288",
           parentOrganization: { "@type": "Organization", name: "Alexfintech Risk & Solutions OPC Pvt. Ltd." },
-          address: { "@type": "PostalAddress", streetAddress: "B-3/91, Krishna Nagar, Safdarjung Enclave", addressLocality: "New Delhi", postalCode: "110029", addressCountry: "IN" },
+          address: { "@type": "PostalAddress", streetAddress: "B-5/55, Safdarjung Enclave", addressLocality: "New Delhi", postalCode: "110029", addressCountry: "IN" },
+          geo: { "@type": "GeoCoordinates", latitude: 28.5609581, longitude: 77.1921258 },
+          hasMap: "https://www.google.com/maps/place/28%C2%B033'39.5%22N+77%C2%B011'31.7%22E/@28.5608467,77.1920417,20.64z/data=!4m4!3m3!8m2!3d28.5609581!4d77.1921258",
           areaServed: { "@type": "Country", name: "India" },
           serviceType: ["Car Insurance", "Commercial Vehicle Insurance", "Fleet Insurance", "School Bus Insurance", "Health Insurance", "Vehicle Risk Audit"],
           hasOfferCatalog: {
