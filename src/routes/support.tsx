@@ -139,7 +139,7 @@ const FAQS = [
   },
   {
     q: "Insure Audit Expert aur PBPartners ka aapas mein kya relation hai?",
-    a: "Insure Audit Expert ek technology aur risk audit firm hai (Alexfintech Risk & Solutions OPC Pvt. Ltd.). Hamare customers ko IRDAI approved standard rates par policies dilwane ke liye hum PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.) ke authorized channel partner ke roop mein operate karte hain.",
+    a: "Insure Audit Expert ek technology aur risk audit firm hai (Alxsure Tech Hub (OPC) Private Limited). Hamare customers ko IRDAI approved standard rates par policies dilwane ke liye hum PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.) ke authorized channel partner ke roop mein operate karte hain.",
   },
   {
     q: "Commercial vehicle ya School Bus fleet ka audit kaise karwayein?",

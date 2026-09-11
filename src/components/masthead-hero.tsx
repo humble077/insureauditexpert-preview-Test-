@@ -91,7 +91,7 @@ export function MastheadHero() {
       {/* statutory strip */}
       <div className="border-b border-ink/10 bg-cloud/40">
         <div className="max-w-[1240px] mx-auto px-6 h-9 flex items-center justify-between gap-4 text-[11.5px] sm:text-[12px] font-semibold uppercase tracking-[0.14em] text-ink/60">
-          <span>Alexfintech Risk &amp; Solutions OPC Pvt. Ltd. · New Delhi</span>
+          <span>Alxsure Tech Hub (OPC) Private Limited · New Delhi</span>
           <span className="hidden md:inline">Insurance arranged through IRDAI-registered partners · Standard rates only</span>
         </div>
       </div>
