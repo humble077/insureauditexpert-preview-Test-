@@ -141,7 +141,7 @@ export function SiteFooter() {
         <div className="rounded-2xl border border-white/12 bg-white/[0.05] p-6 text-[13.5px] sm:text-[14px] leading-relaxed text-white/70 space-y-3">
           <h6 className="text-white font-bold text-[14px] uppercase tracking-wider text-accent-yellow">Regulatory &amp; Transparency Disclosure</h6>
           <p>
-            Insure Audit Expert is a brand owned and managed by <strong className="text-white">Alxsure Tech Hub (OPC) Private Limited.</strong>
+            Insure Audit Expert is a brand owned and managed by <strong className="text-white">Alxsure Tech Hub (OPC) Pvt. Ltd.</strong>
           </p>
           <p>
             Insure Audit Expert is a technology, risk-audit and vehicle-safety service provider. We do not underwrite or issue insurance policies. All insurance products are arranged and issued through our licensed distribution partner <strong className="text-white">PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.)</strong> and other IRDAI-registered insurers and brokers. Policies are issued at <strong className="text-white">standard insurance rates</strong> as filed with and approved by IRDAI.
@@ -153,7 +153,7 @@ export function SiteFooter() {
       </div>
 
       <div className="max-w-[1240px] mx-auto px-6 mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[13.5px] text-white/60">
-        <span>© {new Date().getFullYear()} Insure Audit Expert · Alxsure Tech Hub (OPC) Private Limited · All rights reserved</span>
+        <span>© {new Date().getFullYear()} Insure Audit Expert · Alxsure Tech Hub (OPC) Pvt. Ltd. · All rights reserved</span>
         <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-white/80">
           <Link to="/privacy-policy" className="hover:text-white transition font-medium hover:underline underline-offset-4">Privacy Policy</Link>
           <span>·</span>

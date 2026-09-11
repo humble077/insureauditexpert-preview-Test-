@@ -113,7 +113,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           name: "Insure Audit Expert",
           alternateName: "InsureAuditExpert",
           slogan: "Smart Audit. Safe Drive. Guaranteed Protection.",
-          parentOrganization: { "@type": "Organization", name: "Alxsure Tech Hub (OPC) Private Limited" },
+          parentOrganization: { "@type": "Organization", name: "Alxsure Tech Hub (OPC) Pvt. Ltd." },
           url: "https://audacious-audit-spark.lovable.app",
           logo: "https://audacious-audit-spark.lovable.app/favicon.ico",
           description: "Risk Management & Vehicle Safety Program — professional policy audits, AI dashcam with G-sensor and zero wiring-cut live tracking for individuals, fleets and schools across India.",
