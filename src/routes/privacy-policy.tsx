@@ -679,12 +679,12 @@ function PrivacyPolicyPage() {
                     </div>
                     <p className="text-xs text-white/70 mb-2">Mon - Sat: 9:30 AM to 6:30 PM</p>
                     <div className="text-sm font-extrabold text-white">
-                      <a href="tel:+918700515288" className="hover:text-accent-yellow transition">
-                        +91 8700515288
+                      <a href="tel:08065604804" className="hover:text-accent-yellow transition">
+                        08065604804
                       </a>{" "}
                       /{" "}
-                      <a href="tel:+919217955477" className="hover:text-accent-yellow transition">
-                        +91 9217955477
+                      <a href="tel:08065604805" className="hover:text-accent-yellow transition">
+                        08065604805
                       </a>
                     </div>
                   </div>

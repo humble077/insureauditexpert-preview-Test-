@@ -40,7 +40,7 @@ export const Route = createFileRoute("/")({
           name: "Insure Audit Expert",
           slogan: "Smart Audit. Safe Drive. Guaranteed Protection.",
           url: SITE_URL,
-          telephone: "+91-87005-15288",
+          telephone: "08065604804",
           parentOrganization: { "@type": "Organization", name: "Alxsure Tech Hub (OPC) Pvt. Ltd." },
           address: { "@type": "PostalAddress", streetAddress: "B-5/55, Safdarjung Enclave", addressLocality: "New Delhi", postalCode: "110029", addressCountry: "IN" },
           geo: { "@type": "GeoCoordinates", latitude: 28.5609581, longitude: 77.1921258 },

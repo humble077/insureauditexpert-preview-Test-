@@ -89,8 +89,8 @@ const SUPPORT_CHANNELS = [
     hinglishDesc:
       "Senior policy auditor aur legal claim specialists se seedha phone par baat karke salaah lein.",
     timing: "Mon – Sat · 9:30 AM to 6:30 PM",
-    actionText: "+91 8700515288 / 9217955477",
-    actionHref: "tel:+918700515288",
+    actionText: "08065604804 / 08065604805",
+    actionHref: "tel:08065604804",
     primary: false,
   },
   {
@@ -749,10 +749,10 @@ function SupportPage() {
                 <MessageSquare className="w-4 h-4" /> WhatsApp (24x7)
               </a>
               <a
-                href="tel:+918700515288"
+                href="tel:08065604804"
                 className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm px-5 py-3.5 rounded-xl transition border border-white/15"
               >
-                <PhoneCall className="w-4 h-4 text-accent-yellow" /> Call Expert
+                <PhoneCall className="w-4 h-4 text-accent-yellow" /> Call Expert (08065604804)
               </a>
             </div>
           </div>

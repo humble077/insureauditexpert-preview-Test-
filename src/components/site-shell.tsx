@@ -26,7 +26,7 @@ export function SiteHeader() {
         <div className="flex animate-marquee whitespace-nowrap py-2">
           {Array.from({ length: 6 }).map((_, i) => (
             <span key={i} className="mx-6 inline-flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5"/> Smart Audit. Safe Drive. Guaranteed Protection. · AI Dashcam &amp; G-Sensor · Zero Wiring-Cut Tracking · 24x7 Claim Support (+91 8700515288)
+              <Sparkles className="w-3.5 h-3.5"/> Smart Audit. Safe Drive. Guaranteed Protection. · AI Dashcam &amp; G-Sensor · Zero Wiring-Cut Tracking · 24x7 Claim Support (08065604804 / 08065604805)
             </span>
           ))}
         </div>
@@ -151,7 +151,7 @@ export function SiteFooter() {
           <h5 className="text-[17px] font-bold text-white mb-4 tracking-wide">Get In Touch</h5>
           <ul className="space-y-3 text-[14.5px]">
             <li className="flex items-start gap-2.5 text-white/80"><MapPin className="w-4 h-4 text-brand shrink-0 mt-1"/> <a href="https://www.google.com/maps/place/28%C2%B033'39.5%22N+77%C2%B011'31.7%22E/@28.5608467,77.1920417,20.64z/data=!4m4!3m3!8m2!3d28.5609581!4d77.1921258?hl=en&entry=ttu&g_ep=EgoyMDI2MDgzMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noreferrer" className="hover:text-white transition">B-5/55, Safdarjung Enclave, New Delhi - 110029</a></li>
-            <li className="flex items-center gap-2.5"><Phone className="w-4 h-4 text-brand shrink-0"/> <a href="tel:+918700515288" className="text-white/80 hover:text-white transition">+91 8700515288 / 9217955477</a></li>
+            <li className="flex items-center gap-2.5"><Phone className="w-4 h-4 text-brand shrink-0"/> <a href="tel:08065604804" className="text-white/80 hover:text-white transition">08065604804 / 08065604805</a></li>
             <li className="flex items-center gap-2.5"><Mail className="w-4 h-4 text-brand shrink-0"/> <a href="mailto:info@insureauditexpert.com" className="text-white/80 hover:text-white transition">info@insureauditexpert.com</a></li>
             <li className="flex items-center gap-2.5 text-white/80"><Clock className="w-4 h-4 text-brand shrink-0"/> Mon – Sat · 9:30 AM – 6:30 PM</li>
             <li className="flex items-center gap-2.5 pt-1"><MessageCircle className="w-4 h-4 text-brand shrink-0"/> <a href="https://wa.me/918700515288" target="_blank" rel="noreferrer" className="hover:underline font-bold text-accent-yellow">WhatsApp Us (24x7 Support)</a></li>
