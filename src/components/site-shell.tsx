@@ -87,6 +87,7 @@ const PROGRAM_LINKS = [
   { to: "/risk-audit", label: "Professional Risk Audit" },
   { to: "/ai-dashcam-tracking", label: "AI Dashcam & G-Sensor" },
   { to: "/ai-dashcam-tracking", label: "Smart Live Tracking" },
+  { to: "/#insure-track-app", label: "Insure Track™ App (iOS / Android)" },
   { to: "/fleet-safety", label: "Fleet Safety Program" },
   { to: "/school-bus-safety", label: "School Bus & Child Safety" },
 ] as const;
@@ -103,6 +104,29 @@ export function SiteFooter() {
           <p className="mt-3 text-[14px] leading-relaxed text-white/75">
             A Risk Management &amp; Vehicle Safety Program — professional policy audits, AI dashcam with G-sensor, and smart live tracking installed without cutting a single wire.
           </p>
+          <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
+            <span className="text-[11.5px] font-bold uppercase tracking-wider text-accent-yellow block">
+              Download Insure Track:
+            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.insuretrack.app"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[12px] bg-white/10 hover:bg-white/20 text-white font-semibold px-3 py-1.5 rounded-lg transition inline-flex items-center gap-1.5"
+              >
+                <span>▶ Google Play</span>
+              </a>
+              <a
+                href="https://apps.apple.com/in/app/insure-track/id6808179223"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[12px] bg-white/10 hover:bg-white/20 text-white font-semibold px-3 py-1.5 rounded-lg transition inline-flex items-center gap-1.5"
+              >
+                <span> App Store</span>
+              </a>
+            </div>
+          </div>
         </div>
         <div>
           <h5 className="text-[17px] font-bold text-white mb-4 tracking-wide">Insurance &amp; Programs</h5>
@@ -141,13 +165,16 @@ export function SiteFooter() {
         <div className="rounded-2xl border border-white/12 bg-white/[0.05] p-6 text-[13.5px] sm:text-[14px] leading-relaxed text-white/70 space-y-3">
           <h6 className="text-white font-bold text-[14px] uppercase tracking-wider text-accent-yellow">Regulatory &amp; Transparency Disclosure</h6>
           <p>
-            Insure Audit Expert is a brand owned and managed by <strong className="text-white">Alxsure Tech Hub (OPC) Pvt. Ltd.</strong>
+            <strong className="text-white">Insure Audit Expert</strong> is a brand owned and managed by <strong className="text-white">Alxsure Tech Hub (OPC) Pvt. Ltd.</strong>
           </p>
           <p>
-            Insure Audit Expert is a technology, risk-audit and vehicle-safety service provider. We do not underwrite or issue insurance policies. All insurance products are arranged and issued through our licensed distribution partner <strong className="text-white">PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.)</strong> and other IRDAI-registered insurers and brokers. Policies are issued at <strong className="text-white">standard insurance rates</strong> as filed with and approved by IRDAI.
+            <strong className="text-white">Insure Audit Expert</strong> is a technology, risk-audit and vehicle-safety service provider. We do not underwrite or issue insurance policies. All insurance products are arranged and issued through our licensed distribution partner <strong className="text-white">PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.)</strong> and other IRDAI-registered insurers and brokers. Policies are issued at <strong className="text-white">standard insurance rates</strong> as filed with and approved by IRDAI.
           </p>
           <p>
             Our AI dashcam, live-tracking device and professional audit services are offered as a <strong className="text-white">Complimentary Tech Membership</strong> bundled with our risk-management program. This membership is a technology and safety service — it is not a rebate, cashback, cash discount or inducement of any kind, and no part of the insurance premium or commission is returned to the customer. Insurance is the subject matter of solicitation.
+          </p>
+          <p>
+            Our <strong className="text-white">Insure Track</strong> mobile application is managed by <strong className="text-white">LustreX Technologies</strong>, who provides complete software infrastructure, technical maintenance, and ongoing assistance for any application or software-related queries and issues.
           </p>
         </div>
       </div>

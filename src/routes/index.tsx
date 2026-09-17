@@ -8,6 +8,7 @@ import { MastheadHero } from "@/components/masthead-hero";
 import { ScrollCinema } from "@/components/scroll-cinema";
 import { Reveal, Counter, Tilt, Magnetic, useElementProgress, useScrollDirection, Parallax, ScrambleText, Ticker } from "@/lib/motion";
 import { BlueprintField, DrawUnderline, CoverageMap, SignalRings, Spotlight, ProofMeter, Ornament, Kicker, GoldRule, Unveil } from "@/components/graphics";
+import { InsureTrackAppShowcase } from "@/components/insure-track-showcase";
 
 import {
   ShieldCheck, ArrowRight, ArrowUpRight, Check, Camera, Cable, Gauge,
@@ -145,9 +146,9 @@ const PILLARS = [
   {
     icon: Cable,
     tag: "Pillar 02",
-    title: "Smart Live Tracking · Zero Wiring Cut",
-    desc: "Real-time location, trip history aur speed alerts — bina ek bhi wire kaate. Manufacturer warranty intact, electricals safe, device removable.",
-    points: ["Live map + trip history", "Geo-fence & theft alerts", "Over-speed notifications"],
+    title: "Smart Live Tracking · Insure Track™ App",
+    desc: "Real-time location, past trip history aur speed alerts hamare official Insure Track app par — bina ek bhi wire kaate. Manufacturer warranty intact, electricals safe.",
+    points: ["Live map on Insure Track (iOS & Android)", "Geo-fence & instant anti-theft alerts", "90-day trip replay & dashcam evidence export"],
     tint: "bg-accent-blue", accent: "text-brand-deep",
   },
   {
@@ -336,7 +337,7 @@ function Index() {
       </section>
 
       {/* STATS */}
-      <section className="bg-night text-white py-16">
+      <section className="bg-night text-white py-16 border-b border-white/10">
         <div className="max-w-[1240px] mx-auto px-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {STATS.map((s, i) => (
             <Reveal key={s.label} delay={i * 90}>
@@ -352,6 +353,9 @@ function Index() {
           ))}
         </div>
       </section>
+
+      {/* INSURE TRACK APP SHOWCASE */}
+      <InsureTrackAppShowcase />
 
       {/* COVERAGE MAP + PROOF METER */}
       <section className="relative py-20 overflow-hidden bg-paper">

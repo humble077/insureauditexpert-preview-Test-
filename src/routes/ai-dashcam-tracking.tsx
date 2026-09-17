@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Camera, Cable, Check, Gauge, MapPin, Radio, ShieldCheck, Video, Zap } from "lucide-react";
+import { ArrowRight, Camera, Cable, Check, Gauge, MapPin, Radio, ShieldCheck, Video, Zap, Smartphone } from "lucide-react";
 import { PageShell } from "@/components/site-shell";
 import { ScrollCinema } from "@/components/scroll-cinema";
+import { InsureTrackAppShowcase, AppleAppStoreBadge, GooglePlayBadge } from "@/components/insure-track-showcase";
 import { VIDEO, mp4 } from "@/lib/videos";
 import { Parallax } from "@/lib/motion";
 import svcFleet from "@/assets/svc-fleet.jpg";
@@ -70,6 +71,13 @@ function TechPage() {
                 Request Free Risk Audit
               </Link>
             </div>
+            <div className="mt-6 pt-6 border-t border-white/15 flex flex-wrap items-center gap-3">
+              <span className="text-[12px] font-bold uppercase tracking-wider text-accent-yellow block w-full sm:w-auto">
+                Insure Track App:
+              </span>
+              <GooglePlayBadge className="scale-90 origin-left" />
+              <AppleAppStoreBadge className="scale-90 origin-left" />
+            </div>
           </div>
           <Parallax speed={0.08}>
             <img src={svcFleet} alt="AI dashcam and live tracking device fitted in a vehicle" loading="lazy" className="rounded-3xl w-full h-[360px] object-cover shadow-2xl"/>
@@ -117,6 +125,9 @@ function TechPage() {
           </div>
         </div>
       </section>
+
+      {/* INSURE TRACK APP DUAL-OS SHOWCASE */}
+      <InsureTrackAppShowcase />
 
       <section className="bg-cloud py-20">
         <div className="max-w-[1240px] mx-auto px-6 grid lg:grid-cols-2 gap-10 items-center">
