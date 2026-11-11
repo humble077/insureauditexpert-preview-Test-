@@ -1,22 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Clock, FileSearch, Lock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { ArrowRight, Clock, FileSearch, Lock, Mail, MapPin, MessageCircle, Phone, CheckCircle2 } from "lucide-react";
 import { PageShell } from "@/components/site-shell";
+import { saveLead } from "@/lib/policybazaar";
 
 const SITE_URL = "https://audacious-audit-spark.lovable.app";
 
 const COVER_LABEL: Record<string, string> = {
   car: "Car Insurance",
-  cv: "Commercial Vehicle",
-  fleet: "Fleet / Taxi",
-  bus: "School Bus / Passenger Carrier",
+  bike: "Bike / Two-Wheeler",
+  cv: "Commercial Vehicle (GCV - Goods Carrier)",
+  gcv: "Commercial Vehicle (GCV - Goods Carrier)",
+  pcv: "School Bus / Passenger Carrier (PCV)",
+  bus: "School Bus / Passenger Carrier (PCV)",
+  fleet: "Fleet / Corporate Insurance",
   health: "Health Insurance",
 };
 
 export const Route = createFileRoute("/contact")({
-  validateSearch: (search: Record<string, unknown>): { cover?: string; reg?: string } => ({
+  validateSearch: (search: Record<string, unknown>): { cover?: string; reg?: string; phone?: string } => ({
     ...(typeof search.cover === "string" ? { cover: search.cover } : {}),
     ...(typeof search.reg === "string" ? { reg: search.reg } : {}),
+    ...(typeof search.phone === "string" ? { phone: search.phone } : {}),
   }),
   head: () => ({
     meta: [
@@ -44,14 +49,36 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
-  const { cover, reg } = Route.useSearch();
+  const { cover, reg, phone } = Route.useSearch();
   const selected = (cover && COVER_LABEL[cover]) || "Car Insurance";
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: phone ?? "",
+    coverNeeded: selected,
+    regNo: reg ?? "",
+    renewalDue: "",
+    email: "",
+    notes: "",
+  });
 
   useEffect(() => {
-    if (cover || reg) {
+    if (cover || reg || phone) {
       document.getElementById("quote")?.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-  }, [cover, reg]);
+  }, [cover, reg, phone]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    saveLead({
+      category: (cover as any) || "car",
+      categoryLabel: formData.coverNeeded,
+      phone: formData.phone,
+      regNo: formData.regNo || undefined,
+      action: "assisted_form",
+    });
+    setSubmitted(true);
+  };
 
   return (
     <PageShell>
@@ -107,51 +134,126 @@ function ContactPage() {
                 <Lock className="w-3 h-3"/> 100% Secure
               </span>
             </div>
-            <form className="space-y-3" onSubmit={(e) => { e.preventDefault(); alert("Thanks! Hamari team aapko 24 ghante mein quote ke saath contact karegi."); }}>
-              <div>
-                <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Your Name</label>
-                <input required className="w-full h-11 px-3 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition" placeholder="Rahul Sharma"/>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Phone</label>
-                  <input required className="w-full h-11 px-3 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition" placeholder="+91 98xxx xxxxx"/>
+
+            {submitted ? (
+              <div className="py-8 text-center animate-reveal">
+                <div className="w-14 h-14 rounded-2xl bg-brand-soft text-brand grid place-items-center mx-auto mb-4">
+                  <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <div>
-                  <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Insurance Needed</label>
-                  <select key={selected} defaultValue={selected} className="w-full h-11 px-3 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition">
-                    <option>Car Insurance</option>
-                    <option>Commercial Vehicle</option>
-                    <option>School Bus / Passenger Carrier</option>
-                    <option>Fleet / Taxi</option>
-                    <option>Health Insurance</option>
-                    <option>Only Policy Audit</option>
-                  </select>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Vehicle / Reg. No.</label>
-                  <input key={reg ?? "reg"} defaultValue={reg ?? ""} className="w-full h-11 px-3 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition" placeholder="DL 3C XX 1234"/>
-                </div>
-                <div>
-                  <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Renewal Due</label>
-                  <input className="w-full h-11 px-3 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition" placeholder="e.g. Next month"/>
+                <h3 className="text-[20px] font-bold text-night">Request Submitted Successfully!</h3>
+                <p className="mt-2 text-[14px] text-ink/70 leading-relaxed max-w-sm mx-auto">
+                  Hamari insurance audit desk aapke details ke saath audit report aur partner quotes prepare kar rahi hai. Hum 24 ghante ke andar aapse sampark karenge.
+                </p>
+                <div className="mt-6 flex flex-wrap justify-center gap-2">
+                  <a
+                    href={`https://wa.me/918700515288?text=${encodeURIComponent(
+                      `Hi Insure Audit Expert, I just requested an assisted quote for ${formData.coverNeeded} (${formData.regNo || "N/A"}). My phone number is ${formData.phone}.`
+                    )}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 bg-brand text-white font-bold text-xs px-4 py-2.5 rounded-lg hover:bg-brand-deep transition"
+                  >
+                    <MessageCircle className="w-4 h-4" /> WhatsApp Desk Now
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => setSubmitted(false)}
+                    className="inline-flex items-center gap-1.5 bg-cloud text-ink/70 font-semibold text-xs px-4 py-2.5 rounded-lg hover:bg-ink/10 transition"
+                  >
+                    Submit Another Request
+                  </button>
                 </div>
               </div>
-              <div>
-                <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Email</label>
-                <input type="email" className="w-full h-11 px-3 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition" placeholder="you@company.com"/>
-              </div>
-              <div>
-                <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Anything else?</label>
-                <textarea rows={2} className="w-full px-3 py-2.5 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition" placeholder="Current insurer, claims history, add-ons you want..."/>
-              </div>
-              <button type="submit" className="w-full h-12 rounded-lg bg-gradient-to-br from-brand to-brand-deep text-white font-bold text-sm hover:opacity-95 transition inline-flex items-center justify-center gap-2">
-                Get My Quote <ArrowRight className="w-4 h-4"/>
-              </button>
-              <p className="text-[11px] text-ink/50 text-center">Standard insurance rates · Policies issued via IRDAI-registered partners</p>
-            </form>
+            ) : (
+              <form className="space-y-3" onSubmit={handleSubmit}>
+                <div>
+                  <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Your Name</label>
+                  <input
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full h-11 px-3 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition"
+                    placeholder="Rahul Sharma"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Phone (Mandatory)</label>
+                    <input
+                      required
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full h-11 px-3 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition font-medium"
+                      placeholder="+91 98xxx xxxxx"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Insurance Needed</label>
+                    <select
+                      value={formData.coverNeeded}
+                      onChange={(e) => setFormData({ ...formData, coverNeeded: e.target.value })}
+                      className="w-full h-11 px-3 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition"
+                    >
+                      <option>Car Insurance</option>
+                      <option>Bike / Two-Wheeler</option>
+                      <option>Commercial Vehicle (GCV - Goods Carrier)</option>
+                      <option>School Bus / Passenger Carrier (PCV)</option>
+                      <option>Fleet / Corporate Insurance</option>
+                      <option>Health Insurance</option>
+                      <option>Only Policy Audit</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Vehicle / Reg. No.</label>
+                    <input
+                      value={formData.regNo}
+                      onChange={(e) => setFormData({ ...formData, regNo: e.target.value.toUpperCase() })}
+                      className="w-full h-11 px-3 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition font-mono uppercase"
+                      placeholder="DL 3C XX 1234"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Renewal Due</label>
+                    <input
+                      value={formData.renewalDue}
+                      onChange={(e) => setFormData({ ...formData, renewalDue: e.target.value })}
+                      className="w-full h-11 px-3 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition"
+                      placeholder="e.g. Next month"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Email</label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full h-11 px-3 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition"
+                    placeholder="you@company.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Anything else?</label>
+                  <textarea
+                    rows={2}
+                    value={formData.notes}
+                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                    className="w-full px-3 py-2.5 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition"
+                    placeholder="Current insurer, claims history, add-ons you want..."
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full h-12 rounded-lg bg-gradient-to-br from-brand to-brand-deep text-white font-bold text-sm hover:opacity-95 transition inline-flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                >
+                  Get My Quote <ArrowRight className="w-4 h-4"/>
+                </button>
+                <p className="text-[11px] text-ink/50 text-center">Standard insurance rates · Policies issued via IRDAI-registered partners</p>
+              </form>
+            )}
           </div>
 
         </div>

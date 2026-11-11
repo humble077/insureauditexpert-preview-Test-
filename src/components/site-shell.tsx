@@ -1,7 +1,8 @@
-import { Link, useLocation } from "@tanstack/react-router";
-import { Phone, Mail, Clock, MapPin, Sparkles, ShieldCheck, MessageCircle, ChevronUp } from "lucide-react";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import { Phone, Mail, Clock, MapPin, Sparkles, ShieldCheck, MessageCircle, ChevronUp, Lock } from "lucide-react";
 import { useState, useEffect, type ReactNode } from "react";
 import { ScrollProgressBar, Magnetic, CursorGlow, useAutoReveal } from "@/lib/motion";
+import { openQuoteModal } from "@/components/quote-dialog";
 import logoUrl from "@/assets/logo.png";
 
 const NAV = [
@@ -62,9 +63,13 @@ export function SiteHeader() {
               <MessageCircle className="w-4 h-4" /> Support
             </Link>
             <Magnetic strength={0.22}>
-              <Link to="/insurance" className="sheen inline-flex items-center gap-2 bg-night hover:bg-brand text-white font-bold text-[13.5px] px-4 py-2.5 rounded-xl transition-colors shrink-0 shadow-2xs">
+              <button
+                type="button"
+                onClick={() => openQuoteModal()}
+                className="sheen inline-flex items-center gap-2 bg-night hover:bg-brand text-white font-bold text-[13.5px] px-4 py-2.5 rounded-xl transition-colors shrink-0 shadow-2xs cursor-pointer"
+              >
                 <ShieldCheck className="w-4 h-4 text-accent-yellow"/> <span className="hidden sm:inline">Get Quote</span>
-              </Link>
+              </button>
             </Magnetic>
           </div>
         </div>
@@ -81,9 +86,10 @@ export function SiteHeader() {
 }
 
 const PROGRAM_LINKS = [
-  { to: "/insurance", label: "Car & Vehicle Insurance" },
-  { to: "/insurance", label: "Commercial Vehicle Insurance" },
-  { to: "/insurance", label: "Health Insurance" },
+  { to: "/insurance", label: "Car Insurance (Instant Quote)" },
+  { to: "/insurance", label: "Bike & Two-Wheeler Insurance" },
+  { to: "/insurance", label: "Commercial Vehicle (GCV & PCV)" },
+  { to: "/insurance", label: "Health Insurance Plans" },
   { to: "/risk-audit", label: "Professional Risk Audit" },
   { to: "/ai-dashcam-tracking", label: "AI Dashcam & G-Sensor" },
   { to: "/ai-dashcam-tracking", label: "Smart Live Tracking" },
@@ -180,7 +186,17 @@ export function SiteFooter() {
       </div>
 
       <div className="max-w-[1240px] mx-auto px-6 mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[13.5px] text-white/60">
-        <span>© {new Date().getFullYear()} Insure Audit Expert · Alxsure Tech Hub (OPC) Pvt. Ltd. · All rights reserved</span>
+        <span className="flex items-center gap-1.5">
+          © {new Date().getFullYear()} Insure Audit Expert · Alxsure Tech Hub (OPC) Pvt. Ltd. · All rights reserved
+          <Link
+            to="/leads"
+            title="Internal Access (PIN Protected)"
+            className="text-white/20 hover:text-white/60 transition ml-1 p-0.5 inline-flex items-center"
+            aria-label="Staff Portal"
+          >
+            <Lock className="w-3 h-3 opacity-25 hover:opacity-100 transition-opacity" />
+          </Link>
+        </span>
         <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-white/80">
           <Link to="/privacy-policy" className="hover:text-white transition font-medium hover:underline underline-offset-4">Privacy Policy</Link>
           <span>·</span>
@@ -220,7 +236,21 @@ export function BackToTop() {
 
 export function PageShell({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   useAutoReveal(pathname);
+
+  // Secret keyboard shortcut: Ctrl + Shift + L or Cmd + Shift + L
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "L" || e.key === "l")) {
+        e.preventDefault();
+        navigate({ to: "/leads" });
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [navigate]);
+
   return (
     <div className="min-h-screen bg-paper text-ink font-body" id="top">
       <SiteHeader />

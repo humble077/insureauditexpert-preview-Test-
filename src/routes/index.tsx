@@ -13,8 +13,10 @@ import { InsureTrackAppShowcase } from "@/components/insure-track-showcase";
 import {
   ShieldCheck, ArrowRight, ArrowUpRight, Check, Camera, Cable, Gauge,
   FileSearch, Bell, MessageCircle, Truck, Bus, Brain, AlertTriangle,
-  Video, MapPin, Send, Quote, Building2, Users, Car, HeartPulse,
+  Video, MapPin, Send, Quote, Building2, Users, Car, HeartPulse, Bike,
 } from "lucide-react";
+import { openQuoteModal } from "@/components/quote-dialog";
+import type { LeadRecord } from "@/lib/policybazaar";
 
 
 const SITE_URL = "https://audacious-audit-spark.lovable.app";
@@ -125,12 +127,13 @@ function ProcessRail() {
 
 
 /* ---------- Data ---------- */
-const PRODUCTS = [
-  { icon: Car, t: "Car Insurance", d: "Comprehensive cover with verified IDV, zero-dep aur engine protect." },
-  { icon: Truck, t: "Commercial Vehicle", d: "Goods carrier, pickup, tempo aur truck — sahi rating par." },
-  { icon: Bus, t: "School Bus & Passenger", d: "Passenger liability aur statutory compliance covered." },
-  { icon: Building2, t: "Fleet & Taxi Insurance", d: "5 se 500+ vehicles, ek renewal calendar aur claims desk." },
-  { icon: HeartPulse, t: "Health Insurance", d: "Family floater aur individual plans, sub-limits clearly explained." },
+const PRODUCTS: { icon: any; t: string; d: string; category: LeadRecord["category"]; isInstant: boolean }[] = [
+  { icon: Car, t: "Car Insurance", d: "Comprehensive cover with verified IDV, zero-dep aur engine protect.", category: "car", isInstant: true },
+  { icon: Bike, t: "Bike Insurance", d: "Instant two-wheeler policy in under 2 minutes with zero paper inspection.", category: "bike", isInstant: true },
+  { icon: Truck, t: "Commercial (GCV)", d: "Goods carrier, pickup, tempo aur truck — GVW aur permit ke hisaab se sahi rating.", category: "gcv", isInstant: true },
+  { icon: Bus, t: "School Bus & PCV", d: "Passenger liability aur statutory compliance audit covered.", category: "pcv", isInstant: false },
+  { icon: Building2, t: "Fleet & Taxi Insurance", d: "5 se 500+ vehicles, ek renewal calendar aur claims desk.", category: "fleet", isInstant: false },
+  { icon: HeartPulse, t: "Health Insurance", d: "Family floater aur individual plans, sub-limits clearly explained.", category: "health", isInstant: false },
 ];
 
 const PILLARS = [
@@ -233,12 +236,23 @@ function Index() {
               <Reveal key={p.t} delay={i * 70} variant="scale">
                 <Tilt>
                   <Spotlight className="h-full rounded-lg">
-                    <Link to="/insurance" className="spin-border frame-corners group block h-full bg-white/90 backdrop-blur-sm rounded-lg border border-ink/12 p-6 hover:border-brand hover:shadow-xl transition-colors">
+                    <button
+                      type="button"
+                      onClick={() => openQuoteModal({ category: p.category })}
+                      className="w-full text-left spin-border frame-corners group block h-full bg-white/90 backdrop-blur-sm rounded-lg border border-ink/12 p-6 hover:border-brand hover:shadow-xl transition-all cursor-pointer"
+                    >
                       <div className="w-12 h-12 rounded-xl bg-brand-soft grid place-items-center mb-4 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"><p.icon className="w-6 h-6 text-brand"/></div>
-                      <h3 className="text-[17px] font-bold text-night">{p.t}</h3>
+                      <div className="flex items-center justify-between gap-2">
+                        <h3 className="text-[17px] font-bold text-night">{p.t}</h3>
+                        {p.isInstant && (
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-brand bg-brand-soft px-2 py-0.5 rounded-full">Instant PB</span>
+                        )}
+                      </div>
                       <p className="mt-2 text-[13.5px] text-ink/65 leading-relaxed">{p.d}</p>
-                      <span className="mt-4 inline-flex items-center gap-1.5 text-[12.5px] font-bold text-brand">Get quote <ArrowRight className="w-3.5 h-3.5 transition-transform duration-500 group-hover:translate-x-1"/></span>
-                    </Link>
+                      <span className="mt-4 inline-flex items-center gap-1.5 text-[12.5px] font-bold text-brand">
+                        {p.isInstant ? "Get instant quote" : "Request quote"} <ArrowRight className="w-3.5 h-3.5 transition-transform duration-500 group-hover:translate-x-1"/>
+                      </span>
+                    </button>
                   </Spotlight>
                 </Tilt>
               </Reveal>

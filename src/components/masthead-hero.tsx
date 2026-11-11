@@ -1,20 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight, ShieldCheck, Zap } from "lucide-react";
 import { SplitText, Magnetic, Reveal, useInView, EASE } from "@/lib/motion";
+import { openQuoteModal } from "@/components/quote-dialog";
+import type { LeadRecord } from "@/lib/policybazaar";
 
 /* ------------------------------------------------------------------
    INSTITUTIONAL MASTHEAD HERO
    Centred, full-width, hairline-ruled. No left-text / right-picture split.
 ------------------------------------------------------------------- */
 
-const COVERS = [
-  { id: "car", label: "Private Car" },
-  { id: "cv", label: "Commercial Vehicle" },
-  { id: "fleet", label: "Fleet & Taxi" },
-  { id: "bus", label: "School Bus" },
-  { id: "health", label: "Health" },
-] as const;
+const COVERS: { id: LeadRecord["category"]; label: string; badge: string; isInstant: boolean }[] = [
+  { id: "car", label: "Private Car", badge: "Instant PB", isInstant: true },
+  { id: "bike", label: "Bike / 2-Wheeler", badge: "Instant PB", isInstant: true },
+  { id: "gcv", label: "Commercial (GCV)", badge: "Instant PB", isInstant: true },
+  { id: "pcv", label: "School Bus & PCV", badge: "Assisted", isInstant: false },
+  { id: "fleet", label: "Fleet & Taxi", badge: "Assisted", isInstant: false },
+  { id: "health", label: "Health Insurance", badge: "Assisted", isInstant: false },
+];
 
 const RAIL = [
   { k: "Policies audited", v: "10,400+" },
@@ -131,7 +134,7 @@ export function MastheadHero() {
           onMouseEnter={() => (paused.current = true)}
           onMouseLeave={() => (paused.current = false)}
         >
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
             {COVERS.map((c, n) => {
               const on = n === i;
               return (
@@ -149,11 +152,20 @@ export function MastheadHero() {
                     locked.current = true;
                     setI(n);
                   }}
-                  className={`relative flex items-center justify-center text-center min-h-[58px] px-3 py-4 text-[13.5px] sm:text-[14px] font-bold uppercase tracking-[0.08em] border-r last:border-r-0 border-ink/10 transition-colors ${
+                  className={`relative flex flex-col items-center justify-center text-center min-h-[62px] px-2 py-3 text-[12.5px] sm:text-[13px] font-bold uppercase tracking-[0.06em] border-r last:border-r-0 border-ink/10 transition-colors ${
                     on ? "text-night bg-brand-soft/30" : "text-ink/60 hover:text-ink/90"
                   }`}
                 >
-                  {c.label}
+                  <span>{c.label}</span>
+                  <span
+                    className={`mt-1 text-[9.5px] font-bold px-1.5 py-0.5 rounded tracking-wide ${
+                      c.isInstant
+                        ? "bg-accent-yellow/20 text-night"
+                        : "bg-cloud text-ink/50"
+                    }`}
+                  >
+                    {c.badge}
+                  </span>
                   <span
                     className="absolute left-0 bottom-[-1px] h-[3px] bg-brand transition-all duration-500"
                     style={{ width: on ? "100%" : "0%" }}
@@ -168,7 +180,7 @@ export function MastheadHero() {
         <div className="py-8">
           <div className="mx-auto max-w-3xl flex flex-col sm:flex-row items-stretch gap-2">
             <div className="flex-1 flex items-center border border-ink/15 bg-white rounded-xl focus-within:border-brand transition shadow-2xs">
-              <span className="px-4 text-[12px] font-bold uppercase tracking-[0.14em] text-brand border-r border-ink/10 py-4 bg-cloud/50 rounded-l-xl">
+              <span className="px-4 text-[12px] font-bold uppercase tracking-[0.14em] text-brand border-r border-ink/10 py-4 bg-cloud/50 rounded-l-xl whitespace-nowrap">
                 {COVERS[i].label}
               </span>
               <input
@@ -177,11 +189,7 @@ export function MastheadHero() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
-                    navigate({
-                      to: "/contact",
-                      search: { cover: COVERS[i].id, reg: reg.trim() || undefined },
-                      hash: "quote",
-                    });
+                    openQuoteModal({ category: COVERS[i].id, reg: reg.trim() || undefined });
                   }
                 }}
                 placeholder="Enter vehicle number — DL 3C AB 1234"
@@ -193,25 +201,27 @@ export function MastheadHero() {
               <button
                 type="button"
                 onClick={() =>
-                  navigate({
-                    to: "/contact",
-                    search: { cover: COVERS[i].id, reg: reg.trim() || undefined },
-                    hash: "quote",
-                  })
+                  openQuoteModal({ category: COVERS[i].id, reg: reg.trim() || undefined })
                 }
-                className="sheen group w-full inline-flex items-center justify-center gap-2 bg-night hover:bg-brand text-white font-bold text-[15px] px-8 py-4 rounded-xl transition-colors shadow-xs"
+                className="sheen group w-full inline-flex items-center justify-center gap-2 bg-night hover:bg-brand text-white font-bold text-[15px] px-8 py-4 rounded-xl transition-colors shadow-xs cursor-pointer"
               >
-                Get quote{" "}
+                {COVERS[i].isInstant ? "Get instant quote" : "Request quote"}{" "}
                 <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
               </button>
             </Magnetic>
           </div>
           <p className="mt-3 text-center text-[13.5px] text-ink/60">
-            No spam calls. Prefer a review first?{" "}
-            <Link to="/contact" className="text-brand font-bold hover:underline">
-              Book the complimentary policy audit
-            </Link>
-            .
+            {COVERS[i].isInstant ? (
+              <span>⚡ Direct Policybazaar partner portal. Enter mobile to track quote &amp; claim discount points.</span>
+            ) : (
+              <span>
+                No spam calls. Prefer a review first?{" "}
+                <Link to="/contact" className="text-brand font-bold hover:underline">
+                  Book the complimentary policy audit
+                </Link>
+                .
+              </span>
+            )}
           </p>
         </div>
 

@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  ArrowRight, Bus, Camera, Car, Check, FileSearch, HeartPulse,
-  MapPin, MessageCircle, ShieldCheck, Truck,
+  ArrowRight, Bus, Camera, Car, Bike, Check, FileSearch, HeartPulse,
+  MapPin, MessageCircle, ShieldCheck, Truck, Zap, ExternalLink,
 } from "lucide-react";
 import { PageShell } from "@/components/site-shell";
 import { ScrollCinema } from "@/components/scroll-cinema";
+import { openQuoteModal } from "@/components/quote-dialog";
+import type { LeadRecord } from "@/lib/policybazaar";
 import svcAudit from "@/assets/svc-audit.jpg";
 
 const SITE_URL = "https://audacious-audit-spark.lovable.app";
@@ -35,12 +37,62 @@ export const Route = createFileRoute("/insurance")({
   component: InsurancePage,
 });
 
-const PLANS = [
-  { icon: Car, t: "Private Car Insurance", d: "Comprehensive cover with correct IDV, zero-dep, engine protect aur roadside assistance — audited before you buy.", pts: ["IDV verified, not guessed", "Add-on gap report", "Cashless garage network"] },
-  { icon: Truck, t: "Commercial Vehicle Insurance", d: "Goods carrier, pickup, tempo aur truck cover — GVW, permit aur route ke hisaab se sahi rating.", pts: ["Legal liability to driver", "Permit & fitness check", "Downtime-aware add-ons"] },
-  { icon: Bus, t: "School Bus & Passenger Carrier", d: "Student aur passenger carrying vehicles ke liye statutory + passenger liability cover.", pts: ["Passenger liability sizing", "Statutory compliance check", "Driver documentation file"] },
-  { icon: ShieldCheck, t: "Fleet & Taxi Insurance", d: "5 se 500+ gaadiyon ka fleet cover, single renewal calendar aur claims desk ke saath.", pts: ["One renewal calendar", "Claims desk support", "Driver-scoring linked risk"] },
-  { icon: HeartPulse, t: "Health Insurance", d: "Family floater aur individual health plans — waiting period, room rent aur sub-limit clearly explained.", pts: ["Room-rent capping check", "Pre-existing timeline map", "Network hospital list"] },
+const PLANS: {
+  icon: any;
+  t: string;
+  category: LeadRecord["category"];
+  isInstant: boolean;
+  d: string;
+  pts: string[];
+}[] = [
+  {
+    icon: Car,
+    t: "Private Car Insurance",
+    category: "car",
+    isInstant: true,
+    d: "Comprehensive cover with verified IDV, zero-dep, engine protect & RSA. Instant Policybazaar quotes across 20+ insurers.",
+    pts: ["IDV verified, not guessed", "Instant comparison on PBPartners", "Cashless garage network across India"],
+  },
+  {
+    icon: Bike,
+    t: "Two-Wheeler & Bike Insurance",
+    category: "bike",
+    isInstant: true,
+    d: "Comprehensive & 3rd party motorcycle & scooter insurance issued in under 2 minutes with instant paperless inspection.",
+    pts: ["Instant quote on PBPartners", "Zero inspection for timely renewal", "Personal accident cover included"],
+  },
+  {
+    icon: Truck,
+    t: "Commercial Vehicle (GCV - Goods Carrier)",
+    category: "gcv",
+    isInstant: true,
+    d: "Goods carrier, pickup, tempo aur truck cover — GVW, permit aur route ke hisaab se instant verified rating.",
+    pts: ["Instant quotes via PBPartners GCV", "Legal liability to driver", "Permit & fitness rating check"],
+  },
+  {
+    icon: Bus,
+    t: "Commercial Vehicle (PCV - School Bus & Taxi)",
+    category: "pcv",
+    isInstant: false,
+    d: "School buses, staff buses, tourist cabs & passenger carriers — tailored statutory passenger liability & compliance audit.",
+    pts: ["Statutory passenger liability sizing", "Route & permit compliance audit", "Assisted policy issuance by expert desk"],
+  },
+  {
+    icon: ShieldCheck,
+    t: "Fleet & Corporate Insurance",
+    category: "fleet",
+    isInstant: false,
+    d: "5 se 500+ gaadiyon ka fleet cover, single renewal calendar aur dedicated 24x7 claims desk support.",
+    pts: ["One renewal calendar", "Claims desk support", "Driver-scoring linked risk audit"],
+  },
+  {
+    icon: HeartPulse,
+    t: "Health Insurance Plans",
+    category: "health",
+    isInstant: false,
+    d: "Family floater aur individual health plans — waiting period, room rent aur sub-limit clearly audited.",
+    pts: ["Room-rent capping check", "Pre-existing timeline map", "Network hospital claim support"],
+  },
 ];
 
 const WHY_TECH = [
@@ -65,10 +117,14 @@ function InsurancePage() {
               Car, commercial vehicle, school bus, fleet aur health cover — sab standard insurance rates par, hamare licensed distribution partners ke through. Saath mein complimentary tech membership: AI dashcam, live tracking aur professional policy audit, taaki claim ke waqt aapke paas evidence ho.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <Link to="/contact" className="inline-flex items-center gap-2 bg-brand hover:bg-brand-deep text-white font-bold px-7 py-4 rounded-full transition shadow-[0_14px_34px_-12px_rgba(31,157,85,0.7)] hover:-translate-y-0.5">
+              <button
+                type="button"
+                onClick={() => openQuoteModal()}
+                className="inline-flex items-center gap-2 bg-brand hover:bg-brand-deep text-white font-bold px-7 py-4 rounded-full transition shadow-[0_14px_34px_-12px_rgba(31,157,85,0.7)] hover:-translate-y-0.5 cursor-pointer"
+              >
                 Get My Insurance Quote <ArrowRight className="w-4 h-4"/>
-              </Link>
-              <a href="https://wa.me/919876543210" className="inline-flex items-center gap-2 border border-ink/15 hover:border-brand hover:text-brand font-bold px-7 py-4 rounded-full transition">
+              </button>
+              <a href="https://wa.me/918700515288" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-ink/15 hover:border-brand hover:text-brand font-bold px-7 py-4 rounded-full transition">
                 <MessageCircle className="w-4 h-4"/> WhatsApp for a quote
               </a>
             </div>
@@ -92,7 +148,21 @@ function InsurancePage() {
                     <li key={x} className="flex items-start gap-2"><Check className="w-4 h-4 text-brand mt-0.5 shrink-0"/>{x}</li>
                   ))}
                 </ul>
-                <Link to="/contact" className="mt-6 inline-flex items-center gap-1.5 text-[13px] font-bold text-brand">Get a quote <ArrowRight className="w-4 h-4"/></Link>
+                <button
+                  type="button"
+                  onClick={() => openQuoteModal({ category: p.category })}
+                  className="mt-6 inline-flex items-center gap-1.5 text-[13px] font-bold text-brand hover:text-brand-deep transition cursor-pointer"
+                >
+                  {p.isInstant ? (
+                    <>
+                      Get instant PB quote <ExternalLink className="w-3.5 h-3.5" />
+                    </>
+                  ) : (
+                    <>
+                      Request assisted quote <ArrowRight className="w-3.5 h-3.5" />
+                    </>
+                  )}
+                </button>
               </div>
             ))}
           </div>

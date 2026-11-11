@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SchoolBusSafetyRouteImport } from './routes/school-bus-safety'
 import { Route as RiskAuditRouteImport } from './routes/risk-audit'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as LeadsRouteImport } from './routes/leads'
 import { Route as InsuranceRouteImport } from './routes/insurance'
 import { Route as FleetSafetyRouteImport } from './routes/fleet-safety'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -47,6 +48,11 @@ const RiskAuditRoute = RiskAuditRouteImport.update({
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   id: '/privacy-policy',
   path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeadsRoute = LeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InsuranceRoute = InsuranceRouteImport.update({
@@ -103,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/fleet-safety': typeof FleetSafetyRoute
   '/insurance': typeof InsuranceRoute
+  '/leads': typeof LeadsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/risk-audit': typeof RiskAuditRoute
   '/school-bus-safety': typeof SchoolBusSafetyRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/fleet-safety': typeof FleetSafetyRoute
   '/insurance': typeof InsuranceRoute
+  '/leads': typeof LeadsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/risk-audit': typeof RiskAuditRoute
   '/school-bus-safety': typeof SchoolBusSafetyRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/fleet-safety': typeof FleetSafetyRoute
   '/insurance': typeof InsuranceRoute
+  '/leads': typeof LeadsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/risk-audit': typeof RiskAuditRoute
   '/school-bus-safety': typeof SchoolBusSafetyRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/fleet-safety'
     | '/insurance'
+    | '/leads'
     | '/privacy-policy'
     | '/risk-audit'
     | '/school-bus-safety'
@@ -168,6 +178,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/fleet-safety'
     | '/insurance'
+    | '/leads'
     | '/privacy-policy'
     | '/risk-audit'
     | '/school-bus-safety'
@@ -184,6 +195,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/fleet-safety'
     | '/insurance'
+    | '/leads'
     | '/privacy-policy'
     | '/risk-audit'
     | '/school-bus-safety'
@@ -201,6 +213,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   FleetSafetyRoute: typeof FleetSafetyRoute
   InsuranceRoute: typeof InsuranceRoute
+  LeadsRoute: typeof LeadsRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RiskAuditRoute: typeof RiskAuditRoute
   SchoolBusSafetyRoute: typeof SchoolBusSafetyRoute
@@ -243,6 +256,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy-policy'
       fullPath: '/privacy-policy'
       preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leads': {
+      id: '/leads'
+      path: '/leads'
+      fullPath: '/leads'
+      preLoaderRoute: typeof LeadsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/insurance': {
@@ -331,6 +351,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   FleetSafetyRoute: FleetSafetyRoute,
   InsuranceRoute: InsuranceRoute,
+  LeadsRoute: LeadsRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RiskAuditRoute: RiskAuditRoute,
   SchoolBusSafetyRoute: SchoolBusSafetyRoute,
