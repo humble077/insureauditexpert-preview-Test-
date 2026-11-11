@@ -13,6 +13,7 @@ import {
   ExternalLink,
   Lock,
   KeyRound,
+  Clock,
 } from "lucide-react";
 import { PageShell } from "@/components/site-shell";
 import {
@@ -23,6 +24,7 @@ import {
 } from "@/lib/policybazaar";
 
 const ADMIN_PIN = "4426"; // Secure access PIN
+const SESSION_TIMEOUT_MS = 150 * 1000; // 2.5 minutes auto-lock timeout (150 seconds)
 
 export const Route = createFileRoute("/leads")({
   head: () => ({
@@ -38,32 +40,70 @@ function LeadsPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinInput, setPinInput] = useState("");
   const [pinError, setPinError] = useState("");
+  const [secondsRemaining, setSecondsRemaining] = useState<number>(150);
   const [leads, setLeads] = useState<LeadRecord[]>([]);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
 
+  // Check existing session validity on mount
   useEffect(() => {
-    // Check if session is already unlocked
-    if (typeof window !== "undefined" && window.sessionStorage.getItem("iae_admin_auth") === "true") {
+    if (typeof window === "undefined") return;
+    const expiresAt = window.sessionStorage.getItem("iae_admin_auth_expires");
+    if (expiresAt && Date.now() < Number(expiresAt)) {
       setIsAuthenticated(true);
+      setSecondsRemaining(Math.max(0, Math.floor((Number(expiresAt) - Date.now()) / 1000)));
+    } else {
+      window.sessionStorage.removeItem("iae_admin_auth_expires");
+      setIsAuthenticated(false);
     }
   }, []);
+
+  // Auto-lock countdown timer (re-asks for passcode after 2.5 minutes)
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const timer = setInterval(() => {
+      const expiresAt = Number(window.sessionStorage.getItem("iae_admin_auth_expires") || 0);
+      const diff = Math.floor((expiresAt - Date.now()) / 1000);
+
+      if (diff <= 0) {
+        window.sessionStorage.removeItem("iae_admin_auth_expires");
+        setIsAuthenticated(false);
+        setPinError("Session timed out after 2.5 minutes for security. Please re-enter passcode.");
+        setPinInput("");
+        setSecondsRemaining(0);
+      } else {
+        setSecondsRemaining(diff);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isAuthenticated]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (pinInput.trim() === ADMIN_PIN) {
+      const expiresAt = Date.now() + SESSION_TIMEOUT_MS;
+      window.sessionStorage.setItem("iae_admin_auth_expires", String(expiresAt));
       setIsAuthenticated(true);
       setPinError("");
-      window.sessionStorage.setItem("iae_admin_auth", "true");
+      setSecondsRemaining(Math.floor(SESSION_TIMEOUT_MS / 1000));
     } else {
       setPinError("Incorrect PIN. Access restricted to authorized personnel.");
     }
   };
 
+  const handleExtendSession = () => {
+    const expiresAt = Date.now() + SESSION_TIMEOUT_MS;
+    window.sessionStorage.setItem("iae_admin_auth_expires", String(expiresAt));
+    setSecondsRemaining(Math.floor(SESSION_TIMEOUT_MS / 1000));
+  };
+
   const handleLogout = () => {
-    window.sessionStorage.removeItem("iae_admin_auth");
+    window.sessionStorage.removeItem("iae_admin_auth_expires");
     setIsAuthenticated(false);
     setPinInput("");
+    setPinError("");
   };
 
   const refreshLeads = () => {
@@ -78,6 +118,10 @@ function LeadsPage() {
       return () => window.removeEventListener("iae:lead-saved", handleUpdate);
     }
   }, [isAuthenticated]);
+
+  const minutes = Math.floor(secondsRemaining / 60);
+  const seconds = secondsRemaining % 60;
+  const timeFormatted = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 
   if (!isAuthenticated) {
     return (
@@ -104,11 +148,13 @@ function LeadsPage() {
                     setPinInput(e.target.value);
                     setPinError("");
                   }}
-                  placeholder="Enter Admin PIN"
+                  placeholder="Enter PIN (4426)"
                   className="w-full h-12 text-center text-xl tracking-[0.3em] font-mono font-bold bg-cloud rounded-xl outline-none border border-ink/10 focus:border-brand transition"
                 />
                 {pinError && (
-                  <p className="mt-1.5 text-xs text-rose-500 font-semibold">{pinError}</p>
+                  <p className="mt-2 text-xs text-rose-500 font-semibold bg-rose-50 p-2 rounded-lg border border-rose-100">
+                    {pinError}
+                  </p>
                 )}
               </div>
               <button
@@ -119,7 +165,10 @@ function LeadsPage() {
               </button>
             </form>
 
-            <div className="mt-6 pt-4 border-t border-ink/8">
+            <div className="mt-6 pt-4 border-t border-ink/8 text-center">
+              <span className="text-[11px] text-ink/40 block mb-1">
+                🔒 Auto-locks after 2.5 minutes of use for confidentiality
+              </span>
               <Link to="/" className="text-xs font-semibold text-ink/50 hover:text-brand">
                 ← Return to Public Website
               </Link>
@@ -161,12 +210,28 @@ function LeadsPage() {
                   <ArrowLeft className="w-3.5 h-3.5" /> Back to Home
                 </Link>
                 <span className="text-ink/20">·</span>
+                {/* Auto-lock countdown indicator */}
+                <span
+                  className="inline-flex items-center gap-1.5 text-[11.5px] font-mono font-bold bg-white border border-ink/10 px-2.5 py-1 rounded-lg text-ink/70"
+                  title="Session will automatically lock when this reaches 0:00"
+                >
+                  <Clock className="w-3 h-3 text-brand animate-pulse" /> Auto-locks in {timeFormatted}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleExtendSession}
+                  className="text-[11px] font-semibold text-brand hover:underline cursor-pointer"
+                  title="Reset 2.5 min session timer"
+                >
+                  (Reset Timer)
+                </button>
+                <span className="text-ink/20">·</span>
                 <button
                   type="button"
                   onClick={handleLogout}
                   className="text-xs font-semibold text-rose-600 hover:underline cursor-pointer"
                 >
-                  Lock Dashboard
+                  Lock Now
                 </button>
               </div>
               <div className="flex items-center gap-3">
