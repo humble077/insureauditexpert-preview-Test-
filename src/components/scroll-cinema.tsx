@@ -64,6 +64,7 @@ export function ScrollCinema({
 }: Props) {
   const [active, setActive] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [speed, setSpeed] = useState(48);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const reduced = usePrefersReducedMotion();
 
@@ -75,6 +76,36 @@ export function ScrollCinema({
     }, 4500);
     return () => clearInterval(interval);
   }, [isPaused, beats.length]);
+
+  // Realistic dynamic CANbus / GPS telematics speed simulation
+  useEffect(() => {
+    let target = 51;
+
+    // Shift the driver's target cruise speed every 2.2s between 43 and 54 km/h
+    const targetTimer = setInterval(() => {
+      target = Math.floor(43 + Math.random() * 12);
+    }, 2200);
+
+    // Smoothly tick the speedometer towards target speed every 480ms
+    const speedTimer = setInterval(() => {
+      setSpeed((prev) => {
+        const diff = target - prev;
+        if (diff === 0) {
+          // Subtle road micro-jitter when holding steady
+          const jitter = Math.random() < 0.5 ? (Math.random() < 0.5 ? 1 : -1) : 0;
+          return Math.max(42, Math.min(56, prev + jitter));
+        }
+        const step = Math.abs(diff) >= 3 ? 2 : 1;
+        const next = prev + Math.sign(diff) * step;
+        return Math.max(42, Math.min(56, next));
+      });
+    }, 480);
+
+    return () => {
+      clearInterval(targetTimer);
+      clearInterval(speedTimer);
+    };
+  }, []);
 
   return (
     <section
@@ -125,8 +156,12 @@ export function ScrollCinema({
           <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
           <span className="text-red-400 font-bold">REC</span>
           <span className="text-white/60 hidden sm:inline">1080P</span>
-          <span className="text-accent-yellow ml-1 sm:ml-2 flex items-center gap-1">
-            <Radio className="w-3 h-3 text-brand" /> 48 KM/H
+          <span className="text-accent-yellow ml-1 sm:ml-2 flex items-center gap-1.5 font-mono">
+            <Radio className="w-3 h-3 text-brand animate-pulse" />
+            <span className="font-bold tabular-nums inline-block min-w-[18px] text-right text-accent-yellow">
+              {speed}
+            </span>
+            <span className="text-[10px] sm:text-[11px] text-accent-yellow/90">KM/H</span>
           </span>
         </div>
       </div>

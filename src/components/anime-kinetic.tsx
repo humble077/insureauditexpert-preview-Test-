@@ -104,9 +104,8 @@ export function KineticMatrixGrid({
               <span
                 key={key}
                 onMouseEnter={() => handleCellHover(r, c)}
-                className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 cursor-crosshair ${baseDotClass} ${
-                  isPulsing ? "kinetic-dot-active !bg-accent-yellow shadow-md" : ""
-                }`}
+                className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 cursor-crosshair ${baseDotClass} ${isPulsing ? "kinetic-dot-active !bg-accent-yellow shadow-md" : ""
+                  }`}
                 style={{
                   transitionDelay: triggerTime ? `${Math.max(0, triggerTime - now)}ms` : "0ms",
                 }}
@@ -117,9 +116,8 @@ export function KineticMatrixGrid({
       </div>
       <div className="text-center mt-1">
         <span
-          className={`text-[10px] tracking-widest font-mono uppercase font-bold opacity-60 ${
-            isDark ? "text-white" : "text-ink"
-          }`}
+          className={`text-[10px] tracking-widest font-mono uppercase font-bold opacity-60 ${isDark ? "text-white" : "text-ink"
+            }`}
         >
           Interactive Telematics Matrix · Hover or Tap to Ping
         </span>
@@ -242,11 +240,10 @@ export function IncidentShockwaveSimulator({ className = "" }: { className?: str
 
             {/* Center Vehicle Blip */}
             <div
-              className={`relative z-20 w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-lg ${
-                isTriggered
+              className={`relative z-20 w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-lg ${isTriggered
                   ? "bg-red-500 text-white scale-110 shadow-red-500/50"
                   : "bg-brand text-white shadow-brand/40"
-              }`}
+                }`}
             >
               {evidenceLocked ? (
                 <Lock className="w-6 h-6 animate-bounce" />
@@ -276,18 +273,16 @@ export function IncidentShockwaveSimulator({ className = "" }: { className?: str
 
             {/* G-Sensor Gauge */}
             <div
-              className={`border rounded-2xl p-4 backdrop-blur-sm transition-all duration-300 ${
-                isTriggered
+              className={`border rounded-2xl p-4 backdrop-blur-sm transition-all duration-300 ${isTriggered
                   ? "bg-red-500/20 border-red-500/50"
                   : "bg-white/5 border-white/10"
-              }`}
+                }`}
             >
               <span className="text-[11px] font-mono text-white/50 uppercase block">Tri-Axial G-Force</span>
               <div className="mt-1 flex items-baseline gap-1">
                 <span
-                  className={`text-3xl font-extrabold font-mono tabular-nums ${
-                    isTriggered ? "text-red-400" : "text-accent-yellow"
-                  }`}
+                  className={`text-3xl font-extrabold font-mono tabular-nums ${isTriggered ? "text-red-400" : "text-accent-yellow"
+                    }`}
                 >
                   {gForce}
                 </span>
@@ -309,17 +304,15 @@ export function IncidentShockwaveSimulator({ className = "" }: { className?: str
 
           {/* Dossier status box */}
           <div
-            className={`p-4 rounded-2xl border transition-all duration-500 ${
-              evidenceLocked
+            className={`p-4 rounded-2xl border transition-all duration-500 ${evidenceLocked
                 ? "bg-amber-500/15 border-amber-500/40 text-amber-200"
                 : "bg-white/5 border-white/10 text-white/70"
-            }`}
+              }`}
           >
             <div className="flex items-start gap-3">
               <ShieldCheck
-                className={`w-5 h-5 mt-0.5 shrink-0 ${
-                  evidenceLocked ? "text-accent-yellow" : "text-white/40"
-                }`}
+                className={`w-5 h-5 mt-0.5 shrink-0 ${evidenceLocked ? "text-accent-yellow" : "text-white/40"
+                  }`}
               />
               <div className="text-xs leading-relaxed">
                 {evidenceLocked ? (
@@ -347,11 +340,10 @@ export function IncidentShockwaveSimulator({ className = "" }: { className?: str
               type="button"
               disabled={isTriggered}
               onClick={triggerImpact}
-              className={`px-5 py-3 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer shadow-lg ${
-                isTriggered
+              className={`px-5 py-3 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer shadow-lg ${isTriggered
                   ? "bg-white/10 text-white/40 cursor-not-allowed"
                   : "bg-red-500 hover:bg-red-600 text-white hover:scale-105 active:scale-95 shadow-red-500/30"
-              }`}
+                }`}
             >
               <Zap className="w-4 h-4 text-accent-yellow" />
               {isTriggered ? `Simulating Incident (${stepTimer}s)` : "Simulate Sudden Impact / G-Event"}
@@ -497,9 +489,9 @@ export function GpsMotionPathReplay({
     if (pathRef.current) {
       const len = pathRef.current.getTotalLength();
       setTotalLength(len);
-      updatePosition(progress);
+      updatePosition(0);
     }
-  }, [updatePosition, progress]);
+  }, [updatePosition]);
 
   // Continuous animation loop: completes 1 whole round-trip and then automatically pauses!
   useEffect(() => {
@@ -870,23 +862,21 @@ export function GpsMotionPathReplay({
               return (
                 <div
                   key={wp.code}
-                  className={`p-2.5 rounded-xl border transition-all text-left ${
-                    isCurrent
+                  className={`p-2.5 rounded-xl border transition-all text-left ${isCurrent
                       ? "bg-brand/20 border-accent-yellow shadow-md ring-1 ring-accent-yellow/40"
                       : isPast
-                      ? "bg-white/10 border-emerald-500/40"
-                      : "bg-white/5 border-white/10 opacity-70"
-                  }`}
+                        ? "bg-white/10 border-emerald-500/40"
+                        : "bg-white/5 border-white/10 opacity-70"
+                    }`}
                 >
                   <div className="flex items-center justify-between">
                     <span
-                      className={`text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded ${
-                        isCurrent
+                      className={`text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded ${isCurrent
                           ? "bg-accent-yellow text-night"
                           : isPast
-                          ? "bg-emerald-500 text-night"
-                          : "bg-white/20 text-white"
-                      }`}
+                            ? "bg-emerald-500 text-night"
+                            : "bg-white/20 text-white"
+                        }`}
                     >
                       STATION {wp.code}
                     </span>
@@ -932,11 +922,10 @@ export function GpsMotionPathReplay({
               <button
                 type="button"
                 onClick={handlePlayToggle}
-                className={`px-5 py-2.5 rounded-xl text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer shadow-md ${
-                  progress >= 1
+                className={`px-5 py-2.5 rounded-xl text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer shadow-md ${progress >= 1
                     ? "bg-emerald-600 hover:bg-emerald-700 ring-2 ring-emerald-400/40"
                     : "bg-brand hover:bg-brand-deep"
-                }`}
+                  }`}
               >
                 {progress >= 1 ? (
                   <>
@@ -963,11 +952,10 @@ export function GpsMotionPathReplay({
                       setSpeedMultiplier(spd);
                       lastTimeRef.current = performance.now();
                     }}
-                    className={`px-2 py-1 rounded-lg transition font-bold cursor-pointer ${
-                      speedMultiplier === spd
+                    className={`px-2 py-1 rounded-lg transition font-bold cursor-pointer ${speedMultiplier === spd
                         ? "bg-accent-yellow text-night shadow-xs"
                         : "text-white/70 hover:text-white"
-                    }`}
+                      }`}
                   >
                     {spd}x
                   </button>
