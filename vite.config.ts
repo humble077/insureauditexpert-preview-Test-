@@ -17,9 +17,13 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
-  // Target Vercel when deploying there. Nitro emits Vercel's Build Output API
-  // into .vercel/output, which Vercel auto-detects (use preset "Other").
+  // Target Vercel when deploying there. Target Cloudflare Pages when CF_PAGES is set (or in CI).
+  // Otherwise default to node-server for local dev / run.bat.
   nitro: {
-    preset: process.env.VERCEL ? "vercel" : (process.env.NITRO_PRESET || "node-server"),
+    preset: process.env.VERCEL
+      ? "vercel"
+      : (process.env.CF_PAGES || process.env.CI || process.env.CLOUDFLARE)
+      ? "cloudflare-pages"
+      : (process.env.NITRO_PRESET || "node-server"),
   },
 });
