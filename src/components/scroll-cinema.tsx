@@ -69,12 +69,12 @@ export function ScrollCinema({
 
   // Smooth auto-cycle between steps every 4.5 seconds
   useEffect(() => {
-    if (isPaused || reduced) return;
+    if (isPaused) return;
     const interval = setInterval(() => {
       setActive((prev) => (prev + 1) % beats.length);
     }, 4500);
     return () => clearInterval(interval);
-  }, [isPaused, reduced, beats.length]);
+  }, [isPaused, beats.length]);
 
   return (
     <section

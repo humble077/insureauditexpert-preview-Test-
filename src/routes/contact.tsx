@@ -52,6 +52,9 @@ function ContactPage() {
   const { cover, reg, phone } = Route.useSearch();
   const selected = (cover && COVER_LABEL[cover]) || "Car Insurance";
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     phone: phone ?? "",
@@ -68,16 +71,43 @@ function ContactPage() {
     }
   }, [cover, reg, phone]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    saveLead({
-      category: (cover as any) || "car",
-      categoryLabel: formData.coverNeeded,
-      phone: formData.phone,
-      regNo: formData.regNo || undefined,
-      action: "assisted_form",
-    });
-    setSubmitted(true);
+    setPhoneError("");
+    setSubmitError(null);
+
+    const cleanPhone = formData.phone.replace(/\D/g, "").slice(0, 10);
+    if (!cleanPhone || cleanPhone.length !== 10 || !/^[6-9]/.test(cleanPhone)) {
+      setPhoneError("Please enter a valid 10-digit mobile number");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await saveLead({
+        category: (cover as any) || "car",
+        categoryLabel: formData.coverNeeded,
+        phone: cleanPhone,
+        name: formData.name || undefined,
+        regNo: formData.regNo || undefined,
+        action: "assisted_form",
+        leadType: "Request Quote",
+        notes: `Email: ${formData.email || "N/A"} | Due: ${formData.renewalDue || "N/A"} | Notes: ${formData.notes || "N/A"}`,
+        sourcePage: "/contact",
+      });
+
+      if (!res.success) {
+        setSubmitError(res.error || "Failed to submit request. Please try again.");
+        setSubmitting(false);
+        return;
+      }
+
+      setSubmitting(false);
+      setSubmitted(true);
+    } catch (err: any) {
+      setSubmitError("Network connection error. Please try again.");
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -135,6 +165,13 @@ function ContactPage() {
               </span>
             </div>
 
+            {submitError && (
+              <div className="p-3 mb-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
+                <div>{submitError}</div>
+              </div>
+            )}
+
             {submitted ? (
               <div className="py-8 text-center animate-reveal">
                 <div className="w-14 h-14 rounded-2xl bg-brand-soft text-brand grid place-items-center mx-auto mb-4">
@@ -178,15 +215,20 @@ function ContactPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Phone (Mandatory)</label>
+                    <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Phone <span className="text-rose-500">* (Mandatory)</span></label>
                     <input
                       required
                       type="tel"
+                      maxLength={10}
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      onChange={(e) => {
+                        setFormData({ ...formData, phone: e.target.value });
+                        setPhoneError("");
+                      }}
                       className="w-full h-11 px-3 bg-cloud rounded-lg text-sm outline-none focus:ring-2 ring-brand transition font-medium"
-                      placeholder="+91 98xxx xxxxx"
+                      placeholder="10-digit mobile"
                     />
+                    {phoneError && <p className="text-[10.5px] text-rose-500 font-semibold mt-1">{phoneError}</p>}
                   </div>
                   <div>
                     <label className="block text-[12px] font-semibold text-ink/65 mb-1.5">Insurance Needed</label>
@@ -247,9 +289,10 @@ function ContactPage() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full h-12 rounded-lg bg-gradient-to-br from-brand to-brand-deep text-white font-bold text-sm hover:opacity-95 transition inline-flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                  disabled={submitting}
+                  className="w-full h-12 rounded-lg bg-gradient-to-br from-brand to-brand-deep text-white font-bold text-sm hover:opacity-95 transition inline-flex items-center justify-center gap-2 cursor-pointer shadow-sm disabled:opacity-60"
                 >
-                  Get My Quote <ArrowRight className="w-4 h-4"/>
+                  {submitting ? "Submitting..." : "Get My Quote"} <ArrowRight className="w-4 h-4"/>
                 </button>
                 <p className="text-[11px] text-ink/50 text-center">Standard insurance rates · Policies issued via IRDAI-registered partners</p>
               </form>

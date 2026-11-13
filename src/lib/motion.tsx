@@ -533,7 +533,11 @@ export function Ticker({
     <div className={`ticker ${className}`}>
       <div
         className="ticker-track"
-        style={{ animationDuration: `${duration}s`, animationDirection: reverse ? "reverse" : "normal" }}
+        style={{
+          animationDuration: `${duration}s`,
+          ["--ticker-duration" as any]: `${duration}s`,
+          animationDirection: reverse ? "reverse" : "normal",
+        }}
       >
         {[...items, ...items].map((it, i) => (
           <span key={i} className="ticker-item">

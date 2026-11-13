@@ -1,11 +1,22 @@
+import { saveLeadServerFn, type LeadStatus, type ServerLeadRecord } from "./api/leads";
+
 export interface LeadRecord {
   id: string;
   timestamp: string;
-  category: "car" | "bike" | "gcv" | "pcv" | "fleet" | "health";
+  category: string;
   categoryLabel: string;
   phone: string;
   regNo?: string;
-  action: "redirect_pb" | "assisted_form";
+  name?: string;
+  companyName?: string;
+  fleetSize?: string;
+  deviceCategory?: string;
+  leadType?: "PB Referral" | "Request Quote" | "Device Enquiry" | "Demo Request";
+  action: "redirect_pb" | "quote_request" | "device_enquiry" | "tracking_demo" | "assisted_form";
+  referralUrl?: string;
+  sourcePage?: string;
+  notes?: string;
+  status?: LeadStatus;
 }
 
 export const PB_LINKS = {
@@ -17,7 +28,7 @@ export const PB_LINKS = {
 };
 
 export const CATEGORY_INFO: Record<
-  LeadRecord["category"],
+  string,
   { label: string; short: string; isInstantPb: boolean; badge: string; description: string }
 > = {
   car: {
@@ -41,6 +52,34 @@ export const CATEGORY_INFO: Record<
     badge: "Instant Policybazaar Quote",
     description: "Goods carrier, pickup, tempo & truck cover. Sized by GVW & permit type.",
   },
+  truck: {
+    label: "Heavy Truck & Trailer Insurance",
+    short: "Truck",
+    isInstantPb: true,
+    badge: "Instant Policybazaar Quote",
+    description: "Multi-axle, tipper, tractor-trailer & goods vehicle insurance. IRDAI-compliant commercial rating.",
+  },
+  auto: {
+    label: "Auto & Taxi / Cabs Insurance",
+    short: "Auto / Taxi",
+    isInstantPb: false,
+    badge: "Assisted Quote",
+    description: "Passenger commercial vehicles, three-wheeler autos, tourist cabs & app taxis. Statutory passenger liability compliance.",
+  },
+  bus: {
+    label: "School Bus & Passenger Carrier (PCV)",
+    short: "School Bus",
+    isInstantPb: false,
+    badge: "Assisted Quote",
+    description: "School buses, staff buses, college coaches. Mandatory passenger cover & safety compliance audit.",
+  },
+  tempo: {
+    label: "Four-Wheeler Tempo / Pickup Insurance",
+    short: "Tempo / Pickup",
+    isInstantPb: true,
+    badge: "Instant Policybazaar Quote",
+    description: "Pickups, delivery vans, Bolero Camper & intra-city logistics transport cover.",
+  },
   pcv: {
     label: "Commercial Vehicle (PCV - Passenger Carrier)",
     short: "Passenger (PCV)",
@@ -60,42 +99,101 @@ export const CATEGORY_INFO: Record<
     short: "Health",
     isInstantPb: false,
     badge: "Advisory Quote",
-    description: "Family floater & individual health plans. Pre-existing disease and room rent review.",
+    description: "Family floater, individual & corporate group health plans. Pre-existing disease and room rent review.",
+  },
+  msme: {
+    label: "MSME & Business Insurance",
+    short: "MSME",
+    isInstantPb: false,
+    badge: "Business Quote",
+    description: "Shop & establishment, fire & burglary, property, public liability and employee group cover.",
   },
 };
 
 const STORAGE_KEY = "iae_captured_leads_v1";
 
-export function saveLead(lead: Omit<LeadRecord, "id" | "timestamp">): LeadRecord {
-  const fullLead: LeadRecord = {
-    ...lead,
-    id: `lead_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
-    timestamp: new Date().toISOString(),
-  };
+export async function saveLead(
+  lead: Omit<LeadRecord, "id" | "timestamp" | "status">,
+): Promise<{ success: boolean; lead: LeadRecord; error?: string }> {
+  // Determine leadType if not specified
+  const leadType =
+    lead.leadType ||
+    (lead.action === "redirect_pb"
+      ? "PB Referral"
+      : lead.action === "device_enquiry"
+        ? "Device Enquiry"
+        : lead.action === "tracking_demo"
+          ? "Demo Request"
+          : "Request Quote");
 
-  if (typeof window !== "undefined") {
-    try {
-      const existing = getLeads();
-      const updated = [fullLead, ...existing];
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-      window.dispatchEvent(new CustomEvent("iae:lead-saved", { detail: fullLead }));
+  // Call server function for backend persistence
+  try {
+    const res = await saveLeadServerFn({
+      data: {
+        phone: lead.phone,
+        regNo: lead.regNo || undefined,
+        name: lead.name || undefined,
+        companyName: lead.companyName || undefined,
+        fleetSize: lead.fleetSize || undefined,
+        category: lead.category,
+        categoryLabel: lead.categoryLabel,
+        deviceCategory: lead.deviceCategory || undefined,
+        leadType,
+        action: lead.action,
+        referralUrl: lead.referralUrl || undefined,
+        sourcePage: lead.sourcePage || (typeof window !== "undefined" ? window.location.pathname : undefined),
+        notes: lead.notes || undefined,
+      },
+    });
 
-      // Optional webhook push if configured in .env (e.g. Google Sheets / CRM webhook)
-      const webhookUrl = import.meta.env.VITE_LEADS_WEBHOOK_URL;
-      if (webhookUrl) {
-        fetch(webhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          mode: "no-cors",
-          body: JSON.stringify(fullLead),
-        }).catch((err) => console.warn("Webhook dispatch error:", err));
-      }
-    } catch (e) {
-      console.warn("Unable to write lead to localStorage", e);
+    if (!res || !res.success || !res.lead) {
+      throw new Error("Server rejected lead persistence");
     }
-  }
 
-  return fullLead;
+    const savedLead: LeadRecord = {
+      ...res.lead,
+      leadType,
+    };
+
+    // Client-side backup in localStorage
+    if (typeof window !== "undefined") {
+      try {
+        const existing = getLeads();
+        const updated = [savedLead, ...existing.filter((l) => l.id !== savedLead.id)];
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+        window.dispatchEvent(new CustomEvent("iae:lead-saved", { detail: savedLead }));
+
+        // Optional webhook push if configured in .env (e.g. Google Sheets / CRM webhook)
+        const webhookUrl = import.meta.env.VITE_LEADS_WEBHOOK_URL;
+        if (webhookUrl) {
+          fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            mode: "no-cors",
+            body: JSON.stringify(savedLead),
+          }).catch((err) => console.warn("Webhook dispatch error:", err));
+        }
+      } catch (e) {
+        console.warn("Unable to write lead to localStorage", e);
+      }
+    }
+
+    return { success: true, lead: savedLead };
+  } catch (err: any) {
+    console.error("Backend lead persistence error:", err);
+    return {
+      success: false,
+      lead: {
+        id: "",
+        timestamp: "",
+        category: lead.category,
+        categoryLabel: lead.categoryLabel,
+        phone: lead.phone,
+        action: lead.action,
+      },
+      error: err?.message || "Failed to save lead to database",
+    };
+  }
 }
 
 export function getLeads(): LeadRecord[] {
@@ -116,22 +214,43 @@ export function clearLeads(): void {
   }
 }
 
-export function exportLeadsToCsv(): void {
-  const leads = getLeads();
+export function exportLeadsToCsv(leadsList?: LeadRecord[]): void {
+  const leads = leadsList ?? getLeads();
   if (!leads.length) {
     alert("No leads captured yet.");
     return;
   }
 
-  const headers = ["ID", "Timestamp (IST)", "Category", "Category Label", "Mobile Number", "Vehicle Reg No", "Action"];
+  const headers = [
+    "Lead ID",
+    "Timestamp (IST)",
+    "Customer Name",
+    "Mobile Number",
+    "Vehicle Reg No",
+    "Category",
+    "Category Label",
+    "Lead Type",
+    "Device Category",
+    "Company / Fleet",
+    "Status",
+    "Action",
+    "Source Page",
+  ];
+
   const rows = leads.map((l) => [
     l.id,
     new Date(l.timestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
-    l.category,
-    `"${l.categoryLabel.replace(/"/g, '""')}"`,
+    `"${(l.name || "N/A").replace(/"/g, '""')}"`,
     `"${l.phone}"`,
     `"${l.regNo || "N/A"}"`,
+    l.category,
+    `"${l.categoryLabel.replace(/"/g, '""')}"`,
+    `"${l.leadType || "PB Referral"}"`,
+    `"${l.deviceCategory || "N/A"}"`,
+    `"${l.companyName ? `${l.companyName} (${l.fleetSize || "N/A"} vehicles)` : "N/A"}"`,
+    `"${l.status || "New"}"`,
     l.action,
+    `"${l.sourcePage || "N/A"}"`,
   ]);
 
   const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
@@ -143,4 +262,3 @@ export function exportLeadsToCsv(): void {
   link.click();
   document.body.removeChild(link);
 }
-

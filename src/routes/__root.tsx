@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { QuoteDialog } from "@/components/quote-dialog";
+import { DeviceEnquiryDialog } from "@/components/device-enquiry-dialog";
+import { DemoRequestDialog } from "@/components/demo-request-dialog";
 
 function NotFoundComponent() {
   return (
@@ -173,6 +175,8 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <QuoteDialog />
+      <DeviceEnquiryDialog />
+      <DemoRequestDialog />
     </QueryClientProvider>
   );
 }

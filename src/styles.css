@@ -56,6 +56,17 @@
 @keyframes sheen { 0% { transform: translateX(-120%) skewX(-18deg); } 100% { transform: translateX(320%) skewX(-18deg); } }
 @keyframes pingRing { 0% { transform: scale(0.7); opacity: 0.55; } 100% { transform: scale(2.1); opacity: 0; } }
 @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(900%); } }
+@keyframes kineticBounce {
+  0% { transform: scale(1) translateZ(0); background-color: var(--brand); box-shadow: 0 0 0 0 rgba(31, 157, 85, 0.7); }
+  35% { transform: scale(2.4) translateZ(0); background-color: var(--accent-yellow); box-shadow: 0 0 14px 4px rgba(212, 168, 73, 0.65); }
+  70% { transform: scale(0.85) translateZ(0); background-color: var(--brand); }
+  100% { transform: scale(1) translateZ(0); }
+}
+@keyframes shockwavePing {
+  0% { transform: scale(0.6); opacity: 0.95; }
+  60% { opacity: 0.45; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
 
 @utility animate-reveal { animation: slideUp 0.8s var(--ease-out-expo) both; }
 @utility animate-float { animation: float 5s ease-in-out infinite; }
@@ -241,7 +252,15 @@
 
 /* ticker */
 .ticker { overflow: hidden; position: relative; }
-.ticker-track { display: flex; width: max-content; animation: tickerRun linear infinite; }
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation-name: tickerRun;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: var(--ticker-duration, 30s);
+  will-change: transform;
+}
 .ticker:hover .ticker-track { animation-play-state: paused; }
 .ticker-item { display: inline-flex; align-items: center; gap: 0.5rem; padding-inline: 1.5rem; white-space: nowrap; }
 
@@ -385,10 +404,70 @@
   mix-blend-mode: multiply;
 }
 
+/* ------------------------------------------------------------------ */
+/* Anime.js inspired kinetic motion keyframes & utility classes      */
+/* ------------------------------------------------------------------ */
+
+@keyframes animeShockwave {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.9;
+    border-width: 3px;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+    border-width: 1px;
+  }
+}
+
+.anime-shockwave {
+  animation: animeShockwave 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes kineticDotBounce {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.85) rotate(12deg);
+    background-color: var(--accent-yellow);
+    box-shadow: 0 0 12px var(--accent-yellow);
+  }
+  65% {
+    transform: scale(0.9) rotate(-4deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.kinetic-dot-active {
+  animation: kineticDotBounce 650ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes radarSweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.radar-sweep {
+  animation: radarSweep 6s linear infinite;
+  transform-origin: center center;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ar { opacity: 1 !important; transform: none !important; }
-  .text-sweep, .ticker-track, .spin-border::before, .grid-drift, .glow-orb, .node-ping, .ring-pulse,
-  .rule-gold, .ornament i, .unveil, .unveil > img, .ken-burns, .text-gild, .letter-rise > span, .halo {
+  .text-sweep, .spin-border::before, .grid-drift, .glow-orb, .node-ping, .ring-pulse,
+  .rule-gold, .ornament i, .unveil, .unveil > img, .ken-burns, .text-gild, .letter-rise > span, .halo,
+  .anime-shockwave, .kinetic-dot-active, .radar-sweep {
     animation: none !important;
   }
 }

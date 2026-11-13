@@ -1,118 +1,632 @@
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
-import { Phone, Mail, Clock, MapPin, Sparkles, ShieldCheck, MessageCircle, ChevronUp, Lock } from "lucide-react";
-import { useState, useEffect, type ReactNode } from "react";
+import {
+  Phone,
+  Mail,
+  Clock,
+  MapPin,
+  Sparkles,
+  ShieldCheck,
+  MessageCircle,
+  ChevronUp,
+  ChevronDown,
+  Lock,
+  Menu,
+  X,
+  Car,
+  Bike,
+  Truck,
+  Bus,
+  Shield,
+  HeartPulse,
+  Building2,
+  Camera,
+  Radio,
+  Thermometer,
+  Fuel,
+  CreditCard,
+  LayoutDashboard,
+  ExternalLink,
+  HelpCircle,
+  FileSearch,
+} from "lucide-react";
+import { useState, useEffect, type ReactNode, useRef } from "react";
 import { ScrollProgressBar, Magnetic, CursorGlow, useAutoReveal } from "@/lib/motion";
 import { openQuoteModal } from "@/components/quote-dialog";
+import { openDeviceEnquiryModal } from "@/components/device-enquiry-dialog";
+import { openDemoRequestModal } from "@/components/demo-request-dialog";
 import logoUrl from "@/assets/logo.png";
 
-const NAV = [
-  { to: "/", label: "Home", short: "Home" },
-  { to: "/insurance", label: "Insurance Plans", short: "Insurance" },
-  { to: "/risk-audit", label: "Risk Audit", short: "Risk Audit" },
-  { to: "/ai-dashcam-tracking", label: "AI Dashcam & Tracking", short: "Dashcam & Tracking" },
-  { to: "/fleet-safety", label: "Fleet Safety", short: "Fleet" },
-  { to: "/school-bus-safety", label: "School Bus & Child Safety", short: "School Bus" },
-  { to: "/about", label: "About Us", short: "About" },
-  { to: "/support", label: "Support", short: "Support" },
-  { to: "/contact", label: "Contact Us", short: "Contact" },
-] as const;
-
-
 export function SiteHeader() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+
+  // Close menus on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setActiveDropdown(null);
+  }, [location.pathname]);
+
+  // Click outside listener for dropdowns
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setActiveDropdown(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <>
       <ScrollProgressBar />
       <CursorGlow />
-      <div className="bg-accent-yellow text-night text-[13px] sm:text-[13.5px] font-bold overflow-hidden">
-        <div className="flex animate-marquee whitespace-nowrap py-2">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <span key={i} className="mx-6 inline-flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5"/> Smart Audit. Safe Drive. Guaranteed Protection. · AI Dashcam &amp; G-Sensor · Zero Wiring-Cut Tracking · 24x7 Claim Support (08065604804 / 08065604805)
+
+      {/* Top Banner with Verified Contact & Disclaimers */}
+      <div className="bg-night text-white text-[12px] sm:text-[13px] border-b border-white/10">
+        <div className="max-w-[1280px] mx-auto px-6 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <div className="flex items-center gap-3 text-white/80">
+            <span className="inline-flex items-center gap-1.5 text-accent-yellow font-bold">
+              <Sparkles className="w-3.5 h-3.5" /> Smarter Insurance · Safer Vehicles · Smarter Fleets
             </span>
-          ))}
+            <span className="hidden md:inline text-white/30">|</span>
+            <span className="hidden md:inline text-white/70">IRDAI-Approved Standard Rates</span>
+          </div>
+          <div className="flex items-center gap-4 text-xs font-semibold">
+            <a
+              href="tel:08065604804"
+              className="inline-flex items-center gap-1 text-white/90 hover:text-white transition"
+            >
+              <Phone className="w-3 h-3 text-brand" /> 08065604804 / 08065604805
+            </a>
+            <span className="text-white/30">·</span>
+            <a
+              href="https://wa.me/918700515288"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition"
+            >
+              <MessageCircle className="w-3 h-3" /> WhatsApp 24x7
+            </a>
+          </div>
         </div>
       </div>
 
-      <header className="sticky top-0 z-50 bg-white/98 backdrop-blur border-b border-ink/8 shadow-2xs">
-        <div className="max-w-[1240px] mx-auto px-6 h-[68px] flex items-center justify-between gap-4">
+      {/* Sticky Main Navigation */}
+      <header className="sticky top-0 z-50 bg-white/98 backdrop-blur-md border-b border-ink/8 shadow-2xs">
+        <div className="max-w-[1280px] mx-auto px-6 h-[72px] flex items-center justify-between gap-4" ref={dropdownRef}>
+          {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group shrink-0">
-            <img src={logoUrl} alt="Insure Audit Expert — Smart Audit. Safe Drive. Guaranteed Protection." className="h-10 w-auto transition-transform group-hover:scale-105"/>
-            <span className="hidden md:block leading-tight">
-              <span className="block text-[16px] font-extrabold text-night tracking-tight">Insure Audit Expert</span>
-              <span className="hidden 2xl:block text-[11px] font-bold tracking-wide text-brand uppercase">Smart Audit. Safe Drive. Guaranteed Protection.</span>
+            <img
+              src={logoUrl}
+              alt="Insure Audit Expert"
+              className="h-10 sm:h-11 w-auto transition-transform group-hover:scale-105"
+            />
+            <span className="hidden xl:block leading-tight">
+              <span className="block text-[16px] font-extrabold text-night tracking-tight">
+                Insure Audit Expert
+              </span>
+              <span className="block text-[10.5px] font-bold tracking-wide text-brand uppercase">
+                Audit · Safety · Fleet Telematics
+              </span>
             </span>
           </Link>
-          <nav className="hidden lg:flex items-center gap-4 xl:gap-6 text-[14px] xl:text-[15px] font-semibold text-ink/85 whitespace-nowrap">
-            {NAV.map((n) => (
-              <Link
-                key={n.to}
-                to={n.to}
-                activeOptions={{ exact: true }}
-                activeProps={{ className: "text-brand font-bold" }}
-                className="relative py-1 hover:text-brand transition-colors after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-0 after:bg-brand after:transition-all hover:after:w-full"
-              >
-                {n.short}
-              </Link>
-            ))}
-          </nav>
-          <div className="flex items-center gap-3">
+
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 text-[14px] font-semibold text-night/85">
+            {/* Home */}
             <Link
-              to="/support"
-              className="hidden sm:inline-flex items-center gap-1.5 text-[13px] font-bold text-brand hover:text-brand-deep bg-brand-soft px-3 py-2 rounded-lg transition"
+              to="/"
+              activeOptions={{ exact: true }}
+              activeProps={{ className: "text-brand font-bold bg-brand-soft/60" }}
+              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-cloud/70 transition"
             >
-              <MessageCircle className="w-4 h-4" /> Support
+              Home
             </Link>
-            <Magnetic strength={0.22}>
+
+            {/* Insurance Dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setActiveDropdown(activeDropdown === "insurance" ? null : "insurance")}
+                onMouseEnter={() => setActiveDropdown("insurance")}
+                className={`inline-flex items-center gap-1 px-3 py-2 rounded-lg transition cursor-pointer ${
+                  activeDropdown === "insurance" || location.pathname.includes("insurance")
+                    ? "text-brand font-bold bg-brand-soft/60"
+                    : "hover:text-brand hover:bg-cloud/70"
+                }`}
+              >
+                Insurance <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+              </button>
+
+              {activeDropdown === "insurance" && (
+                <div
+                  onMouseLeave={() => setActiveDropdown(null)}
+                  className="absolute left-0 top-full pt-2 w-[680px] animate-reveal"
+                >
+                  <div className="bg-white rounded-2xl border border-ink/10 shadow-2xl p-5 grid grid-cols-3 gap-5">
+                    {/* Motor Insurance */}
+                    <div>
+                      <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand mb-3 pb-1 border-b border-ink/8">
+                        <Car className="w-3.5 h-3.5" /> Motor Insurance
+                      </div>
+                      <div className="space-y-1 text-[13px]">
+                        <Link
+                          to="/motor-insurance"
+                          search={{ tab: "private-car" }}
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Private Cars <span className="text-[10px] text-brand font-bold">PB Instant</span>
+                        </Link>
+                        <Link
+                          to="/motor-insurance"
+                          search={{ tab: "bike" }}
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Bikes / Two-Wheelers <span className="text-[10px] text-brand font-bold">PB Instant</span>
+                        </Link>
+                        <Link
+                          to="/motor-insurance"
+                          search={{ tab: "commercial-vehicle" }}
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Commercial Vehicles (GCV) <span className="text-[10px] text-brand font-bold">PB Instant</span>
+                        </Link>
+                        <Link
+                          to="/motor-insurance"
+                          search={{ tab: "truck" }}
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Trucks &amp; Multi-Axle
+                        </Link>
+                        <Link
+                          to="/motor-insurance"
+                          search={{ tab: "auto-taxi" }}
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Auto &amp; Taxi / Cabs <span className="text-[10px] text-amber-600 font-bold">Assisted</span>
+                        </Link>
+                        <Link
+                          to="/motor-insurance"
+                          search={{ tab: "school-bus" }}
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          School Buses &amp; PCV
+                        </Link>
+                        <Link
+                          to="/motor-insurance"
+                          search={{ tab: "tempo-pickup" }}
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          4-Wheeler Tempos &amp; Pickups
+                        </Link>
+                        <div className="pt-2 border-t border-ink/8 mt-1 space-y-1">
+                          <Link
+                            to="/motor-insurance"
+                            search={{ tab: "with-dashcam" }}
+                            className="block p-1.5 rounded-lg bg-accent-yellow/15 hover:bg-accent-yellow/25 text-night font-bold text-[12px]"
+                          >
+                            ⭐ Motor + Dashcam Offer
+                          </Link>
+                          <Link
+                            to="/motor-insurance"
+                            search={{ tab: "standard" }}
+                            className="block p-1.5 rounded-lg hover:bg-cloud text-ink/70 text-[12px]"
+                          >
+                            Standard Motor Policy
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Health Insurance */}
+                    <div>
+                      <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-rose-600 mb-3 pb-1 border-b border-ink/8">
+                        <HeartPulse className="w-3.5 h-3.5" /> Health Insurance
+                      </div>
+                      <div className="space-y-1 text-[13px]">
+                        <Link
+                          to="/health-insurance"
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Individual Health
+                        </Link>
+                        <Link
+                          to="/health-insurance"
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Family Floater
+                        </Link>
+                        <Link
+                          to="/health-insurance"
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Senior Citizen Health
+                        </Link>
+                        <Link
+                          to="/health-insurance"
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Group Health Insurance
+                        </Link>
+                        <Link
+                          to="/health-insurance"
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Corporate Health Plans
+                        </Link>
+                        <div className="p-2.5 mt-3 rounded-xl bg-cloud/60 text-[11px] text-ink/65 leading-relaxed">
+                          Room rent capping audit &amp; waiting period clarity before policy purchase.
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* MSME Insurance */}
+                    <div>
+                      <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-blue-700 mb-3 pb-1 border-b border-ink/8">
+                        <Building2 className="w-3.5 h-3.5" /> MSME Insurance
+                      </div>
+                      <div className="space-y-1 text-[13px]">
+                        <Link
+                          to="/msme-insurance"
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Shop &amp; Establishment
+                        </Link>
+                        <Link
+                          to="/msme-insurance"
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Fire &amp; Special Perils
+                        </Link>
+                        <Link
+                          to="/msme-insurance"
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Property Insurance
+                        </Link>
+                        <Link
+                          to="/msme-insurance"
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Burglary Insurance
+                        </Link>
+                        <Link
+                          to="/msme-insurance"
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Public Liability
+                        </Link>
+                        <Link
+                          to="/msme-insurance"
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Employee Group Cover
+                        </Link>
+                        <Link
+                          to="/msme-insurance"
+                          className="block p-1.5 rounded-lg hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                        >
+                          Business Package Policy
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Tracking Software Dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setActiveDropdown(activeDropdown === "tracking" ? null : "tracking")}
+                onMouseEnter={() => setActiveDropdown("tracking")}
+                className={`inline-flex items-center gap-1 px-3 py-2 rounded-lg transition cursor-pointer ${
+                  activeDropdown === "tracking" || location.pathname.includes("tracking")
+                    ? "text-brand font-bold bg-brand-soft/60"
+                    : "hover:text-brand hover:bg-cloud/70"
+                }`}
+              >
+                Tracking Software <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+              </button>
+
+              {activeDropdown === "tracking" && (
+                <div
+                  onMouseLeave={() => setActiveDropdown(null)}
+                  className="absolute left-0 top-full pt-2 w-[340px] animate-reveal"
+                >
+                  <div className="bg-white rounded-2xl border border-ink/10 shadow-2xl p-4 space-y-1 text-[13px]">
+                    <Link
+                      to="/tracking-solutions"
+                      className="block p-2.5 rounded-xl hover:bg-cloud transition"
+                    >
+                      <div className="font-bold text-night">Fleet Tracking Overview</div>
+                      <div className="text-[11.5px] text-ink/60">Live GPS, driver behavior &amp; alerts</div>
+                    </Link>
+                    <a
+                      href="https://insureauditexpert.tech/command-center"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center justify-between p-2.5 rounded-xl bg-night text-white hover:bg-brand transition"
+                    >
+                      <div>
+                        <div className="font-bold">Access Command Center ↗</div>
+                        <div className="text-[11px] text-white/70">Enterprise fleet management portal</div>
+                      </div>
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActiveDropdown(null);
+                        openDemoRequestModal();
+                      }}
+                      className="w-full text-left p-2.5 rounded-xl hover:bg-brand-soft hover:text-brand transition font-bold"
+                    >
+                      Request a Demo →
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Devices Dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setActiveDropdown(activeDropdown === "devices" ? null : "devices")}
+                onMouseEnter={() => setActiveDropdown("devices")}
+                className={`inline-flex items-center gap-1 px-3 py-2 rounded-lg transition cursor-pointer ${
+                  activeDropdown === "devices" || location.pathname.includes("devices")
+                    ? "text-brand font-bold bg-brand-soft/60"
+                    : "hover:text-brand hover:bg-cloud/70"
+                }`}
+              >
+                Devices <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+              </button>
+
+              {activeDropdown === "devices" && (
+                <div
+                  onMouseLeave={() => setActiveDropdown(null)}
+                  className="absolute left-0 top-full pt-2 w-[340px] animate-reveal"
+                >
+                  <div className="bg-white rounded-2xl border border-ink/10 shadow-2xl p-4 space-y-1 text-[13px]">
+                    <Link
+                      to="/devices"
+                      search={{ device: "dashcam" }}
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                    >
+                      <Camera className="w-4 h-4 text-brand" /> Dashcams (Standalone or Bundled)
+                    </Link>
+                    <Link
+                      to="/devices"
+                      search={{ device: "ais-140" }}
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                    >
+                      <Radio className="w-4 h-4 text-brand" /> AIS-140 GPS (Govt Mandated)
+                    </Link>
+                    <Link
+                      to="/devices"
+                      search={{ device: "e-lock" }}
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                    >
+                      <Lock className="w-4 h-4 text-brand" /> Smart E-Locks for Cargo
+                    </Link>
+                    <Link
+                      to="/devices"
+                      search={{ device: "heat-sensor" }}
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                    >
+                      <Thermometer className="w-4 h-4 text-brand" /> Cold Chain Heat Sensors
+                    </Link>
+                    <Link
+                      to="/devices"
+                      search={{ device: "fuel-sensor" }}
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                    >
+                      <Fuel className="w-4 h-4 text-brand" /> Fuel Rod Level Sensors
+                    </Link>
+                    <Link
+                      to="/devices"
+                      search={{ device: "gps-id-card" }}
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-cloud text-ink/80 hover:text-night font-medium"
+                    >
+                      <CreditCard className="w-4 h-4 text-brand" /> GPS ID Cards
+                    </Link>
+                    <div className="pt-2 border-t border-ink/8">
+                      <Link
+                        to="/devices"
+                        className="block text-center text-xs font-bold text-brand hover:underline p-1"
+                      >
+                        Explore All 6 Devices →
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Claim Assistance */}
+            <Link
+              to="/claim-assistance"
+              activeProps={{ className: "text-brand font-bold bg-brand-soft/60" }}
+              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-cloud/70 transition"
+            >
+              Claim Assistance
+            </Link>
+
+            {/* About Us */}
+            <Link
+              to="/about"
+              activeProps={{ className: "text-brand font-bold bg-brand-soft/60" }}
+              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-cloud/70 transition"
+            >
+              About Us
+            </Link>
+
+            {/* Resources / Blogs */}
+            <Link
+              to="/blogs"
+              activeProps={{ className: "text-brand font-bold bg-brand-soft/60" }}
+              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-cloud/70 transition"
+            >
+              Resources / Blogs
+            </Link>
+
+            {/* Contact Us */}
+            <Link
+              to="/contact"
+              activeProps={{ className: "text-brand font-bold bg-brand-soft/60" }}
+              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-cloud/70 transition"
+            >
+              Contact Us
+            </Link>
+          </nav>
+
+          {/* Action Button & Mobile Hamburger */}
+          <div className="flex items-center gap-3">
+            <Magnetic strength={0.2}>
               <button
                 type="button"
                 onClick={() => openQuoteModal()}
-                className="sheen inline-flex items-center gap-2 bg-night hover:bg-brand text-white font-bold text-[13.5px] px-4 py-2.5 rounded-xl transition-colors shrink-0 shadow-2xs cursor-pointer"
+                className="sheen inline-flex items-center gap-2 bg-brand hover:bg-brand-deep text-white font-bold text-[13.5px] px-4 py-2.5 rounded-xl transition-colors shrink-0 shadow-xs cursor-pointer"
               >
-                <ShieldCheck className="w-4 h-4 text-accent-yellow"/> <span className="hidden sm:inline">Get Quote</span>
+                <ShieldCheck className="w-4 h-4 text-accent-yellow" /> Get Quote
               </button>
             </Magnetic>
+
+            {/* Hamburger Button for Mobile */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-2 rounded-xl text-night hover:bg-cloud transition"
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
         </div>
-        <div className="lg:hidden border-t border-ink/5 overflow-x-auto bg-white">
-          <div className="flex items-center gap-5 px-6 py-2.5 text-[13.5px] font-semibold text-ink/80 whitespace-nowrap">
-            {NAV.map((n) => (
-              <Link key={n.to} to={n.to} activeProps={{ className: "text-brand font-bold" }} className="hover:text-brand transition">{n.label}</Link>
-            ))}
+
+        {/* Mobile Navigation Drawer */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden border-t border-ink/10 bg-white max-h-[85vh] overflow-y-auto px-6 py-5 space-y-4 animate-reveal shadow-xl">
+            <Link
+              to="/"
+              className="block text-base font-bold text-night hover:text-brand py-1"
+            >
+              Home
+            </Link>
+
+            {/* Mobile Insurance Accordion */}
+            <div className="space-y-2 border-t border-ink/8 pt-3">
+              <div className="font-extrabold text-sm uppercase tracking-wider text-brand">
+                Insurance Solutions
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-[13px] pl-2 font-medium text-ink/80">
+                <Link to="/motor-insurance" search={{ tab: "private-car" }} className="py-1">Private Cars (PB)</Link>
+                <Link to="/motor-insurance" search={{ tab: "bike" }} className="py-1">Bikes (PB)</Link>
+                <Link to="/motor-insurance" search={{ tab: "commercial-vehicle" }} className="py-1">Commercial GCV (PB)</Link>
+                <Link to="/motor-insurance" search={{ tab: "truck" }} className="py-1">Trucks</Link>
+                <Link to="/motor-insurance" search={{ tab: "auto-taxi" }} className="py-1">Auto &amp; Taxi</Link>
+                <Link to="/motor-insurance" search={{ tab: "school-bus" }} className="py-1">School Buses</Link>
+                <Link to="/health-insurance" className="py-1 text-rose-600 font-bold">Health Insurance</Link>
+                <Link to="/msme-insurance" className="py-1 text-blue-700 font-bold">MSME Insurance</Link>
+              </div>
+            </div>
+
+            {/* Mobile Tracking Software */}
+            <div className="space-y-2 border-t border-ink/8 pt-3">
+              <div className="font-extrabold text-sm uppercase tracking-wider text-night">
+                Tracking Software
+              </div>
+              <div className="space-y-2 pl-2 text-[13.5px]">
+                <Link to="/tracking-solutions" className="block text-ink/80 hover:text-brand font-medium">
+                  Fleet Tracking Platform
+                </Link>
+                <a
+                  href="https://insureauditexpert.tech/command-center"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block text-brand font-bold"
+                >
+                  Access Command Center ↗
+                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openDemoRequestModal();
+                  }}
+                  className="block text-left text-amber-700 font-bold"
+                >
+                  Request a Demo
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile Devices */}
+            <div className="space-y-2 border-t border-ink/8 pt-3">
+              <div className="font-extrabold text-sm uppercase tracking-wider text-night">
+                Devices
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-[13px] pl-2 font-medium text-ink/80">
+                <Link to="/devices" search={{ device: "dashcam" }}>Dashcams</Link>
+                <Link to="/devices" search={{ device: "ais-140" }}>AIS-140 GPS</Link>
+                <Link to="/devices" search={{ device: "e-lock" }}>E-Locks</Link>
+                <Link to="/devices" search={{ device: "heat-sensor" }}>Heat Sensors</Link>
+                <Link to="/devices" search={{ device: "fuel-sensor" }}>Fuel Sensors</Link>
+                <Link to="/devices" search={{ device: "gps-id-card" }}>GPS ID Cards</Link>
+              </div>
+            </div>
+
+            {/* Other Mobile Links */}
+            <div className="space-y-2 border-t border-ink/8 pt-3 text-[14.5px] font-semibold text-night">
+              <Link to="/claim-assistance" className="block py-1 hover:text-brand">Claim Assistance</Link>
+              <Link to="/about" className="block py-1 hover:text-brand">About Us</Link>
+              <Link to="/blogs" className="block py-1 hover:text-brand">Resources / Blogs</Link>
+              <Link to="/contact" className="block py-1 hover:text-brand">Contact Us</Link>
+              <Link to="/support" className="block py-1 hover:text-brand">Support Helpdesk</Link>
+            </div>
+
+            <div className="pt-3 border-t border-ink/8">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openQuoteModal();
+                }}
+                className="w-full bg-brand text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2"
+              >
+                <ShieldCheck className="w-4 h-4 text-accent-yellow" /> Get Audited Quote
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </header>
     </>
   );
 }
 
-const PROGRAM_LINKS = [
-  { to: "/insurance", label: "Car Insurance (Instant Quote)" },
-  { to: "/insurance", label: "Bike & Two-Wheeler Insurance" },
-  { to: "/insurance", label: "Commercial Vehicle (GCV & PCV)" },
-  { to: "/insurance", label: "Health Insurance Plans" },
-  { to: "/risk-audit", label: "Professional Risk Audit" },
-  { to: "/ai-dashcam-tracking", label: "AI Dashcam & G-Sensor" },
-  { to: "/ai-dashcam-tracking", label: "Smart Live Tracking" },
-  { to: "/#insure-track-app", label: "Insure Track™ App (iOS / Android)" },
-  { to: "/fleet-safety", label: "Fleet Safety Program" },
-  { to: "/school-bus-safety", label: "School Bus & Child Safety" },
-] as const;
-
 export function SiteFooter() {
   return (
-    <footer className="bg-night text-white/80 pt-20 pb-12">
-      <div className="max-w-[1240px] mx-auto px-6 grid md:grid-cols-4 gap-10">
+    <footer className="bg-night text-white/80 pt-16 pb-12">
+      <div className="max-w-[1280px] mx-auto px-6 grid md:grid-cols-4 gap-10">
         <div>
           <div className="mb-4 inline-block bg-white/95 rounded-xl p-3 shadow-xs">
-            <img src={logoUrl} alt="Insure Audit Expert" className="h-14 w-auto"/>
+            <img src={logoUrl} alt="Insure Audit Expert" className="h-12 w-auto" />
           </div>
-          <p className="text-[14px] font-bold text-accent-yellow tracking-wide">Smart Audit. Safe Drive. Guaranteed Protection.</p>
-          <p className="mt-3 text-[14px] leading-relaxed text-white/75">
-            A Risk Management &amp; Vehicle Safety Program — professional policy audits, AI dashcam with G-sensor, and smart live tracking installed without cutting a single wire.
+          <p className="text-[14px] font-bold text-accent-yellow tracking-wide">
+            Smarter Insurance. Safer Vehicles. Smarter Fleets.
+          </p>
+          <p className="mt-3 text-[13.5px] leading-relaxed text-white/75">
+            A Risk Management &amp; Vehicle Safety Program — independent policy audits, AI dashcams, and intelligent live telematics installed without cutting a single wire.
           </p>
           <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
             <span className="text-[11.5px] font-bold uppercase tracking-wider text-accent-yellow block">
-              Download Insure Track:
+              Download Insure Track App:
             </span>
             <div className="flex flex-wrap items-center gap-2">
               <a
@@ -134,63 +648,112 @@ export function SiteFooter() {
             </div>
           </div>
         </div>
+
         <div>
-          <h5 className="text-[17px] font-bold text-white mb-4 tracking-wide">Insurance &amp; Programs</h5>
-          <ul className="space-y-2.5 text-[14.5px]">
-            {PROGRAM_LINKS.map((s) => (
-              <li key={s.label}><Link to={s.to} className="link-sweep hover:text-brand transition text-white/80 hover:text-white">{s.label}</Link></li>
-            ))}
+          <h5 className="text-[16px] font-bold text-white mb-4 tracking-wide">Insurance Solutions</h5>
+          <ul className="space-y-2.5 text-[14px]">
+            <li><Link to="/motor-insurance" search={{ tab: "private-car" }} className="hover:text-white transition">Private Car Insurance (PB Instant)</Link></li>
+            <li><Link to="/motor-insurance" search={{ tab: "bike" }} className="hover:text-white transition">Bike &amp; Two-Wheeler Insurance</Link></li>
+            <li><Link to="/motor-insurance" search={{ tab: "commercial-vehicle" }} className="hover:text-white transition">Commercial Goods Carrier (GCV)</Link></li>
+            <li><Link to="/motor-insurance" search={{ tab: "truck" }} className="hover:text-white transition">Heavy Trucks &amp; Multi-Axle</Link></li>
+            <li><Link to="/motor-insurance" search={{ tab: "auto-taxi" }} className="hover:text-white transition">Auto &amp; Taxi / Cabs</Link></li>
+            <li><Link to="/motor-insurance" search={{ tab: "school-bus" }} className="hover:text-white transition">School Bus &amp; Child Safety</Link></li>
+            <li><Link to="/health-insurance" className="hover:text-white transition">Health Insurance Plans</Link></li>
+            <li><Link to="/msme-insurance" className="hover:text-white transition">MSME &amp; Business Package</Link></li>
           </ul>
         </div>
+
         <div>
-          <h5 className="text-[17px] font-bold text-white mb-4 tracking-wide">Quick Links</h5>
-          <ul className="space-y-2.5 text-[14.5px]">
-            <li><Link to="/" className="hover:text-brand transition text-white/80 hover:text-white">Home</Link></li>
-            <li><Link to="/about" className="hover:text-brand transition text-white/80 hover:text-white">About Us</Link></li>
-            <li><Link to="/support" className="hover:text-brand transition text-white/80 hover:text-white">Support Helpdesk</Link></li>
-            <li><Link to="/privacy-policy" className="hover:text-brand transition text-white/80 hover:text-white">Privacy Policy</Link></li>
-            <li><Link to="/blogs" className="hover:text-brand transition text-white/80 hover:text-white">Knowledge Hub</Link></li>
-            <li><Link to="/contact" className="hover:text-brand transition text-white/80 hover:text-white">Contact Us</Link></li>
+          <h5 className="text-[16px] font-bold text-white mb-4 tracking-wide">Safety &amp; Technology</h5>
+          <ul className="space-y-2.5 text-[14px]">
+            <li><Link to="/tracking-solutions" className="hover:text-white transition">Fleet Tracking Platform</Link></li>
+            <li><a href="https://insureauditexpert.tech/command-center" target="_blank" rel="noreferrer" className="text-accent-yellow hover:underline transition">Command Center Portal ↗</a></li>
+            <li><Link to="/devices" search={{ device: "dashcam" }} className="hover:text-white transition">AI Dashcam &amp; Evidence Dossier</Link></li>
+            <li><Link to="/devices" search={{ device: "ais-140" }} className="hover:text-white transition">AIS-140 GPS Devices</Link></li>
+            <li><Link to="/devices" search={{ device: "e-lock" }} className="hover:text-white transition">Smart E-Locks</Link></li>
+            <li><Link to="/devices" search={{ device: "heat-sensor" }} className="hover:text-white transition">Cold Chain Heat Sensors</Link></li>
+            <li><Link to="/devices" search={{ device: "fuel-sensor" }} className="hover:text-white transition">Fuel Rod Level Sensors</Link></li>
+            <li><Link to="/claim-assistance" className="hover:text-white transition">Claim Assistance Desk</Link></li>
           </ul>
         </div>
+
         <div>
-          <h5 className="text-[17px] font-bold text-white mb-4 tracking-wide">Get In Touch</h5>
-          <ul className="space-y-3 text-[14.5px]">
-            <li className="flex items-start gap-2.5 text-white/80"><MapPin className="w-4 h-4 text-brand shrink-0 mt-1"/> <a href="https://www.google.com/maps/place/28%C2%B033'39.5%22N+77%C2%B011'31.7%22E/@28.5608467,77.1920417,20.64z/data=!4m4!3m3!8m2!3d28.5609581!4d77.1921258?hl=en&entry=ttu&g_ep=EgoyMDI2MDgzMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noreferrer" className="hover:text-white transition">B-5/55, Safdarjung Enclave, New Delhi - 110029</a></li>
-            <li className="flex items-center gap-2.5"><Phone className="w-4 h-4 text-brand shrink-0"/> <a href="tel:08065604804" className="text-white/80 hover:text-white transition">08065604804 / 08065604805</a></li>
-            <li className="flex items-center gap-2.5"><Mail className="w-4 h-4 text-brand shrink-0"/> <a href="mailto:info@insureauditexpert.com" className="text-white/80 hover:text-white transition">info@insureauditexpert.com</a></li>
-            <li className="flex items-center gap-2.5 text-white/80"><Clock className="w-4 h-4 text-brand shrink-0"/> Mon – Sat · 9:30 AM – 6:30 PM</li>
-            <li className="flex items-center gap-2.5 pt-1"><MessageCircle className="w-4 h-4 text-brand shrink-0"/> <a href="https://wa.me/918700515288" target="_blank" rel="noreferrer" className="hover:underline font-bold text-accent-yellow">WhatsApp Us (24x7 Support)</a></li>
+          <h5 className="text-[16px] font-bold text-white mb-4 tracking-wide">Get In Touch</h5>
+          <ul className="space-y-3 text-[14px]">
+            <li className="flex items-start gap-2.5 text-white/80">
+              <MapPin className="w-4 h-4 text-brand shrink-0 mt-1" />
+              <a
+                href="https://www.google.com/maps/place/28%C2%B033'39.5%22N+77%C2%B011'31.7%22E/@28.5608467,77.1920417,20.64z/data=!4m4!3m3!8m2!3d28.5609581!4d77.1921258?hl=en&entry=ttu&g_ep=EgoyMDI2MDgzMS4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-white transition"
+              >
+                B-5/55, Safdarjung Enclave, New Delhi - 110029
+              </a>
+            </li>
+            <li className="flex items-center gap-2.5">
+              <Phone className="w-4 h-4 text-brand shrink-0" />
+              <a href="tel:08065604804" className="text-white/80 hover:text-white transition">
+                08065604804 / 08065604805
+              </a>
+            </li>
+            <li className="flex items-center gap-2.5">
+              <Mail className="w-4 h-4 text-brand shrink-0" />
+              <a href="mailto:info@insureauditexpert.com" className="text-white/80 hover:text-white transition">
+                info@insureauditexpert.com
+              </a>
+            </li>
+            <li className="flex items-center gap-2.5 text-white/80">
+              <Clock className="w-4 h-4 text-brand shrink-0" /> Mon – Sat · 9:30 AM – 6:30 PM
+            </li>
+            <li className="flex items-center gap-2.5 pt-1">
+              <MessageCircle className="w-4 h-4 text-brand shrink-0" />
+              <a
+                href="https://wa.me/918700515288"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline font-bold text-accent-yellow"
+              >
+                WhatsApp Desk (24x7 Assistance)
+              </a>
+            </li>
           </ul>
         </div>
       </div>
 
-
-
-      <div className="max-w-[1240px] mx-auto px-6 mt-14">
-        <div className="rounded-2xl border border-white/12 bg-white/[0.05] p-6 text-[13.5px] sm:text-[14px] leading-relaxed text-white/70 space-y-3">
-          <h6 className="text-white font-bold text-[14px] uppercase tracking-wider text-accent-yellow">Regulatory &amp; Transparency Disclosure</h6>
+      {/* Regulatory Disclosure Box */}
+      <div className="max-w-[1280px] mx-auto px-6 mt-12">
+        <div className="rounded-2xl border border-white/12 bg-white/[0.04] p-6 text-[13px] leading-relaxed text-white/70 space-y-3">
+          <h6 className="text-accent-yellow font-bold text-[13.5px] uppercase tracking-wider">
+            Regulatory &amp; Transparency Disclosure
+          </h6>
           <p>
-            <strong className="text-white">Insure Audit Expert</strong> is a brand owned and managed by <strong className="text-white">Alxsure Tech Hub (OPC) Pvt. Ltd.</strong>
+            <strong className="text-white">Insure Audit Expert</strong> is a brand owned and managed by{" "}
+            <strong className="text-white">Alxsure Tech Hub (OPC) Pvt. Ltd.</strong>
           </p>
           <p>
-            <strong className="text-white">Insure Audit Expert</strong> is a technology, risk-audit and vehicle-safety service provider. We do not underwrite or issue insurance policies. All insurance products are arranged and issued through our licensed distribution partner <strong className="text-white">PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.)</strong> and other IRDAI-registered insurers and brokers. Policies are issued at <strong className="text-white">standard insurance rates</strong> as filed with and approved by IRDAI.
+            <strong className="text-white">Insure Audit Expert</strong> is a technology, risk-audit, and vehicle-safety service provider. We do not underwrite or issue insurance policies. All insurance products are arranged and issued through our licensed distribution partner{" "}
+            <strong className="text-white">PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.)</strong> and other IRDAI-registered insurers and brokers. Policies are issued at{" "}
+            <strong className="text-white">standard insurance rates</strong> as filed with and approved by IRDAI.
           </p>
           <p>
-            Our AI dashcam, live-tracking device and professional audit services are offered as a <strong className="text-white">Complimentary Tech Membership</strong> bundled with our risk-management program. This membership is a technology and safety service — it is not a rebate, cashback, cash discount or inducement of any kind, and no part of the insurance premium or commission is returned to the customer. Insurance is the subject matter of solicitation.
+            Our complimentary dashcam hardware and professional audit services are offered under a{" "}
+            <strong className="text-white">Complimentary Tech Membership</strong> bundled with our risk-management program. This membership is a technology and safety service — it is not a rebate, cashback, cash discount or inducement of any kind, and no part of the insurance premium or commission is returned to the customer. Insurance is the subject matter of solicitation. Software subscriptions and SIM/connectivity charges apply where disclosed.
           </p>
           <p>
-            Our <strong className="text-white">Insure Track</strong> mobile application is managed by <strong className="text-white">LustreX Technologies</strong>, who provides complete software infrastructure, technical maintenance, and ongoing assistance for any application or software-related queries and issues.
+            Our <strong className="text-white">Insure Track</strong> mobile application is managed by{" "}
+            <strong className="text-white">LustreX Technologies</strong>, who provides complete software infrastructure, technical maintenance, and ongoing assistance for any application or software-related queries.
           </p>
         </div>
       </div>
 
-      <div className="max-w-[1240px] mx-auto px-6 mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[13.5px] text-white/60">
+      {/* Bottom Bar */}
+      <div className="max-w-[1280px] mx-auto px-6 mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[13px] text-white/60">
         <span className="flex items-center gap-1.5">
           © {new Date().getFullYear()} Insure Audit Expert · Alxsure Tech Hub (OPC) Pvt. Ltd. · All rights reserved
           <Link
             to="/leads"
-            title="Internal Access (PIN Protected)"
+            title="Internal Staff Access (PIN Protected)"
             className="text-white/20 hover:text-white/60 transition ml-1 p-0.5 inline-flex items-center"
             aria-label="Staff Portal"
           >
@@ -200,7 +763,9 @@ export function SiteFooter() {
         <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-white/80">
           <Link to="/privacy-policy" className="hover:text-white transition font-medium hover:underline underline-offset-4">Privacy Policy</Link>
           <span>·</span>
-          <Link to="/support" className="hover:text-white transition font-medium hover:underline underline-offset-4">Support</Link>
+          <Link to="/support" className="hover:text-white transition font-medium hover:underline underline-offset-4">Support Helpdesk</Link>
+          <span>·</span>
+          <Link to="/claim-assistance" className="hover:text-white transition font-medium hover:underline underline-offset-4">Claim Assistance</Link>
           <span>·</span>
           <Link to="/contact" className="hover:text-white transition font-medium hover:underline underline-offset-4">Contact Us</Link>
         </div>
@@ -227,9 +792,9 @@ export function BackToTop() {
       type="button"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Back to top"
-      className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-night/90 backdrop-blur text-white grid place-items-center shadow-2xl hover:bg-brand active:scale-95 transition-all z-40"
+      className="fixed bottom-6 right-6 w-11 h-11 rounded-full bg-night/90 backdrop-blur text-white grid place-items-center shadow-2xl hover:bg-brand active:scale-95 transition-all z-40 cursor-pointer"
     >
-      <ChevronUp className="w-5 h-5"/>
+      <ChevronUp className="w-5 h-5" />
     </button>
   );
 }

@@ -9,15 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TrackingSolutionsRouteImport } from './routes/tracking-solutions'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SchoolBusSafetyRouteImport } from './routes/school-bus-safety'
 import { Route as RiskAuditRouteImport } from './routes/risk-audit'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as MsmeInsuranceRouteImport } from './routes/msme-insurance'
+import { Route as MotorInsuranceRouteImport } from './routes/motor-insurance'
 import { Route as LeadsRouteImport } from './routes/leads'
 import { Route as InsuranceRouteImport } from './routes/insurance'
+import { Route as HealthInsuranceRouteImport } from './routes/health-insurance'
 import { Route as FleetSafetyRouteImport } from './routes/fleet-safety'
+import { Route as DevicesRouteImport } from './routes/devices'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ClaimAssistanceRouteImport } from './routes/claim-assistance'
 import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as AiDashcamTrackingRouteImport } from './routes/ai-dashcam-tracking'
 import { Route as AboutRouteImport } from './routes/about'
@@ -25,6 +31,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogsIndexRouteImport } from './routes/blogs.index'
 import { Route as BlogsSlugRouteImport } from './routes/blogs.$slug'
 
+const TrackingSolutionsRoute = TrackingSolutionsRouteImport.update({
+  id: '/tracking-solutions',
+  path: '/tracking-solutions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SupportRoute = SupportRouteImport.update({
   id: '/support',
   path: '/support',
@@ -50,6 +61,16 @@ const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MsmeInsuranceRoute = MsmeInsuranceRouteImport.update({
+  id: '/msme-insurance',
+  path: '/msme-insurance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MotorInsuranceRoute = MotorInsuranceRouteImport.update({
+  id: '/motor-insurance',
+  path: '/motor-insurance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LeadsRoute = LeadsRouteImport.update({
   id: '/leads',
   path: '/leads',
@@ -60,14 +81,29 @@ const InsuranceRoute = InsuranceRouteImport.update({
   path: '/insurance',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HealthInsuranceRoute = HealthInsuranceRouteImport.update({
+  id: '/health-insurance',
+  path: '/health-insurance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FleetSafetyRoute = FleetSafetyRouteImport.update({
   id: '/fleet-safety',
   path: '/fleet-safety',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DevicesRoute = DevicesRouteImport.update({
+  id: '/devices',
+  path: '/devices',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClaimAssistanceRoute = ClaimAssistanceRouteImport.update({
+  id: '/claim-assistance',
+  path: '/claim-assistance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogsRoute = BlogsRouteImport.update({
@@ -106,15 +142,21 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/ai-dashcam-tracking': typeof AiDashcamTrackingRoute
   '/blogs': typeof BlogsRouteWithChildren
+  '/claim-assistance': typeof ClaimAssistanceRoute
   '/contact': typeof ContactRoute
+  '/devices': typeof DevicesRoute
   '/fleet-safety': typeof FleetSafetyRoute
+  '/health-insurance': typeof HealthInsuranceRoute
   '/insurance': typeof InsuranceRoute
   '/leads': typeof LeadsRoute
+  '/motor-insurance': typeof MotorInsuranceRoute
+  '/msme-insurance': typeof MsmeInsuranceRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/risk-audit': typeof RiskAuditRoute
   '/school-bus-safety': typeof SchoolBusSafetyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/support': typeof SupportRoute
+  '/tracking-solutions': typeof TrackingSolutionsRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/blogs/': typeof BlogsIndexRoute
 }
@@ -122,15 +164,21 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/ai-dashcam-tracking': typeof AiDashcamTrackingRoute
+  '/claim-assistance': typeof ClaimAssistanceRoute
   '/contact': typeof ContactRoute
+  '/devices': typeof DevicesRoute
   '/fleet-safety': typeof FleetSafetyRoute
+  '/health-insurance': typeof HealthInsuranceRoute
   '/insurance': typeof InsuranceRoute
   '/leads': typeof LeadsRoute
+  '/motor-insurance': typeof MotorInsuranceRoute
+  '/msme-insurance': typeof MsmeInsuranceRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/risk-audit': typeof RiskAuditRoute
   '/school-bus-safety': typeof SchoolBusSafetyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/support': typeof SupportRoute
+  '/tracking-solutions': typeof TrackingSolutionsRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/blogs': typeof BlogsIndexRoute
 }
@@ -140,15 +188,21 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/ai-dashcam-tracking': typeof AiDashcamTrackingRoute
   '/blogs': typeof BlogsRouteWithChildren
+  '/claim-assistance': typeof ClaimAssistanceRoute
   '/contact': typeof ContactRoute
+  '/devices': typeof DevicesRoute
   '/fleet-safety': typeof FleetSafetyRoute
+  '/health-insurance': typeof HealthInsuranceRoute
   '/insurance': typeof InsuranceRoute
   '/leads': typeof LeadsRoute
+  '/motor-insurance': typeof MotorInsuranceRoute
+  '/msme-insurance': typeof MsmeInsuranceRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/risk-audit': typeof RiskAuditRoute
   '/school-bus-safety': typeof SchoolBusSafetyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/support': typeof SupportRoute
+  '/tracking-solutions': typeof TrackingSolutionsRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/blogs/': typeof BlogsIndexRoute
 }
@@ -159,15 +213,21 @@ export interface FileRouteTypes {
     | '/about'
     | '/ai-dashcam-tracking'
     | '/blogs'
+    | '/claim-assistance'
     | '/contact'
+    | '/devices'
     | '/fleet-safety'
+    | '/health-insurance'
     | '/insurance'
     | '/leads'
+    | '/motor-insurance'
+    | '/msme-insurance'
     | '/privacy-policy'
     | '/risk-audit'
     | '/school-bus-safety'
     | '/sitemap.xml'
     | '/support'
+    | '/tracking-solutions'
     | '/blogs/$slug'
     | '/blogs/'
   fileRoutesByTo: FileRoutesByTo
@@ -175,15 +235,21 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/ai-dashcam-tracking'
+    | '/claim-assistance'
     | '/contact'
+    | '/devices'
     | '/fleet-safety'
+    | '/health-insurance'
     | '/insurance'
     | '/leads'
+    | '/motor-insurance'
+    | '/msme-insurance'
     | '/privacy-policy'
     | '/risk-audit'
     | '/school-bus-safety'
     | '/sitemap.xml'
     | '/support'
+    | '/tracking-solutions'
     | '/blogs/$slug'
     | '/blogs'
   id:
@@ -192,15 +258,21 @@ export interface FileRouteTypes {
     | '/about'
     | '/ai-dashcam-tracking'
     | '/blogs'
+    | '/claim-assistance'
     | '/contact'
+    | '/devices'
     | '/fleet-safety'
+    | '/health-insurance'
     | '/insurance'
     | '/leads'
+    | '/motor-insurance'
+    | '/msme-insurance'
     | '/privacy-policy'
     | '/risk-audit'
     | '/school-bus-safety'
     | '/sitemap.xml'
     | '/support'
+    | '/tracking-solutions'
     | '/blogs/$slug'
     | '/blogs/'
   fileRoutesById: FileRoutesById
@@ -210,19 +282,32 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AiDashcamTrackingRoute: typeof AiDashcamTrackingRoute
   BlogsRoute: typeof BlogsRouteWithChildren
+  ClaimAssistanceRoute: typeof ClaimAssistanceRoute
   ContactRoute: typeof ContactRoute
+  DevicesRoute: typeof DevicesRoute
   FleetSafetyRoute: typeof FleetSafetyRoute
+  HealthInsuranceRoute: typeof HealthInsuranceRoute
   InsuranceRoute: typeof InsuranceRoute
   LeadsRoute: typeof LeadsRoute
+  MotorInsuranceRoute: typeof MotorInsuranceRoute
+  MsmeInsuranceRoute: typeof MsmeInsuranceRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RiskAuditRoute: typeof RiskAuditRoute
   SchoolBusSafetyRoute: typeof SchoolBusSafetyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SupportRoute: typeof SupportRoute
+  TrackingSolutionsRoute: typeof TrackingSolutionsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tracking-solutions': {
+      id: '/tracking-solutions'
+      path: '/tracking-solutions'
+      fullPath: '/tracking-solutions'
+      preLoaderRoute: typeof TrackingSolutionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/support': {
       id: '/support'
       path: '/support'
@@ -258,6 +343,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/msme-insurance': {
+      id: '/msme-insurance'
+      path: '/msme-insurance'
+      fullPath: '/msme-insurance'
+      preLoaderRoute: typeof MsmeInsuranceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motor-insurance': {
+      id: '/motor-insurance'
+      path: '/motor-insurance'
+      fullPath: '/motor-insurance'
+      preLoaderRoute: typeof MotorInsuranceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/leads': {
       id: '/leads'
       path: '/leads'
@@ -272,6 +371,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsuranceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/health-insurance': {
+      id: '/health-insurance'
+      path: '/health-insurance'
+      fullPath: '/health-insurance'
+      preLoaderRoute: typeof HealthInsuranceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fleet-safety': {
       id: '/fleet-safety'
       path: '/fleet-safety'
@@ -279,11 +385,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FleetSafetyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/devices': {
+      id: '/devices'
+      path: '/devices'
+      fullPath: '/devices'
+      preLoaderRoute: typeof DevicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/claim-assistance': {
+      id: '/claim-assistance'
+      path: '/claim-assistance'
+      fullPath: '/claim-assistance'
+      preLoaderRoute: typeof ClaimAssistanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blogs': {
@@ -348,15 +468,21 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AiDashcamTrackingRoute: AiDashcamTrackingRoute,
   BlogsRoute: BlogsRouteWithChildren,
+  ClaimAssistanceRoute: ClaimAssistanceRoute,
   ContactRoute: ContactRoute,
+  DevicesRoute: DevicesRoute,
   FleetSafetyRoute: FleetSafetyRoute,
+  HealthInsuranceRoute: HealthInsuranceRoute,
   InsuranceRoute: InsuranceRoute,
   LeadsRoute: LeadsRoute,
+  MotorInsuranceRoute: MotorInsuranceRoute,
+  MsmeInsuranceRoute: MsmeInsuranceRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RiskAuditRoute: RiskAuditRoute,
   SchoolBusSafetyRoute: SchoolBusSafetyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SupportRoute: SupportRoute,
+  TrackingSolutionsRoute: TrackingSolutionsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
