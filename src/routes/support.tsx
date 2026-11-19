@@ -89,8 +89,8 @@ const SUPPORT_CHANNELS = [
     hinglishDesc:
       "Senior policy auditor aur legal claim specialists se seedha phone par baat karke salaah lein.",
     timing: "Mon – Sat · 9:30 AM to 6:30 PM",
-    actionText: "08065604804 / 08065604805",
-    actionHref: "tel:08065604804",
+    actionText: "7042733002 / 7042733005 (Helpline: 08065604804)",
+    actionHref: "tel:7042733002",
     primary: false,
   },
   {
@@ -139,7 +139,7 @@ const FAQS = [
   },
   {
     q: "Insure Audit Expert aur PBPartners ka aapas mein kya relation hai?",
-    a: "Insure Audit Expert ek technology aur risk audit firm hai (Alxsure Tech Hub (OPC) Pvt. Ltd.). Hamare customers ko IRDAI approved standard rates par policies dilwane ke liye hum PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.) ke authorized channel partner ke roop mein operate karte hain.",
+    a: "Insure Audit Expert ek technology aur risk audit firm hai (Alxsure Tech Hub (OPC) Pvt. Ltd.). Hamare customers ko IRDAI approved standard rates par policies dilwane ke liye hum PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.) ke authorized POSP channel partner (POS Code: IP461548) ke roop mein operate karte hain. Telematics hardware aur technology services Alxsure Tech Hub (OPC) Pvt Ltd dwara independently offer ki jaati hain without any rebate or premium inducement (Section 41 compliant).",
   },
   {
     q: "Commercial vehicle ya School Bus fleet ka audit kaise karwayein?",
@@ -240,7 +240,7 @@ function SupportPage() {
               { title: "15 Min Response", desc: "WhatsApp initial reply SLA" },
               { title: "24-Hour Audit", desc: "Quick policy gap report" },
               { title: "Dedicated RM", desc: "Personal case manager" },
-              { title: "Zero Service Fee", desc: "Basic audit 100% complimentary" },
+              { title: "Zero Service Fee", desc: "Initial risk audit free of cost" },
             ].map((item, idx) => (
               <div
                 key={idx}

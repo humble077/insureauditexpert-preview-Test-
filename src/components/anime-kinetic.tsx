@@ -327,7 +327,7 @@ export function IncidentShockwaveSimulator({ className = "" }: { className?: str
                     <strong className="text-white block font-mono text-[13px] mb-1">
                       Continuous Overwrite Protection Ready
                     </strong>
-                    The complimentary dashcam hardware monitors 3-axis deceleration 100 times per second. In any collision or harsh impact, footage is automatically preserved from overwrite.
+                    The AI dashcam hardware monitors 3-axis deceleration 100 times per second. In any collision or harsh impact, footage is automatically preserved from overwrite.
                   </div>
                 )}
               </div>

@@ -217,7 +217,7 @@ export function MastheadHero() {
               <span>
                 No spam calls. Prefer a review first?{" "}
                 <Link to="/contact" className="text-brand font-bold hover:underline">
-                  Book the complimentary policy audit
+                  Book an independent policy audit
                 </Link>
                 .
               </span>

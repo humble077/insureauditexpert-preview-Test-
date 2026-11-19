@@ -53,7 +53,7 @@ const DEVICE_CATALOG = [
     desc: "Forward-facing and dual-channel high-definition cameras with built-in G-sensor collision locking to safeguard video proof during road accidents and traffic disputes.",
     keyPoints: [
       "Objective collision footage for surveyor assessment",
-      "Available complimentary under eligible motor insurance offers, or purchased standalone",
+      "Available as an independent technology add-on or purchased standalone from Alxsure Tech Hub",
       "Applicable software subscription & SIM connectivity apply for cloud backups and live viewing",
       "Zero wire-cutting installation preserving manufacturer vehicle warranty",
     ],

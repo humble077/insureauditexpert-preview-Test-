@@ -15,7 +15,7 @@ export const Route = createFileRoute("/insurance")({
   head: () => ({
     meta: [
       { title: "Buy Car, Commercial Vehicle & Health Insurance | Insure Audit Expert" },
-      { name: "description", content: "Compare and buy motor, commercial vehicle, school bus, fleet and health insurance at standard IRDAI-approved rates through our licensed partners — and get an AI dashcam, live tracking and a professional policy audit as a complimentary tech membership." },
+      { name: "description", content: "Compare and buy motor, commercial vehicle, school bus, fleet and health insurance at standard IRDAI-approved rates through licensed partner PBPartners — with optional independent AI dashcams, live tracking and professional policy audits." },
       { name: "keywords", content: "buy car insurance India, commercial vehicle insurance, taxi insurance, school bus insurance, fleet insurance India, health insurance plans, insurance with dashcam, standard insurance rates" },
       { property: "og:title", content: "Insurance Plans with a Built-In Safety Program | Insure Audit Expert" },
       { property: "og:description", content: "Motor, fleet, school bus and health insurance at standard rates — plus AI dashcam, live tracking and a policy audit." },
@@ -114,7 +114,7 @@ function InsurancePage() {
               Insurance jo sirf paper nahi — <span className="italic text-brand">proof</span> ke saath aata hai.
             </h1>
             <p className="mt-5 text-[17px] text-ink/70 leading-relaxed max-w-xl">
-              Car, commercial vehicle, school bus, fleet aur health cover — sab standard insurance rates par, hamare licensed distribution partners ke through. Saath mein complimentary tech membership: AI dashcam, live tracking aur professional policy audit, taaki claim ke waqt aapke paas evidence ho.
+              Car, commercial vehicle, school bus, fleet aur health cover — sab standard IRDAI insurance rates par, hamare licensed partner PBPartners ke through. Saath mein optional independent telemetry add-on: AI dashcam, live tracking aur professional policy audit, taaki claim ke waqt aapke paas objective evidence ho.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <button
@@ -215,8 +215,8 @@ function InsurancePage() {
               </div>
             ))}
           </div>
-          <p className="mt-10 text-[12.5px] text-ink/50 leading-relaxed">
-            Insure Audit Expert does not underwrite or issue insurance. All policies are arranged and issued through our licensed distribution partner PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.) and other IRDAI-registered insurers and brokers, at standard insurance rates. The dashcam, tracking device and audit are a Complimentary Tech Membership — a technology and safety service, not a rebate, cashback or discount. Insurance is the subject matter of solicitation.
+          <p className="mt-10 text-[12.5px] text-ink/60 leading-relaxed">
+            Insurance is the subject matter of solicitation. All motor, health, and MSME insurance policies are solicited and serviced through our licensed partner PBPartners (Policybazaar Insurance Brokers Private Limited). Insure Audit Expert operates as an authorized POSP channel partner (POS Code: IP461548). Telematics devices, AI dashcams, and fleet tracking software are independent technology products offered by Alxsure Tech Hub (OPC) Pvt Ltd under independent commercial terms in compliance with Section 41 (Prohibition of Rebates) of the Insurance Act, 1938.
           </p>
         </div>
       </section>

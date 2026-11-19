@@ -296,7 +296,7 @@ export function ScrollCinema({
       <div className="max-w-[1240px] mx-auto px-4 sm:px-6 w-full relative z-10 mt-2 sm:mt-4">
         <div className="bg-white/95 backdrop-blur-md text-night rounded-xl sm:rounded-full px-3.5 sm:px-8 py-2 sm:py-3 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3 shadow-2xl border border-white/40">
           <span className="text-[11.5px] sm:text-[14px] font-bold text-night text-center sm:text-left truncate">
-            Complimentary AI Dashcam &amp; GPS with Safety Membership
+            AI Dashcam &amp; Live GPS Vehicle Telemetry Add-On
           </span>
           <Link
             to={ctaTo as "/ai-dashcam-tracking"}

@@ -316,7 +316,7 @@ export function QuoteDialog() {
                 <strong>{info.label}:</strong> {info.description}
                 {Boolean(getPbUrl(category)) ? (
                   <span className="block text-[11px] text-brand font-semibold mt-0.5">
-                    *Instant comparison across 20+ insurers via our licensed distribution partner PBPartners.
+                    *Instant comparison across 20+ insurers via our licensed partner PBPartners (Policybazaar) · POS Code: IP461548.
                   </span>
                 ) : (
                   <span className="block text-[11px] text-amber-700 font-semibold mt-0.5">
@@ -423,7 +423,7 @@ export function QuoteDialog() {
 
               <div className="text-center pt-1">
                 <span className="text-[11px] text-ink/50 inline-flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-brand" /> IRDAI-Registered Distribution Partner PBPartners (Policybazaar)
+                  <ShieldCheck className="w-3.5 h-3.5 text-brand" /> Authorized POSP Channel Partner under PBPartners (Policybazaar) | POS Code: IP461548
                 </span>
               </div>
             </form>

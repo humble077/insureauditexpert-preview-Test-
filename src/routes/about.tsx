@@ -50,7 +50,7 @@ function AboutPage() {
               Insure Audit Expert ek Risk Management &amp; Vehicle Safety brand hai, jise <strong>Alxsure Tech Hub (OPC) Pvt. Ltd.</strong> own aur manage karti hai. New Delhi headquartered, hum individuals, fleets aur schools ko professional policy audit, AI dashcam aur smart live tracking ke through complete clarity aur control dete hain.
             </p>
             <p className="mt-4 text-[15.5px] text-ink/65 leading-relaxed">
-              Hum insurance underwrite ya issue nahi karte. Policies hamare licensed distribution partner PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.) aur anya IRDAI-registered insurers/brokers ke through, standard insurance rates par arrange hoti hain. Hamari technology aur audit services Complimentary Tech Membership ke roop mein di jaati hain.
+              Hum insurance underwrite ya issue nahi karte. All policies are arranged through our licensed partner PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.) as an authorized POSP Channel Partner (POS Code: IP461548) at standard IRDAI-approved rates. Hamari technology aur telematics hardware services Alxsure Tech Hub (OPC) Pvt. Ltd. dwara independently offer ki jaati hain without any rebate or premium inducement (Section 41 compliant).
             </p>
           </div>
 

@@ -107,14 +107,14 @@ export function ClaimEvidenceSlider({ className = "" }: { className?: string }) 
         onPointerDown={handlePointerDown}
         className="relative h-[420px] sm:h-[460px] rounded-3xl overflow-hidden border-2 border-ink/10 shadow-xl cursor-ew-resize select-none bg-night"
       >
-        {/* RIGHT LAYER: With Insure Audit Expert Complimentary Dashcam (Evidence) */}
+        {/* RIGHT LAYER: With Insure Audit Expert AI Dashcam (Evidence) */}
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-night to-night-deep text-white p-6 sm:p-8 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-400">
-                  With Complimentary Dashcam Evidence
+                  With AI Dashcam Evidence
                 </span>
               </div>
               <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
@@ -390,7 +390,7 @@ const HARDWARE_MODELS = [
   {
     id: "dashcam",
     name: "AI Dual-Facing Dashcam",
-    badge: "Complimentary Hardware on Eligible Policies",
+    badge: "Independent Technology Add-On by Alxsure",
     description: "Full-HD dual-lens camera with internal G-sensor lock and extreme-heat supercapacitors.",
     hotspots: [
       {
@@ -866,7 +866,7 @@ function computePolicyAudit(
           risk: "50% Contributory Negligence Deduction",
           riskBadgeColor: "amber",
           note: "In night highway collisions involving smaller passenger vehicles, the heavier commercial vehicle is routinely blamed by surveyors without objective proof.",
-          solution: "Deploy our complimentary dashcam with G-sensor video telemetry to prove exact lane discipline and right-of-way.",
+          solution: "Deploy an AI dashcam with G-sensor video telemetry to prove exact lane discipline and right-of-way.",
         },
       ],
     };
@@ -990,7 +990,7 @@ function computePolicyAudit(
           risk: "50% Contributory Negligence Deduction",
           riskBadgeColor: "amber",
           note: "In intersection collisions, surveyors allocate 50% mutual blame if third party disputes responsibility, costing you half your repair settlement and wiping out your NCB.",
-          solution: "Install our complimentary dashcam to provide objective 1080p speed-stamped video evidence.",
+          solution: "Install an AI dashcam to provide objective 1080p speed-stamped video evidence.",
         },
       ],
     };
@@ -1031,7 +1031,7 @@ function computePolicyAudit(
           risk: "30–45 Days Claim Investigation Delay",
           riskBadgeColor: "amber",
           note: "Without dashcam footage, surveyors initiate third-party cross-investigations that delay garage repairs for weeks.",
-          solution: "Deploy our complimentary dashcam for instantaneous claim clearance in 48 hours.",
+          solution: "Deploy an AI dashcam to expedite surveyor claim inspection with objective recorded proof.",
         },
       ],
     };
@@ -1072,7 +1072,7 @@ function computePolicyAudit(
         risk: "Severe Own-Damage Deduction",
         riskBadgeColor: "amber",
         note: "Third-party claimants target older cars, assuming lack of evidence. Full-HD dashcam footage is essential to establish absolute innocence.",
-        solution: "Install our complimentary dashcam for objective tamper-proof proof.",
+        solution: "Install an AI dashcam for objective tamper-resistant proof.",
       },
     ],
   };

@@ -126,10 +126,11 @@ function ContactPage() {
 
 
             <div className="mt-10 grid sm:grid-cols-2 gap-4">
-              <a href="tel:08065604804" className="bg-white/10 border border-white/15 rounded-2xl p-5 hover:bg-white/15 transition">
+              <a href="tel:7042733002" className="bg-white/10 border border-white/15 rounded-2xl p-5 hover:bg-white/15 transition">
                 <Phone className="w-5 h-5 text-accent-yellow"/>
-                <div className="mt-3 text-[12px] font-bold uppercase tracking-wider text-white/60">Phone</div>
-                <div className="font-bold text-white text-sm">08065604804 / 08065604805</div>
+                <div className="mt-3 text-[12px] font-bold uppercase tracking-wider text-white/60">Primary Business Phone</div>
+                <div className="font-bold text-white text-sm">7042733002 / 7042733005</div>
+                <div className="text-[11px] text-white/60 mt-0.5">Helpline: 08065604804 / 08065604805</div>
               </a>
               <a href="mailto:info@insureauditexpert.com" className="bg-white/10 border border-white/15 rounded-2xl p-5 hover:bg-white/15 transition">
                 <Mail className="w-5 h-5 text-accent-yellow"/>

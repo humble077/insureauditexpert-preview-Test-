@@ -128,8 +128,8 @@ const POLICY_SECTIONS = [
       "Aapka data hamare paas 100% surakshit hai. Hum transparency aur trust ke sath kaam karte hain:",
     points: [
       {
-        label: "Channel Partner Disclosure",
-        desc: "PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.) ke authorized Channel Partner ke roop mein, jab aap 'Buy Now' links use karte hain toh relevant policy data unke secure portal ke madhyam se process hota hai.",
+        label: "POSP Channel Partner Disclosure",
+        desc: "PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.) ke authorized POSP Channel Partner (POS Code: IP461548) ke roop mein, jab aap 'Buy Now' links use karte hain toh relevant policy data unke secure portal ke madhyam se process hota hai.",
       },
       {
         label: "Regulatory & Legal Sharing (Kanooni Jarurat Par)",
@@ -679,13 +679,16 @@ function PrivacyPolicyPage() {
                     </div>
                     <p className="text-xs text-white/70 mb-2">Mon - Sat: 9:30 AM to 6:30 PM</p>
                     <div className="text-sm font-extrabold text-white">
-                      <a href="tel:08065604804" className="hover:text-accent-yellow transition">
-                        08065604804
+                      <a href="tel:7042733002" className="hover:text-accent-yellow transition">
+                        7042733002
                       </a>{" "}
                       /{" "}
-                      <a href="tel:08065604805" className="hover:text-accent-yellow transition">
-                        08065604805
+                      <a href="tel:7042733005" className="hover:text-accent-yellow transition">
+                        7042733005
                       </a>
+                      <div className="text-xs text-white/60 font-normal mt-1">
+                        Helpline: 08065604804 / 08065604805
+                      </div>
                     </div>
                   </div>
 

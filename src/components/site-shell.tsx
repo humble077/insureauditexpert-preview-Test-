@@ -65,30 +65,37 @@ export function SiteHeader() {
       <CursorGlow />
 
       {/* Top Banner with Verified Contact & Disclaimers */}
-      <div className="bg-night text-white text-[12px] sm:text-[13px] border-b border-white/10">
-        <div className="max-w-[1280px] mx-auto px-6 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div className="flex items-center gap-3 text-white/80">
+      <div className="bg-night text-white text-[11.5px] sm:text-[12.5px] border-b border-white/10">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-2 flex flex-col xl:flex-row items-center justify-between gap-2 text-center xl:text-left">
+          <div className="flex flex-wrap items-center justify-center xl:justify-start gap-2 text-white/85">
             <span className="inline-flex items-center gap-1.5 text-accent-yellow font-bold">
-              <Sparkles className="w-3.5 h-3.5" /> Smarter Insurance · Safer Vehicles · Smarter Fleets
+              <ShieldCheck className="w-3.5 h-3.5" /> Authorized POSP Channel Partner under PBPartners (Policybazaar Insurance Brokers Pvt Ltd) | POS Code: IP461548
             </span>
             <span className="hidden md:inline text-white/30">|</span>
-            <span className="hidden md:inline text-white/70">IRDAI-Approved Standard Rates</span>
+            <span className="hidden md:inline text-white/70">IRDAI Standard Rates · Section 41 Compliant</span>
           </div>
-          <div className="flex items-center gap-4 text-xs font-semibold">
+          <div className="flex flex-wrap items-center justify-center gap-3 text-xs font-semibold">
+            <a
+              href="tel:7042733002"
+              className="inline-flex items-center gap-1 text-white/95 hover:text-white transition"
+            >
+              <Phone className="w-3 h-3 text-brand" /> 7042733002 / 7042733005
+            </a>
+            <span className="text-white/30 hidden sm:inline">·</span>
             <a
               href="tel:08065604804"
-              className="inline-flex items-center gap-1 text-white/90 hover:text-white transition"
+              className="inline-flex items-center gap-1 text-white/75 hover:text-white transition hidden md:inline-flex"
             >
-              <Phone className="w-3 h-3 text-brand" /> 08065604804 / 08065604805
+              08065604804
             </a>
             <span className="text-white/30">·</span>
             <a
               href="https://wa.me/918700515288"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition"
+              className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition font-bold"
             >
-              <MessageCircle className="w-3 h-3" /> WhatsApp 24x7
+              <MessageCircle className="w-3 h-3" /> WhatsApp (+91 87005 15288)
             </a>
           </div>
         </div>
@@ -208,14 +215,14 @@ export function SiteHeader() {
                             search={{ tab: "with-dashcam" }}
                             className="block p-1.5 rounded-lg bg-accent-yellow/15 hover:bg-accent-yellow/25 text-night font-bold text-[12px]"
                           >
-                            ⭐ Motor + Dashcam Offer
+                            ⭐ Option A: Policy &amp; Telemetry Add-On
                           </Link>
                           <Link
                             to="/motor-insurance"
                             search={{ tab: "standard" }}
                             className="block p-1.5 rounded-lg hover:bg-cloud text-ink/70 text-[12px]"
                           >
-                            Standard Motor Policy
+                            Option B: Standard Motor Policy
                           </Link>
                         </div>
                       </div>
@@ -399,7 +406,7 @@ export function SiteHeader() {
                       search={{ device: "dashcam" }}
                       className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-cloud text-ink/80 hover:text-night font-medium"
                     >
-                      <Camera className="w-4 h-4 text-brand" /> Dashcams (Standalone or Bundled)
+                      <Camera className="w-4 h-4 text-brand" /> AI Dashcams &amp; Video Telematics
                     </Link>
                     <Link
                       to="/devices"
@@ -515,6 +522,7 @@ export function SiteHeader() {
           <div className="lg:hidden border-t border-ink/10 bg-white max-h-[85vh] overflow-y-auto px-6 py-5 space-y-4 animate-reveal shadow-xl">
             <Link
               to="/"
+              onClick={() => setMobileMenuOpen(false)}
               className="block text-base font-bold text-night hover:text-brand py-1"
             >
               Home
@@ -526,14 +534,14 @@ export function SiteHeader() {
                 Insurance Solutions
               </div>
               <div className="grid grid-cols-2 gap-2 text-[13px] pl-2 font-medium text-ink/80">
-                <Link to="/motor-insurance" search={{ tab: "private-car" }} className="py-1">Private Cars (PB)</Link>
-                <Link to="/motor-insurance" search={{ tab: "bike" }} className="py-1">Bikes (PB)</Link>
-                <Link to="/motor-insurance" search={{ tab: "commercial-vehicle" }} className="py-1">Commercial GCV (PB)</Link>
-                <Link to="/motor-insurance" search={{ tab: "truck" }} className="py-1">Trucks</Link>
-                <Link to="/motor-insurance" search={{ tab: "auto-taxi" }} className="py-1">Auto &amp; Taxi</Link>
-                <Link to="/motor-insurance" search={{ tab: "school-bus" }} className="py-1">School Buses</Link>
-                <Link to="/health-insurance" className="py-1 text-rose-600 font-bold">Health Insurance</Link>
-                <Link to="/msme-insurance" className="py-1 text-blue-700 font-bold">MSME Insurance</Link>
+                <Link to="/motor-insurance" search={{ tab: "private-car" }} onClick={() => setMobileMenuOpen(false)} className="py-1">Private Cars (PB)</Link>
+                <Link to="/motor-insurance" search={{ tab: "bike" }} onClick={() => setMobileMenuOpen(false)} className="py-1">Bikes (PB)</Link>
+                <Link to="/motor-insurance" search={{ tab: "commercial-vehicle" }} onClick={() => setMobileMenuOpen(false)} className="py-1">Commercial GCV (PB)</Link>
+                <Link to="/motor-insurance" search={{ tab: "truck" }} onClick={() => setMobileMenuOpen(false)} className="py-1">Trucks</Link>
+                <Link to="/motor-insurance" search={{ tab: "auto-taxi" }} onClick={() => setMobileMenuOpen(false)} className="py-1">Auto &amp; Taxi</Link>
+                <Link to="/motor-insurance" search={{ tab: "school-bus" }} onClick={() => setMobileMenuOpen(false)} className="py-1">School Buses</Link>
+                <Link to="/health-insurance" onClick={() => setMobileMenuOpen(false)} className="py-1 text-rose-600 font-bold">Health Insurance</Link>
+                <Link to="/msme-insurance" onClick={() => setMobileMenuOpen(false)} className="py-1 text-blue-700 font-bold">MSME Insurance</Link>
               </div>
             </div>
 
@@ -543,13 +551,14 @@ export function SiteHeader() {
                 Tracking Software
               </div>
               <div className="space-y-2 pl-2 text-[13.5px]">
-                <Link to="/tracking-solutions" className="block text-ink/80 hover:text-brand font-medium">
+                <Link to="/tracking-solutions" onClick={() => setMobileMenuOpen(false)} className="block text-ink/80 hover:text-brand font-medium">
                   Fleet Tracking Platform
                 </Link>
                 <a
                   href="https://insureauditexpert.tech/command-center"
                   target="_blank"
                   rel="noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
                   className="block text-brand font-bold"
                 >
                   Access Command Center ↗
@@ -573,22 +582,22 @@ export function SiteHeader() {
                 Devices
               </div>
               <div className="grid grid-cols-2 gap-2 text-[13px] pl-2 font-medium text-ink/80">
-                <Link to="/devices" search={{ device: "dashcam" }}>Dashcams</Link>
-                <Link to="/devices" search={{ device: "ais-140" }}>AIS-140 GPS</Link>
-                <Link to="/devices" search={{ device: "e-lock" }}>E-Locks</Link>
-                <Link to="/devices" search={{ device: "heat-sensor" }}>Heat Sensors</Link>
-                <Link to="/devices" search={{ device: "fuel-sensor" }}>Fuel Sensors</Link>
-                <Link to="/devices" search={{ device: "gps-id-card" }}>GPS ID Cards</Link>
+                <Link to="/devices" search={{ device: "dashcam" }} onClick={() => setMobileMenuOpen(false)}>Dashcams</Link>
+                <Link to="/devices" search={{ device: "ais-140" }} onClick={() => setMobileMenuOpen(false)}>AIS-140 GPS</Link>
+                <Link to="/devices" search={{ device: "e-lock" }} onClick={() => setMobileMenuOpen(false)}>E-Locks</Link>
+                <Link to="/devices" search={{ device: "heat-sensor" }} onClick={() => setMobileMenuOpen(false)}>Heat Sensors</Link>
+                <Link to="/devices" search={{ device: "fuel-sensor" }} onClick={() => setMobileMenuOpen(false)}>Fuel Sensors</Link>
+                <Link to="/devices" search={{ device: "gps-id-card" }} onClick={() => setMobileMenuOpen(false)}>GPS ID Cards</Link>
               </div>
             </div>
 
             {/* Other Mobile Links */}
             <div className="space-y-2 border-t border-ink/8 pt-3 text-[14.5px] font-semibold text-night">
-              <Link to="/claim-assistance" className="block py-1 hover:text-brand">Claim Assistance</Link>
-              <Link to="/about" className="block py-1 hover:text-brand">About Us</Link>
-              <Link to="/blogs" className="block py-1 hover:text-brand">Resources / Blogs</Link>
-              <Link to="/contact" className="block py-1 hover:text-brand">Contact Us</Link>
-              <Link to="/support" className="block py-1 hover:text-brand">Support Helpdesk</Link>
+              <Link to="/claim-assistance" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-brand">Claim Assistance</Link>
+              <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-brand">About Us</Link>
+              <Link to="/blogs" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-brand">Resources / Blogs</Link>
+              <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-brand">Contact Us</Link>
+              <Link to="/support" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-brand">Support Helpdesk</Link>
             </div>
 
             <div className="pt-3 border-t border-ink/8">
@@ -615,8 +624,18 @@ export function SiteFooter() {
     <footer className="bg-night text-white/80 pt-16 pb-12">
       <div className="max-w-[1280px] mx-auto px-6 grid md:grid-cols-4 gap-10">
         <div>
-          <div className="mb-4 inline-block bg-white/95 rounded-xl p-3 shadow-xs">
-            <img src={logoUrl} alt="Insure Audit Expert" className="h-12 w-auto" />
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-12 h-12 rounded-full bg-white p-1 shadow-md shrink-0 flex items-center justify-center">
+              <img src={logoUrl} alt="Insure Audit Expert" className="w-full h-full object-contain rounded-full" />
+            </div>
+            <div>
+              <div className="text-white font-extrabold text-[17px] leading-tight tracking-tight">
+                Insure Audit Expert
+              </div>
+              <div className="text-accent-yellow text-[10.5px] font-bold tracking-wide uppercase mt-0.5">
+                Audit · Safety · Telematics
+              </div>
+            </div>
           </div>
           <p className="text-[14px] font-bold text-accent-yellow tracking-wide">
             Smarter Insurance. Safer Vehicles. Smarter Fleets.
@@ -691,11 +710,18 @@ export function SiteFooter() {
                 B-5/55, Safdarjung Enclave, New Delhi - 110029
               </a>
             </li>
-            <li className="flex items-center gap-2.5">
-              <Phone className="w-4 h-4 text-brand shrink-0" />
-              <a href="tel:08065604804" className="text-white/80 hover:text-white transition">
-                08065604804 / 08065604805
-              </a>
+            <li className="flex items-start gap-2.5">
+              <Phone className="w-4 h-4 text-brand shrink-0 mt-1" />
+              <div>
+                <div className="text-white font-bold">
+                  <a href="tel:7042733002" className="hover:text-accent-yellow transition">7042733002</a> /{" "}
+                  <a href="tel:7042733005" className="hover:text-accent-yellow transition">7042733005</a>
+                </div>
+                <div className="text-white/60 text-xs mt-0.5">
+                  Helpline: <a href="tel:08065604804" className="hover:text-white transition">08065604804</a> /{" "}
+                  <a href="tel:08065604805" className="hover:text-white transition">08065604805</a>
+                </div>
+              </div>
             </li>
             <li className="flex items-center gap-2.5">
               <Mail className="w-4 h-4 text-brand shrink-0" />
@@ -714,31 +740,27 @@ export function SiteFooter() {
                 rel="noreferrer"
                 className="hover:underline font-bold text-accent-yellow"
               >
-                WhatsApp Desk (24x7 Assistance)
+                WhatsApp Desk (24x7 Assistance): +91 87005 15288
               </a>
             </li>
           </ul>
         </div>
       </div>
 
-      {/* Regulatory Disclosure Box */}
+      {/* Mandatory Statutory Disclaimer & Regulatory Disclosure Box */}
       <div className="max-w-[1280px] mx-auto px-6 mt-12">
-        <div className="rounded-2xl border border-white/12 bg-white/[0.04] p-6 text-[13px] leading-relaxed text-white/70 space-y-3">
-          <h6 className="text-accent-yellow font-bold text-[13.5px] uppercase tracking-wider">
-            Regulatory &amp; Transparency Disclosure
-          </h6>
-          <p>
-            <strong className="text-white">Insure Audit Expert</strong> is a brand owned and managed by{" "}
-            <strong className="text-white">Alxsure Tech Hub (OPC) Pvt. Ltd.</strong>
+        <div className="rounded-2xl border border-white/15 bg-white/[0.04] p-6 text-[13px] leading-relaxed text-white/75 space-y-3.5 shadow-sm">
+          <div className="flex items-center gap-2 text-accent-yellow font-bold text-[13.5px] uppercase tracking-wider">
+            <ShieldCheck className="w-4 h-4 text-accent-yellow" /> Statutory Disclaimer &amp; Regulatory Disclosure
+          </div>
+          <p className="font-semibold text-white leading-relaxed text-[13.5px]">
+            Insurance is the subject matter of solicitation. All motor, health, and MSME insurance policies are solicited and serviced through our licensed partner PBPartners (Policybazaar Insurance Brokers Private Limited). Insure Audit Expert operates as an authorized POSP channel partner (POS Code: IP461548). Telematics devices, AI dashcams, and fleet tracking software are independent technology products offered by Alxsure Tech Hub (OPC) Pvt Ltd.
           </p>
           <p>
-            <strong className="text-white">Insure Audit Expert</strong> is a technology, risk-audit, and vehicle-safety service provider. We do not underwrite or issue insurance policies. All insurance products are arranged and issued through our licensed distribution partner{" "}
-            <strong className="text-white">PBPartners (Policybazaar Insurance Brokers Pvt. Ltd.)</strong> and other IRDAI-registered insurers and brokers. Policies are issued at{" "}
-            <strong className="text-white">standard insurance rates</strong> as filed with and approved by IRDAI.
+            <strong className="text-white">Section 41 of the Insurance Act, 1938 (Prohibition of Rebates):</strong> No person shall allow or offer to allow, either directly or indirectly, as an inducement to any person to take out or renew or continue an insurance in respect of any kind of risk relating to lives or property in India, any rebate of the whole or part of the commission payable or any rebate of the premium shown on the policy, nor shall any person taking out or renewing or continuing a policy accept any rebate, except such rebate as may be allowed in accordance with the published prospectuses or tables of the insurer. Any person making default in complying with the provisions of this section shall be liable for penalty which may extend to ten lakh rupees (₹10,00,000).
           </p>
           <p>
-            Our complimentary dashcam hardware and professional audit services are offered under a{" "}
-            <strong className="text-white">Complimentary Tech Membership</strong> bundled with our risk-management program. This membership is a technology and safety service — it is not a rebate, cashback, cash discount or inducement of any kind, and no part of the insurance premium or commission is returned to the customer. Insurance is the subject matter of solicitation. Software subscriptions and SIM/connectivity charges apply where disclosed.
+            <strong className="text-white">Commercial &amp; Technical Independence:</strong> Insure Audit Expert is a brand owned and managed by <strong className="text-white">Alxsure Tech Hub (OPC) Pvt. Ltd.</strong> AI Dashcams, GPS/AIS-140 tracking hardware, sensor equipment, and fleet telemetry platform subscriptions are separate technology offerings provided under independent commercial invoices and terms. Hardware purchases and telematics subscriptions are completely independent of insurance policy purchase and do not influence policy issuance, premium rates, or surveyor claim assessment decisions.
           </p>
           <p>
             Our <strong className="text-white">Insure Track</strong> mobile application is managed by{" "}
@@ -748,9 +770,9 @@ export function SiteFooter() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="max-w-[1280px] mx-auto px-6 mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[13px] text-white/60">
-        <span className="flex items-center gap-1.5">
-          © {new Date().getFullYear()} Insure Audit Expert · Alxsure Tech Hub (OPC) Pvt. Ltd. · All rights reserved
+      <div className="max-w-[1280px] mx-auto px-6 mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[11.5px] sm:text-xs md:text-[13px] text-white/60">
+        <span className="flex items-center gap-1.5 whitespace-nowrap text-center md:text-left">
+          © {new Date().getFullYear()} Insure Audit Expert · Alxsure Tech Hub (OPC) Pvt. Ltd.
           <Link
             to="/leads"
             title="Internal Staff Access (PIN Protected)"
@@ -760,14 +782,16 @@ export function SiteFooter() {
             <Lock className="w-3 h-3 opacity-25 hover:opacity-100 transition-opacity" />
           </Link>
         </span>
-        <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-white/80">
-          <Link to="/privacy-policy" className="hover:text-white transition font-medium hover:underline underline-offset-4">Privacy Policy</Link>
-          <span>·</span>
-          <Link to="/support" className="hover:text-white transition font-medium hover:underline underline-offset-4">Support Helpdesk</Link>
-          <span>·</span>
-          <Link to="/claim-assistance" className="hover:text-white transition font-medium hover:underline underline-offset-4">Claim Assistance</Link>
-          <span>·</span>
-          <Link to="/contact" className="hover:text-white transition font-medium hover:underline underline-offset-4">Contact Us</Link>
+        <div className="flex items-center flex-nowrap gap-2 sm:gap-3 lg:gap-4 text-white/80 shrink-0 whitespace-nowrap justify-center md:justify-end">
+          <Link to="/privacy-policy" className="hover:text-white transition font-medium hover:underline underline-offset-4 whitespace-nowrap">Privacy</Link>
+          <span className="text-white/30">·</span>
+          <Link to="/terms-and-conditions" className="hover:text-white transition font-medium hover:underline underline-offset-4 whitespace-nowrap">Terms</Link>
+          <span className="text-white/30">·</span>
+          <Link to="/grievance-redressal" className="hover:text-white transition font-medium hover:underline underline-offset-4 whitespace-nowrap">Grievance</Link>
+          <span className="text-white/30">·</span>
+          <Link to="/support" className="hover:text-white transition font-medium hover:underline underline-offset-4 whitespace-nowrap">Support</Link>
+          <span className="text-white/30">·</span>
+          <Link to="/contact" className="hover:text-white transition font-medium hover:underline underline-offset-4 whitespace-nowrap">Contact</Link>
         </div>
       </div>
     </footer>

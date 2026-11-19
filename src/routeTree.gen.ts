@@ -10,16 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TrackingSolutionsRouteImport } from './routes/tracking-solutions'
+import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SchoolBusSafetyRouteImport } from './routes/school-bus-safety'
 import { Route as RiskAuditRouteImport } from './routes/risk-audit'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as MsmeInsuranceRouteImport } from './routes/msme-insurance'
 import { Route as MotorInsuranceRouteImport } from './routes/motor-insurance'
 import { Route as LeadsRouteImport } from './routes/leads'
 import { Route as InsuranceRouteImport } from './routes/insurance'
 import { Route as HealthInsuranceRouteImport } from './routes/health-insurance'
+import { Route as GrievanceRedressalRouteImport } from './routes/grievance-redressal'
+import { Route as GrievanceRouteImport } from './routes/grievance'
 import { Route as FleetSafetyRouteImport } from './routes/fleet-safety'
 import { Route as DevicesRouteImport } from './routes/devices'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -34,6 +39,16 @@ import { Route as BlogsSlugRouteImport } from './routes/blogs.$slug'
 const TrackingSolutionsRoute = TrackingSolutionsRouteImport.update({
   id: '/tracking-solutions',
   path: '/tracking-solutions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
+  id: '/terms-and-conditions',
+  path: '/terms-and-conditions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SupportRoute = SupportRouteImport.update({
@@ -61,6 +76,11 @@ const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MsmeInsuranceRoute = MsmeInsuranceRouteImport.update({
   id: '/msme-insurance',
   path: '/msme-insurance',
@@ -84,6 +104,16 @@ const InsuranceRoute = InsuranceRouteImport.update({
 const HealthInsuranceRoute = HealthInsuranceRouteImport.update({
   id: '/health-insurance',
   path: '/health-insurance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GrievanceRedressalRoute = GrievanceRedressalRouteImport.update({
+  id: '/grievance-redressal',
+  path: '/grievance-redressal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GrievanceRoute = GrievanceRouteImport.update({
+  id: '/grievance',
+  path: '/grievance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FleetSafetyRoute = FleetSafetyRouteImport.update({
@@ -146,16 +176,21 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/devices': typeof DevicesRoute
   '/fleet-safety': typeof FleetSafetyRoute
+  '/grievance': typeof GrievanceRoute
+  '/grievance-redressal': typeof GrievanceRedressalRoute
   '/health-insurance': typeof HealthInsuranceRoute
   '/insurance': typeof InsuranceRoute
   '/leads': typeof LeadsRoute
   '/motor-insurance': typeof MotorInsuranceRoute
   '/msme-insurance': typeof MsmeInsuranceRoute
+  '/privacy': typeof PrivacyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/risk-audit': typeof RiskAuditRoute
   '/school-bus-safety': typeof SchoolBusSafetyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/support': typeof SupportRoute
+  '/terms': typeof TermsRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/tracking-solutions': typeof TrackingSolutionsRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/blogs/': typeof BlogsIndexRoute
@@ -168,16 +203,21 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/devices': typeof DevicesRoute
   '/fleet-safety': typeof FleetSafetyRoute
+  '/grievance': typeof GrievanceRoute
+  '/grievance-redressal': typeof GrievanceRedressalRoute
   '/health-insurance': typeof HealthInsuranceRoute
   '/insurance': typeof InsuranceRoute
   '/leads': typeof LeadsRoute
   '/motor-insurance': typeof MotorInsuranceRoute
   '/msme-insurance': typeof MsmeInsuranceRoute
+  '/privacy': typeof PrivacyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/risk-audit': typeof RiskAuditRoute
   '/school-bus-safety': typeof SchoolBusSafetyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/support': typeof SupportRoute
+  '/terms': typeof TermsRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/tracking-solutions': typeof TrackingSolutionsRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/blogs': typeof BlogsIndexRoute
@@ -192,16 +232,21 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/devices': typeof DevicesRoute
   '/fleet-safety': typeof FleetSafetyRoute
+  '/grievance': typeof GrievanceRoute
+  '/grievance-redressal': typeof GrievanceRedressalRoute
   '/health-insurance': typeof HealthInsuranceRoute
   '/insurance': typeof InsuranceRoute
   '/leads': typeof LeadsRoute
   '/motor-insurance': typeof MotorInsuranceRoute
   '/msme-insurance': typeof MsmeInsuranceRoute
+  '/privacy': typeof PrivacyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/risk-audit': typeof RiskAuditRoute
   '/school-bus-safety': typeof SchoolBusSafetyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/support': typeof SupportRoute
+  '/terms': typeof TermsRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/tracking-solutions': typeof TrackingSolutionsRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/blogs/': typeof BlogsIndexRoute
@@ -217,16 +262,21 @@ export interface FileRouteTypes {
     | '/contact'
     | '/devices'
     | '/fleet-safety'
+    | '/grievance'
+    | '/grievance-redressal'
     | '/health-insurance'
     | '/insurance'
     | '/leads'
     | '/motor-insurance'
     | '/msme-insurance'
+    | '/privacy'
     | '/privacy-policy'
     | '/risk-audit'
     | '/school-bus-safety'
     | '/sitemap.xml'
     | '/support'
+    | '/terms'
+    | '/terms-and-conditions'
     | '/tracking-solutions'
     | '/blogs/$slug'
     | '/blogs/'
@@ -239,16 +289,21 @@ export interface FileRouteTypes {
     | '/contact'
     | '/devices'
     | '/fleet-safety'
+    | '/grievance'
+    | '/grievance-redressal'
     | '/health-insurance'
     | '/insurance'
     | '/leads'
     | '/motor-insurance'
     | '/msme-insurance'
+    | '/privacy'
     | '/privacy-policy'
     | '/risk-audit'
     | '/school-bus-safety'
     | '/sitemap.xml'
     | '/support'
+    | '/terms'
+    | '/terms-and-conditions'
     | '/tracking-solutions'
     | '/blogs/$slug'
     | '/blogs'
@@ -262,16 +317,21 @@ export interface FileRouteTypes {
     | '/contact'
     | '/devices'
     | '/fleet-safety'
+    | '/grievance'
+    | '/grievance-redressal'
     | '/health-insurance'
     | '/insurance'
     | '/leads'
     | '/motor-insurance'
     | '/msme-insurance'
+    | '/privacy'
     | '/privacy-policy'
     | '/risk-audit'
     | '/school-bus-safety'
     | '/sitemap.xml'
     | '/support'
+    | '/terms'
+    | '/terms-and-conditions'
     | '/tracking-solutions'
     | '/blogs/$slug'
     | '/blogs/'
@@ -286,16 +346,21 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   DevicesRoute: typeof DevicesRoute
   FleetSafetyRoute: typeof FleetSafetyRoute
+  GrievanceRoute: typeof GrievanceRoute
+  GrievanceRedressalRoute: typeof GrievanceRedressalRoute
   HealthInsuranceRoute: typeof HealthInsuranceRoute
   InsuranceRoute: typeof InsuranceRoute
   LeadsRoute: typeof LeadsRoute
   MotorInsuranceRoute: typeof MotorInsuranceRoute
   MsmeInsuranceRoute: typeof MsmeInsuranceRoute
+  PrivacyRoute: typeof PrivacyRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RiskAuditRoute: typeof RiskAuditRoute
   SchoolBusSafetyRoute: typeof SchoolBusSafetyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SupportRoute: typeof SupportRoute
+  TermsRoute: typeof TermsRoute
+  TermsAndConditionsRoute: typeof TermsAndConditionsRoute
   TrackingSolutionsRoute: typeof TrackingSolutionsRoute
 }
 
@@ -306,6 +371,20 @@ declare module '@tanstack/react-router' {
       path: '/tracking-solutions'
       fullPath: '/tracking-solutions'
       preLoaderRoute: typeof TrackingSolutionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms-and-conditions': {
+      id: '/terms-and-conditions'
+      path: '/terms-and-conditions'
+      fullPath: '/terms-and-conditions'
+      preLoaderRoute: typeof TermsAndConditionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/support': {
@@ -343,6 +422,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/msme-insurance': {
       id: '/msme-insurance'
       path: '/msme-insurance'
@@ -376,6 +462,20 @@ declare module '@tanstack/react-router' {
       path: '/health-insurance'
       fullPath: '/health-insurance'
       preLoaderRoute: typeof HealthInsuranceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/grievance-redressal': {
+      id: '/grievance-redressal'
+      path: '/grievance-redressal'
+      fullPath: '/grievance-redressal'
+      preLoaderRoute: typeof GrievanceRedressalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/grievance': {
+      id: '/grievance'
+      path: '/grievance'
+      fullPath: '/grievance'
+      preLoaderRoute: typeof GrievanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fleet-safety': {
@@ -472,16 +572,21 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   DevicesRoute: DevicesRoute,
   FleetSafetyRoute: FleetSafetyRoute,
+  GrievanceRoute: GrievanceRoute,
+  GrievanceRedressalRoute: GrievanceRedressalRoute,
   HealthInsuranceRoute: HealthInsuranceRoute,
   InsuranceRoute: InsuranceRoute,
   LeadsRoute: LeadsRoute,
   MotorInsuranceRoute: MotorInsuranceRoute,
   MsmeInsuranceRoute: MsmeInsuranceRoute,
+  PrivacyRoute: PrivacyRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RiskAuditRoute: RiskAuditRoute,
   SchoolBusSafetyRoute: SchoolBusSafetyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SupportRoute: SupportRoute,
+  TermsRoute: TermsRoute,
+  TermsAndConditionsRoute: TermsAndConditionsRoute,
   TrackingSolutionsRoute: TrackingSolutionsRoute,
 }
 export const routeTree = rootRouteImport

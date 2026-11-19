@@ -20,7 +20,7 @@ export const Route = createFileRoute("/ai-dashcam-tracking")({
   head: () => ({
     meta: [
       { title: "AI Dashcam, G-Sensor & Zero Wiring-Cut Live Tracking | Insure Audit Expert" },
-      { name: "description", content: "AI dashcam with G-sensor impact lock and smart live GPS tracking installed with zero wiring cut. Video evidence against false claims, real-time location, speed and harsh-driving alerts — part of the Complimentary Tech Membership." },
+      { name: "description", content: "AI dashcam with G-sensor impact lock and smart live GPS tracking installed with zero wiring cut. Video evidence against false claims, real-time location, speed and harsh-driving alerts — independent technology offerings by Alxsure Tech Hub (OPC) Pvt Ltd." },
       { name: "keywords", content: "AI dashcam India, G-sensor dashcam, vehicle live tracking, zero wiring cut GPS tracker, false claim video evidence, car safety device, driver behaviour monitoring" },
       { property: "og:title", content: "AI Dashcam, G-Sensor & Zero Wiring-Cut Live Tracking" },
       { property: "og:description", content: "Video evidence, impact detection and live tracking — installed without cutting a single wire." },

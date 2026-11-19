@@ -136,15 +136,15 @@ export const Route = createFileRoute("/")({
 
 /* ---------- Ticker verified highlights ---------- */
 const TICKER_ITEMS = [
-  { label: "PBPartners Referral Partner", icon: ShieldCheck },
-  { label: "Standard IRDAI-Approved Rates", icon: CheckCircle2 },
-  { label: "AI Dashcam G-Sensor Video Evidence", icon: Camera },
+  { label: "Authorized POSP Channel Partner under PBPartners (Policybazaar Insurance Brokers Pvt Ltd) | POS Code: IP461548", icon: ShieldCheck },
+  { label: "Standard IRDAI-Approved Rates · Section 41 Compliant", icon: CheckCircle2 },
+  { label: "AI Dashcam & Telematics Telemetry (Alxsure Tech Hub)", icon: Camera },
   { label: "Zero Wire-Cut Telematics (Preserves Warranty)", icon: Radio },
   { label: "AIS-140 Certified GPS Telematics", icon: Navigation },
   { label: "Smart Cargo E-Locks with Tamper Alarms", icon: Lock },
   { label: "Cold Chain Real-Time Temperature Probes", icon: Thermometer },
   { label: "Fuel Rod Level & Drain Sensors", icon: Fuel },
-  { label: "24x7 Incident & Claim Advisory: 08065604804", icon: Phone },
+  { label: "24x7 Incident & Claim Advisory: 7042733002 / 7042733005", icon: Phone },
 ];
 
 /* ---------- Audit & Claim Process Steps ---------- */
@@ -640,44 +640,44 @@ function HomePage() {
                 Two Clear Insurance <DrawUnderline color="var(--accent-yellow)">Choices</DrawUnderline>
               </h2>
               <p className="mt-3 text-sm text-ink/65 leading-relaxed">
-                Complete transparency without hidden clauses. Choose between eligible policies bundled with a complimentary safety dashcam or standard standalone motor policies.
+                Complete transparency without hidden clauses. Choose between standard IRDAI insurance with an optional independent technology add-on or pure standalone motor policies.
               </p>
             </div>
           </Reveal>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Option A: Motor + Complimentary Dashcam */}
+            {/* Option A: Policy & Independent Technology Add-On */}
             <Reveal variant="left">
               <Tilt max={5}>
                 <Spotlight className="h-full rounded-3xl">
                   <div className="spin-border lift bg-white rounded-3xl border-2 border-brand/40 p-8 shadow-xl relative overflow-hidden flex flex-col justify-between h-full">
                     <div>
                       <div className="inline-block bg-accent-yellow/20 text-night text-xs font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-full mb-4">
-                        Option A · Technology Bundle
+                        Option A · Policy &amp; Independent Technology Add-On
                       </div>
-                      <h3 className="text-2xl font-bold text-night">Motor Insurance with Complimentary Dashcam</h3>
+                      <h3 className="text-2xl font-bold text-night">Standard IRDAI Insurance with Optional Alxsure Tech Hub Telemetry</h3>
                       <p className="mt-3 text-sm text-ink/75 leading-relaxed">
-                        Purchase an eligible motor insurance policy and receive one complimentary dashcam hardware device under applicable offers and eligibility conditions.
+                        Purchase your motor insurance policy at standard IRDAI-approved rates through our licensed partner PBPartners. Separately, you can opt for AI Dashcams and vehicle telematics hardware offered independently by Alxsure Tech Hub (OPC) Pvt Ltd.
                       </p>
 
                       <div className="mt-6 space-y-3.5 text-xs sm:text-[13px] text-ink/80">
                         <div className="flex items-start gap-2.5">
                           <CheckCircle2 className="w-4 h-4 text-brand shrink-0 mt-0.5" />
-                          <span><strong>Complimentary Hardware Device:</strong> Zero device charge under our safety membership offer.</span>
+                          <span><strong>Insurance Sourcing:</strong> Policies are issued at standard IRDAI-approved rates through PBPartners (Policybazaar Insurance Brokers Pvt Ltd), with no unauthorized rebates or premium discounts.</span>
                         </div>
                         <div className="flex items-start gap-2.5">
                           <CheckCircle2 className="w-4 h-4 text-brand shrink-0 mt-0.5" />
-                          <span><strong>Applicable Software &amp; Connectivity:</strong> Customer pays applicable software subscription charges and SIM connectivity charges for live cloud recording.</span>
+                          <span><strong>Independent Hardware &amp; Subscription:</strong> AI Dashcams, GPS/AIS-140 devices, and telematics subscriptions are separate technology offerings provided by Alxsure Tech Hub (OPC) Pvt Ltd under independent commercial terms.</span>
                         </div>
                         <div className="flex items-start gap-2.5">
                           <CheckCircle2 className="w-4 h-4 text-brand shrink-0 mt-0.5" />
-                          <span><strong>Objective Supporting Evidence:</strong> Dashcam captures collision evidence to support your version during surveyor inspection (does not guarantee claim approval).</span>
+                          <span><strong>Objective Evidence Support:</strong> Dashcam G-sensor footage serves as objective supporting material during surveyor inspection and does not guarantee or determine claim approval by the insurer.</span>
                         </div>
                       </div>
                     </div>
 
                     <div className="mt-8 pt-6 border-t border-ink/8 flex items-center justify-between">
-                      <span className="text-xs text-ink/50">*Subject to terms and eligibility</span>
+                      <span className="text-xs text-ink/50">*IRDAI &amp; Section 41 Compliant</span>
                       <Magnetic strength={0.3}>
                         <button
                           type="button"
@@ -743,7 +743,7 @@ function HomePage() {
 
           {/* Boundaries Clarification */}
           <div className="mt-8 p-4 rounded-2xl bg-cloud border border-ink/8 text-xs text-ink/70 text-center">
-            Notice: AIS-140 GPS is a standalone device offering and is <strong>NOT</strong> an insurance bundle. All insurance policies are issued under standard rates approved by IRDAI.
+            Notice: AIS-140 GPS and telematics hardware are separate offerings from insurance policies. All insurance policies follow standard IRDAI-approved rates without unauthorized rebates or inducements (Section 41, Insurance Act 1938).
           </div>
         </div>
       </section>
@@ -1170,7 +1170,7 @@ function HomePage() {
                       </div>
                       <h3 className="text-lg font-bold text-night">AI Dashcams</h3>
                       <p className="mt-2 text-xs text-ink/70 leading-relaxed">
-                        Collision-locked video recording preserving objective accident proof. Available complimentary on eligible motor policies, or enquired standalone.
+                        Collision-locked video recording preserving objective accident proof. Available as an independent technology add-on or enquired standalone.
                       </p>
                       <div className="mt-4 pt-3 border-t border-ink/8 text-[11px] text-ink/60 space-y-1">
                         <div>• Video evidence supports surveyor claims</div>
@@ -1537,8 +1537,8 @@ function HomePage() {
               <div className="mt-8 space-y-3">
                 {[
                   {
-                    q: "How does the Motor Insurance with Complimentary Dashcam offer work?",
-                    a: "When you purchase an eligible motor insurance policy under our safety program, you receive one complimentary dashcam hardware device. The customer pays applicable software subscription charges and SIM connectivity charges for continuous cloud access and telematics. Terms and policy eligibility conditions apply.",
+                    q: "How does the Policy & Independent Technology Add-On (Option A) work?",
+                    a: "Under Option A, your motor insurance policy is issued at standard IRDAI-approved rates through licensed distribution partner PBPartners (Policybazaar Insurance Brokers Pvt Ltd) without any unauthorized rebate or discount (Section 41 compliant). Separately, you can opt for an AI Dashcam and telematics hardware package offered independently by Alxsure Tech Hub (OPC) Pvt Ltd under separate commercial terms.",
                   },
                   {
                     q: "Does installing a dashcam guarantee that my insurance claim will be approved?",

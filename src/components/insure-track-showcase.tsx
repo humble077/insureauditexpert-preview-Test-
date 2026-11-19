@@ -651,7 +651,7 @@ export function InsureTrackAppShowcase() {
 
                 <div className="mt-4 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-[12px] text-white/50">
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Complimentary with Safety Membership
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Independent Telematics Integration
                   </span>
                   <span className="flex items-center gap-1.5">
                     <ShieldCheck className="w-3.5 h-3.5 text-accent-yellow" /> 256-Bit Encrypted Vehicle Telemetry
