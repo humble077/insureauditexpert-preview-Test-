@@ -257,8 +257,8 @@ function LeadsPage() {
                     setPinInput(e.target.value);
                     setPinError("");
                   }}
-                  placeholder="Enter PIN (4426)"
-                  className="w-full h-12 text-center text-xl tracking-[0.3em] font-mono font-bold bg-cloud rounded-xl outline-none border border-ink/10 focus:border-brand transition"
+                  placeholder="Enter 4-digit PIN"
+                  className="w-full h-12 text-center text-xl tracking-[0.3em] placeholder:tracking-normal placeholder:text-xs sm:placeholder:text-sm font-mono font-bold bg-cloud rounded-xl outline-none border border-ink/10 focus:border-brand transition"
                 />
                 {pinError && (
                   <p className="mt-2 text-xs text-rose-500 font-semibold bg-rose-50 p-2.5 rounded-lg border border-rose-100 flex items-center justify-center gap-1.5">
