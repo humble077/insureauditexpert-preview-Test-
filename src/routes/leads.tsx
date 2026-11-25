@@ -159,19 +159,29 @@ function LeadsPage() {
     setLoading(true);
     try {
       if (currentToken) {
-        const res = await getLeadsServerFn({ data: { token: currentToken } });
-        if (res && res.success && res.leads) {
-          setLeads(res.leads);
+        try {
+          const res = await getLeadsServerFn({ data: { token: currentToken } });
+          const serverLeads = res && res.success && res.leads ? res.leads : [];
+          const localLeads = getLocalLeads();
+
+          // Merge uniquely by ID
+          const serverIds = new Set(serverLeads.map((l) => l.id));
+          const combined = [...serverLeads];
+          for (const l of localLeads) {
+            if (!serverIds.has(l.id)) {
+              combined.push(l as any);
+            }
+          }
+          setLeads(combined);
           setLoading(false);
           return;
+        } catch (err) {
+          console.warn("Server lead fetch failed, displaying local cache:", err);
         }
       }
       // Fallback to local storage if server query returns empty or local sync
       const local = getLocalLeads();
       setLeads(local as any);
-    } catch (err) {
-      console.warn("Server lead fetch failed, displaying local cache:", err);
-      setLeads(getLocalLeads() as any);
     } finally {
       setLoading(false);
     }

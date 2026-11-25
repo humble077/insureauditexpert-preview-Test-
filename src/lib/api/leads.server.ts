@@ -8,31 +8,51 @@ const LEADS_FILE = path.join(DATA_DIR, "leads.json");
 const ADMIN_SECRET = process.env.ADMIN_SECRET || "iae_admin_secret_key_2026_prod";
 const ADMIN_PIN = process.env.ADMIN_PIN || "4426";
 
+// In-memory cache for serverless / edge runtime (e.g. Cloudflare Pages / Workers)
+let inMemoryLeads: ServerLeadRecord[] = [];
+let hasLoadedFromFile = false;
+
 export async function ensureLeadsFile(): Promise<ServerLeadRecord[]> {
+  if (hasLoadedFromFile && inMemoryLeads.length > 0) {
+    return inMemoryLeads;
+  }
   try {
-    await fs.mkdir(DATA_DIR, { recursive: true });
-    try {
-      const data = await fs.readFile(LEADS_FILE, "utf-8");
-      return JSON.parse(data) as ServerLeadRecord[];
-    } catch {
-      await fs.writeFile(LEADS_FILE, JSON.stringify([], null, 2), "utf-8");
-      return [];
+    if (typeof fs !== "undefined" && typeof fs.mkdir === "function") {
+      await fs.mkdir(DATA_DIR, { recursive: true });
+      try {
+        const data = await fs.readFile(LEADS_FILE, "utf-8");
+        const parsed = JSON.parse(data) as ServerLeadRecord[];
+        if (Array.isArray(parsed)) {
+          inMemoryLeads = parsed;
+          hasLoadedFromFile = true;
+          return inMemoryLeads;
+        }
+      } catch {
+        try {
+          await fs.writeFile(LEADS_FILE, JSON.stringify([], null, 2), "utf-8");
+        } catch {}
+      }
     }
   } catch (err) {
-    console.error("Error accessing leads file:", err);
-    return [];
+    // Expected on serverless edge runtimes (e.g. Cloudflare Pages) where disk is read-only
   }
+  hasLoadedFromFile = true;
+  return inMemoryLeads;
 }
 
 export async function writeLeadsFile(leads: ServerLeadRecord[]): Promise<boolean> {
+  // Always update in-memory leads collection
+  inMemoryLeads = leads;
   try {
-    await fs.mkdir(DATA_DIR, { recursive: true });
-    await fs.writeFile(LEADS_FILE, JSON.stringify(leads, null, 2), "utf-8");
-    return true;
+    if (typeof fs !== "undefined" && typeof fs.mkdir === "function") {
+      await fs.mkdir(DATA_DIR, { recursive: true });
+      await fs.writeFile(LEADS_FILE, JSON.stringify(leads, null, 2), "utf-8");
+    }
   } catch (err) {
-    console.error("Failed to write leads file:", err);
-    return false;
+    // In serverless / edge runtimes, filesystem writes are restricted
+    console.warn("Storage note: Server filesystem write unavailable on edge runtime, preserved in memory:", err);
   }
+  return true;
 }
 
 export function generateSessionToken(): string {

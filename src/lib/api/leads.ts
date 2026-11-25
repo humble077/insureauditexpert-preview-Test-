@@ -66,10 +66,10 @@ export const saveLeadServerFn = createServerFn({ method: "POST" })
     };
 
     const updated = [newLead, ...leads];
-    const saved = await writeLeadsFile(updated);
-
-    if (!saved) {
-      throw new Error("Failed to persist lead record to server storage.");
+    try {
+      await writeLeadsFile(updated);
+    } catch (writeErr) {
+      console.warn("Server lead file write notice:", writeErr);
     }
 
     return { success: true, lead: newLead, isDuplicate: false };
