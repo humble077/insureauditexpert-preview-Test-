@@ -40,11 +40,21 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
-      if (env && typeof env === "object") {
-        (globalThis as any).__CF_ENV__ = env;
+      const cfEnv =
+        env ||
+        (request as any).runtime?.cloudflare?.env ||
+        (request as any)?.context?.cloudflare?.env ||
+        (request as any)?.cf;
+      if (cfEnv && typeof cfEnv === "object") {
+        (globalThis as any).__CF_ENV__ = cfEnv;
+        (globalThis as any).__env__ = cfEnv;
+        const kv = (cfEnv as any).LEADS_KV || (cfEnv as any).KV;
+        if (kv) {
+          (globalThis as any).LEADS_KV = kv;
+        }
       }
       const handler = await getServerEntry();
-      const response = await handler.fetch(request, env, ctx);
+      const response = await handler.fetch(request, env || cfEnv, ctx);
       return await normalizeCatastrophicSsrResponse(response);
     } catch (error) {
       console.error(error);

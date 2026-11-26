@@ -9,15 +9,28 @@ const ADMIN_SECRET = process.env.ADMIN_SECRET || "iae_admin_secret_key_2026_prod
 const ADMIN_PIN = process.env.ADMIN_PIN || "4426";
 
 // Helper to detect Cloudflare KV namespace binding
-function getCloudflareKV(): any {
+export function getCloudflareKV(): any {
   try {
-    const cfEnv = (globalThis as any).__CF_ENV__;
-    if (cfEnv && (cfEnv.LEADS_KV || cfEnv.KV)) {
-      return cfEnv.LEADS_KV || cfEnv.KV;
+    // 1. Direct global binding (set by Nitro plugin, worker global scope, or Service Worker)
+    if ((globalThis as any).LEADS_KV && typeof (globalThis as any).LEADS_KV.get === "function") {
+      return (globalThis as any).LEADS_KV;
     }
+    if ((globalThis as any).KV && typeof (globalThis as any).KV.get === "function") {
+      return (globalThis as any).KV;
+    }
+
+    // 2. Global environment set by Nitro request hook or server entry
+    const cfEnv = (globalThis as any).__CF_ENV__ || (globalThis as any).__env__;
+    if (cfEnv) {
+      if (cfEnv.LEADS_KV && typeof cfEnv.LEADS_KV.get === "function") return cfEnv.LEADS_KV;
+      if (cfEnv.KV && typeof cfEnv.KV.get === "function") return cfEnv.KV;
+    }
+
+    // 3. Process env for Node.js / local CLI emulation
     const procEnv = (process as any)?.env;
-    if (procEnv && (procEnv.LEADS_KV || procEnv.KV)) {
-      return procEnv.LEADS_KV || procEnv.KV;
+    if (procEnv) {
+      if (procEnv.LEADS_KV && typeof procEnv.LEADS_KV.get === "function") return procEnv.LEADS_KV;
+      if (procEnv.KV && typeof procEnv.KV.get === "function") return procEnv.KV;
     }
   } catch {}
   return null;
@@ -27,8 +40,36 @@ function getCloudflareKV(): any {
 let inMemoryLeads: ServerLeadRecord[] = [];
 let hasLoadedFromFile = false;
 
+// Strict deduplicator to prevent duplicate records from inflating count across edge nodes
+export function deduplicateLeads(leads: ServerLeadRecord[]): ServerLeadRecord[] {
+  if (!Array.isArray(leads)) return [];
+  const seenIds = new Set<string>();
+  const seenSubmissions = new Set<string>();
+  const result: ServerLeadRecord[] = [];
+
+  for (const lead of leads) {
+    if (!lead || !lead.id || !lead.phone) continue;
+
+    // Check unique ID
+    if (seenIds.has(lead.id)) continue;
+    seenIds.add(lead.id);
+
+    // Check duplicate submissions within 15-minute window for same phone and category
+    const timeMs = new Date(lead.timestamp).getTime();
+    const timeWindow = isNaN(timeMs) ? "0" : String(Math.floor(timeMs / (15 * 60 * 1000)));
+    const submissionKey = `${lead.phone}_${lead.category}_${lead.leadType || "quote"}_${timeWindow}`;
+    if (seenSubmissions.has(submissionKey)) continue;
+    seenSubmissions.add(submissionKey);
+
+    result.push(lead);
+  }
+
+  // Sort descending by timestamp (newest first)
+  return result.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+}
+
 export async function ensureLeadsFile(): Promise<ServerLeadRecord[]> {
-  // 1. Primary Centralized Storage: Cloudflare KV (Synchronizes across all devices & edge locations worldwide)
+  // 1. Primary Centralized Storage: Cloudflare KV (Worldwide consistency)
   const kv = getCloudflareKV();
   if (kv && typeof kv.get === "function") {
     try {
@@ -36,8 +77,15 @@ export async function ensureLeadsFile(): Promise<ServerLeadRecord[]> {
       if (data) {
         const parsed = JSON.parse(data) as ServerLeadRecord[];
         if (Array.isArray(parsed)) {
-          inMemoryLeads = parsed;
+          inMemoryLeads = deduplicateLeads(parsed);
           return inMemoryLeads;
+        }
+      } else {
+        // If KV exists but has no data yet, sync inMemoryLeads to KV so all isolates share it
+        if (inMemoryLeads.length > 0) {
+          try {
+            await kv.put("iae_leads", JSON.stringify(deduplicateLeads(inMemoryLeads)));
+          } catch {}
         }
       }
     } catch (kvErr) {
@@ -46,7 +94,7 @@ export async function ensureLeadsFile(): Promise<ServerLeadRecord[]> {
   }
 
   if (hasLoadedFromFile && inMemoryLeads.length > 0) {
-    return inMemoryLeads;
+    return deduplicateLeads(inMemoryLeads);
   }
 
   // 2. Local Node server filesystem storage
@@ -57,7 +105,7 @@ export async function ensureLeadsFile(): Promise<ServerLeadRecord[]> {
         const data = await fs.readFile(LEADS_FILE, "utf-8");
         const parsed = JSON.parse(data) as ServerLeadRecord[];
         if (Array.isArray(parsed)) {
-          inMemoryLeads = parsed;
+          inMemoryLeads = deduplicateLeads(parsed);
           hasLoadedFromFile = true;
           return inMemoryLeads;
         }
@@ -68,21 +116,21 @@ export async function ensureLeadsFile(): Promise<ServerLeadRecord[]> {
       }
     }
   } catch (err) {
-    // Expected on serverless edge runtimes (e.g. Cloudflare Pages) where disk is read-only
+    // Expected on serverless edge runtimes
   }
   hasLoadedFromFile = true;
-  return inMemoryLeads;
+  return deduplicateLeads(inMemoryLeads);
 }
 
 export async function writeLeadsFile(leads: ServerLeadRecord[]): Promise<boolean> {
-  // Always update in-memory leads collection
-  inMemoryLeads = leads;
+  const cleanLeads = deduplicateLeads(leads);
+  inMemoryLeads = cleanLeads;
 
   // 1. Persist to Cloudflare KV if bound
   const kv = getCloudflareKV();
   if (kv && typeof kv.put === "function") {
     try {
-      await kv.put("iae_leads", JSON.stringify(leads));
+      await kv.put("iae_leads", JSON.stringify(cleanLeads));
     } catch (kvErr) {
       console.warn("Cloudflare KV write notice:", kvErr);
     }
@@ -92,10 +140,10 @@ export async function writeLeadsFile(leads: ServerLeadRecord[]): Promise<boolean
   try {
     if (typeof fs !== "undefined" && typeof fs.mkdir === "function") {
       await fs.mkdir(DATA_DIR, { recursive: true });
-      await fs.writeFile(LEADS_FILE, JSON.stringify(leads, null, 2), "utf-8");
+      await fs.writeFile(LEADS_FILE, JSON.stringify(cleanLeads, null, 2), "utf-8");
     }
   } catch (err) {
-    // In serverless / edge runtimes, filesystem writes are restricted
+    // Expected on serverless edge runtimes
   }
   return true;
 }
@@ -128,4 +176,3 @@ export function verifySessionToken(token: string): boolean {
 export function checkAdminPin(pin: string): boolean {
   return pin.trim() === ADMIN_PIN;
 }
-

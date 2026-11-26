@@ -25,5 +25,6 @@ export default defineConfig({
       : (process.env.CF_PAGES || process.env.CI || process.env.CLOUDFLARE)
       ? "cloudflare-pages"
       : (process.env.NITRO_PRESET || "node-server"),
+    plugins: ["src/server/plugins/cloudflare.ts"],
   },
 });

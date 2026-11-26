@@ -162,49 +162,18 @@ function LeadsPage() {
       if (currentToken) {
         try {
           const res = await getLeadsServerFn({ data: { token: currentToken } });
-          const serverLeads = res && res.success && res.leads ? res.leads : [];
-          const localLeads = getLocalLeads();
-
-          // Merge uniquely by ID and upload any local-only leads to central database
-          const serverIds = new Set(serverLeads.map((l) => l.id));
-          const combined = [...serverLeads];
-          const toUpload: typeof localLeads = [];
-          for (const l of localLeads) {
-            if (!serverIds.has(l.id)) {
-              combined.push(l as any);
-              toUpload.push(l);
-            }
+          if (res && res.success && Array.isArray(res.leads)) {
+            // AUTHORITATIVE SOURCE OF TRUTH:
+            // Always display the unified server/KV database across all platforms and refreshes
+            setLeads(res.leads);
+            setLoading(false);
+            return;
           }
-
-          if (toUpload.length > 0) {
-            for (const item of toUpload) {
-              saveLeadServerFn({
-                data: {
-                  phone: item.phone,
-                  regNo: item.regNo || undefined,
-                  name: item.name || undefined,
-                  companyName: item.companyName || undefined,
-                  fleetSize: item.fleetSize || undefined,
-                  category: item.category,
-                  categoryLabel: item.categoryLabel,
-                  deviceCategory: item.deviceCategory || undefined,
-                  leadType: item.leadType || "Request Quote",
-                  action: item.action,
-                  referralUrl: item.referralUrl || undefined,
-                  sourcePage: item.sourcePage || undefined,
-                  notes: item.notes || undefined,
-                },
-              }).catch(() => {});
-            }
-          }
-          setLeads(combined);
-          setLoading(false);
-          return;
         } catch (err) {
           console.warn("Server lead fetch failed, displaying local cache:", err);
         }
       }
-      // Fallback to local storage if server query returns empty or local sync
+      // Fallback to local storage only if offline or server query was unreachable
       const local = getLocalLeads();
       setLeads(local as any);
     } finally {
@@ -245,6 +214,9 @@ function LeadsPage() {
       try {
         if (sessionToken) {
           await clearLeadsServerFn({ data: { token: sessionToken } });
+        }
+        if (typeof window !== "undefined") {
+          window.localStorage.removeItem("iae_captured_leads_v1");
         }
         setLeads([]);
       } catch (err) {

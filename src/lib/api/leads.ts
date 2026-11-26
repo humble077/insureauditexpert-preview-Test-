@@ -44,14 +44,14 @@ export const saveLeadServerFn = createServerFn({ method: "POST" })
     const { ensureLeadsFile, writeLeadsFile } = await import("./leads.server");
     const leads = await ensureLeadsFile();
 
-    // Idempotency check: if exact same phone, category, and regNo submitted within past 60s
+    // Idempotency check: if exact same phone and category submitted within past 15 min
     const now = Date.now();
     const existingIndex = leads.findIndex((l) => {
       const isSamePhone = l.phone === data.phone;
       const isSameCat = l.category === data.category;
-      const isSameReg = (l.regNo || "") === (data.regNo || "");
-      const isRecent = now - new Date(l.timestamp).getTime() < 60 * 1000;
-      return isSamePhone && isSameCat && isSameReg && isRecent;
+      const isSameType = (l.leadType || "") === (data.leadType || "");
+      const isRecent = now - new Date(l.timestamp).getTime() < 15 * 60 * 1000;
+      return isSamePhone && isSameCat && isSameType && isRecent;
     });
 
     if (existingIndex !== -1) {
