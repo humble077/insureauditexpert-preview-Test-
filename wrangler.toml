@@ -1,0 +1,9 @@
+name = "insureauditexpert-preview-test"
+compatibility_date = "2026-11-19"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".output/public"
+
+[[kv_namespaces]]
+binding = "LEADS_KV"
+id = "e899af5f856d41ceb38adf144ba45966"
+preview_id = "e899af5f856d41ceb38adf144ba45966"

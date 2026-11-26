@@ -27,6 +27,7 @@ import { PageShell } from "@/components/site-shell";
 import {
   verifyAdminPinServerFn,
   getLeadsServerFn,
+  saveLeadServerFn,
   updateLeadStatusServerFn,
   clearLeadsServerFn,
   type ServerLeadRecord,
@@ -164,12 +165,36 @@ function LeadsPage() {
           const serverLeads = res && res.success && res.leads ? res.leads : [];
           const localLeads = getLocalLeads();
 
-          // Merge uniquely by ID
+          // Merge uniquely by ID and upload any local-only leads to central database
           const serverIds = new Set(serverLeads.map((l) => l.id));
           const combined = [...serverLeads];
+          const toUpload: typeof localLeads = [];
           for (const l of localLeads) {
             if (!serverIds.has(l.id)) {
               combined.push(l as any);
+              toUpload.push(l);
+            }
+          }
+
+          if (toUpload.length > 0) {
+            for (const item of toUpload) {
+              saveLeadServerFn({
+                data: {
+                  phone: item.phone,
+                  regNo: item.regNo || undefined,
+                  name: item.name || undefined,
+                  companyName: item.companyName || undefined,
+                  fleetSize: item.fleetSize || undefined,
+                  category: item.category,
+                  categoryLabel: item.categoryLabel,
+                  deviceCategory: item.deviceCategory || undefined,
+                  leadType: item.leadType || "Request Quote",
+                  action: item.action,
+                  referralUrl: item.referralUrl || undefined,
+                  sourcePage: item.sourcePage || undefined,
+                  notes: item.notes || undefined,
+                },
+              }).catch(() => {});
             }
           }
           setLeads(combined);
