@@ -29,6 +29,7 @@ import { Tilt } from "@/lib/motion";
    ========================================================================= */
 export function ClaimEvidenceSlider({ className = "" }: { className?: string }) {
   const [sliderPos, setSliderPos] = useState(50); // percentage 0 to 100
+  const [isDraggingState, setIsDraggingState] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
 
@@ -36,17 +37,20 @@ export function ClaimEvidenceSlider({ className = "" }: { className?: string }) 
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = clientX - rect.left;
-    const pct = Math.max(5, Math.min(95, (x / rect.width) * 100));
-    setSliderPos(pct);
+    const pct = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    setSliderPos(Math.round(pct));
   }, []);
 
-  const handlePointerDown = () => {
+  const handlePointerDown = (e: React.PointerEvent) => {
     isDragging.current = true;
+    setIsDraggingState(true);
+    handleMove(e.clientX);
   };
 
   useEffect(() => {
     const handlePointerUp = () => {
       isDragging.current = false;
+      setIsDraggingState(false);
     };
     const handlePointerMove = (e: globalThis.PointerEvent) => {
       if (!isDragging.current) return;
@@ -71,9 +75,11 @@ export function ClaimEvidenceSlider({ className = "" }: { className?: string }) 
         <div className="flex items-center gap-1.5 font-mono">
           <button
             type="button"
-            onClick={() => setSliderPos(15)}
-            className={`px-2.5 py-1 rounded-md transition cursor-pointer ${
-              sliderPos < 35 ? "bg-red-500 text-white font-bold" : "bg-ink/5 hover:bg-ink/10 text-ink/70"
+            onClick={() => setSliderPos(100)}
+            className={`px-3 py-1.5 rounded-lg text-xs transition cursor-pointer ${
+              sliderPos >= 75
+                ? "bg-red-500 text-white font-bold shadow-sm"
+                : "bg-ink/5 hover:bg-ink/10 text-ink/70"
             }`}
           >
             Without Dashcam
@@ -81,9 +87,9 @@ export function ClaimEvidenceSlider({ className = "" }: { className?: string }) 
           <button
             type="button"
             onClick={() => setSliderPos(50)}
-            className={`px-2.5 py-1 rounded-md transition cursor-pointer ${
-              sliderPos >= 35 && sliderPos <= 65
-                ? "bg-brand text-white font-bold"
+            className={`px-3 py-1.5 rounded-lg text-xs transition cursor-pointer ${
+              sliderPos > 25 && sliderPos < 75
+                ? "bg-brand text-white font-bold shadow-sm"
                 : "bg-ink/5 hover:bg-ink/10 text-ink/70"
             }`}
           >
@@ -91,9 +97,11 @@ export function ClaimEvidenceSlider({ className = "" }: { className?: string }) 
           </button>
           <button
             type="button"
-            onClick={() => setSliderPos(85)}
-            className={`px-2.5 py-1 rounded-md transition cursor-pointer ${
-              sliderPos > 65 ? "bg-emerald-600 text-white font-bold" : "bg-ink/5 hover:bg-ink/10 text-ink/70"
+            onClick={() => setSliderPos(0)}
+            className={`px-3 py-1.5 rounded-lg text-xs transition cursor-pointer ${
+              sliderPos <= 25
+                ? "bg-emerald-600 text-white font-bold shadow-sm"
+                : "bg-ink/5 hover:bg-ink/10 text-ink/70"
             }`}
           >
             With Evidence
@@ -108,107 +116,120 @@ export function ClaimEvidenceSlider({ className = "" }: { className?: string }) 
         className="relative h-[420px] sm:h-[460px] rounded-3xl overflow-hidden border-2 border-ink/10 shadow-xl cursor-ew-resize select-none bg-night"
       >
         {/* RIGHT LAYER: With Insure Audit Expert AI Dashcam (Evidence) */}
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-night to-night-deep text-white p-6 sm:p-8 flex flex-col justify-between">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-night to-night-deep text-white p-5 sm:p-8 flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-400">
+            <div className="flex items-center justify-end gap-2 sm:gap-3 border-b border-white/10 pb-3 sm:pb-4 ml-auto">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider text-emerald-400">
                   With AI Dashcam Evidence
                 </span>
               </div>
-              <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <span className="text-[10px] sm:text-[11px] font-mono px-2 sm:px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 whitespace-nowrap">
                 1080p Telematics Stamped
               </span>
             </div>
 
-            <div className="mt-6 space-y-3.5 max-w-sm sm:max-w-md ml-auto text-right">
-              <div className="inline-block text-left bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-2xl">
-                <div className="flex items-center gap-2 text-emerald-300 font-bold text-sm mb-1">
+            <div className="mt-4 sm:mt-6 space-y-3 sm:space-y-3.5 max-w-[280px] sm:max-w-sm md:max-w-md ml-auto text-right">
+              <div className="inline-block text-left bg-emerald-500/10 border border-emerald-500/30 p-3 sm:p-4 rounded-2xl w-full">
+                <div className="flex items-center gap-2 text-emerald-300 font-bold text-xs sm:text-sm mb-1">
                   <ShieldCheck className="w-4 h-4 shrink-0" />
                   <span>Uncontested Surveyor Assessment</span>
                 </div>
-                <p className="text-xs text-white/80 leading-relaxed">
+                <p className="text-[11px] sm:text-xs text-white/80 leading-relaxed">
                   Timestamped dashcam video locks exact right-of-way, braking timeline, and vehicle speed (54 km/h), invalidating false third-party allegations.
                 </p>
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-left text-xs font-mono">
-                <div className="bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="bg-white/5 p-2.5 sm:p-3 rounded-xl border border-white/10">
                   <span className="text-[10px] text-white/50 block">Arbitrary Deduction</span>
-                  <span className="text-emerald-400 font-extrabold text-base">0% Zero Cut</span>
+                  <span className="text-emerald-400 font-extrabold text-sm sm:text-base">0% Zero Cut</span>
                 </div>
-                <div className="bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="bg-white/5 p-2.5 sm:p-3 rounded-xl border border-white/10">
                   <span className="text-[10px] text-white/50 block">Claim Clearance</span>
-                  <span className="text-emerald-400 font-extrabold text-base">48–72 Hours</span>
+                  <span className="text-emerald-400 font-extrabold text-sm sm:text-base">48–72 Hours</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-white/10 pt-4 flex items-center justify-between text-xs text-white/60">
-            <span>Evidence Dossier Sealed: GPS + G-Sensor Vector</span>
+          <div className="border-t border-white/10 pt-3 sm:pt-4 flex items-center justify-end gap-3 text-[11px] sm:text-xs text-white/60 ml-auto">
+            <span className="hidden sm:inline">Evidence Dossier Sealed: GPS + G-Sensor Vector</span>
             <span className="text-emerald-300 font-bold">Standard IRDAI Eligible Policy</span>
           </div>
         </div>
 
         {/* LEFT LAYER (CLIPPED): Standard Claim Without Dashcam (Word against word) */}
         <div
-          className="absolute inset-0 bg-gradient-to-br from-red-950/90 via-night/95 to-ink text-white p-6 sm:p-8 flex flex-col justify-between"
+          className={`absolute inset-0 bg-gradient-to-br from-red-950/95 via-night/95 to-ink text-white p-5 sm:p-8 flex flex-col justify-between ${
+            isDraggingState ? "" : "transition-[clip-path] duration-300 ease-out"
+          }`}
           style={{
             clipPath: `polygon(0 0, ${sliderPos}% 0, ${sliderPos}% 100%, 0 100%)`,
           }}
         >
           <div>
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div className="flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-red-400">
+            <div className="flex items-center justify-start gap-2 sm:gap-3 border-b border-white/10 pb-3 sm:pb-4">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <AlertTriangle className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-red-400 shrink-0" />
+                <span className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider text-red-400">
                   Without Dashcam (Word Against Word)
                 </span>
               </div>
-              <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">
+              <span className="text-[10px] sm:text-[11px] font-mono px-2 sm:px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 whitespace-nowrap">
                 Disputed Liability
               </span>
             </div>
 
-            <div className="mt-6 space-y-3.5 max-w-sm sm:max-w-md">
-              <div className="bg-red-500/10 border border-red-500/30 p-4 rounded-2xl">
-                <div className="flex items-center gap-2 text-red-300 font-bold text-sm mb-1">
+            <div className="mt-4 sm:mt-6 space-y-3 sm:space-y-3.5 max-w-[280px] sm:max-w-sm md:max-w-md">
+              <div className="bg-red-500/10 border border-red-500/30 p-3 sm:p-4 rounded-2xl">
+                <div className="flex items-center gap-2 text-red-300 font-bold text-xs sm:text-sm mb-1">
                   <ShieldAlert className="w-4 h-4 shrink-0" />
                   <span>Contributory Negligence Deduction</span>
                 </div>
-                <p className="text-xs text-white/80 leading-relaxed">
+                <p className="text-[11px] sm:text-xs text-white/80 leading-relaxed">
                   Third party falsely claims rash driving. Without objective video evidence, insurance surveyor levies arbitrary 50% fault deduction on own-damage repair.
                 </p>
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-                <div className="bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="bg-white/5 p-2.5 sm:p-3 rounded-xl border border-white/10">
                   <span className="text-[10px] text-white/50 block">Surveyor Deduction</span>
-                  <span className="text-red-400 font-extrabold text-base">Up to 50% Cut</span>
+                  <span className="text-red-400 font-extrabold text-sm sm:text-base">Up to 50% Cut</span>
                 </div>
-                <div className="bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="bg-white/5 p-2.5 sm:p-3 rounded-xl border border-white/10">
                   <span className="text-[10px] text-white/50 block">Settlement Dispute</span>
-                  <span className="text-red-400 font-extrabold text-base">35–60 Days</span>
+                  <span className="text-red-400 font-extrabold text-sm sm:text-base">35–60 Days</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-white/10 pt-4 flex items-center justify-between text-xs text-white/60">
+          <div className="border-t border-white/10 pt-3 sm:pt-4 flex items-center justify-between text-[11px] sm:text-xs text-white/60">
             <span>Result: Unnecessary out-of-pocket loss</span>
-            <span className="text-red-300 font-bold">Unverified Verbal Claim</span>
+            <span className="text-red-300 font-bold hidden sm:inline">Unverified Verbal Claim</span>
           </div>
         </div>
 
         {/* DRAGGABLE DIVIDER HANDLE */}
         <div
-          className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_15px_rgba(255,255,255,0.7)] pointer-events-none"
-          style={{ left: `${sliderPos}%` }}
+          className={`absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_15px_rgba(255,255,255,0.7)] pointer-events-none ${
+            isDraggingState ? "" : "transition-all duration-300 ease-out"
+          }`}
+          style={{
+            left: `${sliderPos}%`,
+            opacity: sliderPos === 0 || sliderPos === 100 ? 0.4 : 1,
+          }}
         >
-          <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white text-night font-bold shadow-2xl border-2 border-brand flex items-center justify-center cursor-ew-resize pointer-events-auto">
-            <Sliders className="w-4 h-4 text-brand rotate-90" />
+          <div
+            className="absolute top-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white text-night font-bold shadow-2xl border-2 border-brand flex items-center justify-center cursor-ew-resize pointer-events-auto hover:scale-110 active:scale-95 transition-transform"
+            style={{
+              transform: `translate(${sliderPos <= 3 ? "0%" : sliderPos >= 97 ? "-100%" : "-50%"}, -50%)`,
+            }}
+            title="Drag left/right to compare claim outcomes"
+          >
+            <Sliders className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-brand rotate-90" />
           </div>
         </div>
       </div>
