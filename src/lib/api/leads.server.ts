@@ -8,14 +8,48 @@ const LEADS_FILE = path.join(DATA_DIR, "leads.json");
 const ADMIN_SECRET = process.env.ADMIN_SECRET || "iae_admin_secret_key_2026_prod";
 const ADMIN_PIN = process.env.ADMIN_PIN || "4426";
 
+// Helper to detect Cloudflare KV namespace binding
+function getCloudflareKV(): any {
+  try {
+    const cfEnv = (globalThis as any).__CF_ENV__;
+    if (cfEnv && (cfEnv.LEADS_KV || cfEnv.KV)) {
+      return cfEnv.LEADS_KV || cfEnv.KV;
+    }
+    const procEnv = (process as any)?.env;
+    if (procEnv && (procEnv.LEADS_KV || procEnv.KV)) {
+      return procEnv.LEADS_KV || procEnv.KV;
+    }
+  } catch {}
+  return null;
+}
+
 // In-memory cache for serverless / edge runtime (e.g. Cloudflare Pages / Workers)
 let inMemoryLeads: ServerLeadRecord[] = [];
 let hasLoadedFromFile = false;
 
 export async function ensureLeadsFile(): Promise<ServerLeadRecord[]> {
+  // 1. Primary Centralized Storage: Cloudflare KV (Synchronizes across all devices & edge locations worldwide)
+  const kv = getCloudflareKV();
+  if (kv && typeof kv.get === "function") {
+    try {
+      const data = await kv.get("iae_leads");
+      if (data) {
+        const parsed = JSON.parse(data) as ServerLeadRecord[];
+        if (Array.isArray(parsed)) {
+          inMemoryLeads = parsed;
+          return inMemoryLeads;
+        }
+      }
+    } catch (kvErr) {
+      console.warn("Cloudflare KV read notice:", kvErr);
+    }
+  }
+
   if (hasLoadedFromFile && inMemoryLeads.length > 0) {
     return inMemoryLeads;
   }
+
+  // 2. Local Node server filesystem storage
   try {
     if (typeof fs !== "undefined" && typeof fs.mkdir === "function") {
       await fs.mkdir(DATA_DIR, { recursive: true });
@@ -43,6 +77,18 @@ export async function ensureLeadsFile(): Promise<ServerLeadRecord[]> {
 export async function writeLeadsFile(leads: ServerLeadRecord[]): Promise<boolean> {
   // Always update in-memory leads collection
   inMemoryLeads = leads;
+
+  // 1. Persist to Cloudflare KV if bound
+  const kv = getCloudflareKV();
+  if (kv && typeof kv.put === "function") {
+    try {
+      await kv.put("iae_leads", JSON.stringify(leads));
+    } catch (kvErr) {
+      console.warn("Cloudflare KV write notice:", kvErr);
+    }
+  }
+
+  // 2. Persist to local filesystem if available
   try {
     if (typeof fs !== "undefined" && typeof fs.mkdir === "function") {
       await fs.mkdir(DATA_DIR, { recursive: true });
@@ -50,7 +96,6 @@ export async function writeLeadsFile(leads: ServerLeadRecord[]): Promise<boolean
     }
   } catch (err) {
     // In serverless / edge runtimes, filesystem writes are restricted
-    console.warn("Storage note: Server filesystem write unavailable on edge runtime, preserved in memory:", err);
   }
   return true;
 }
