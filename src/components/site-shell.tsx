@@ -102,15 +102,17 @@ export function SiteHeader() {
       </div>
 
       {/* Sticky Main Navigation */}
-      <header className="sticky top-0 z-50 bg-white/98 backdrop-blur-md border-b border-ink/8 shadow-2xs">
+      <header className="sticky top-0 z-50 bg-sky-50/95 backdrop-blur-md border-b border-sky-200/60 shadow-2xs">
         <div className="max-w-[1280px] mx-auto px-6 h-[72px] flex items-center justify-between gap-4" ref={dropdownRef}>
-          {/* Logo */}
+          {/* Logo (Circular Badge) */}
           <Link to="/" className="flex items-center gap-3 group shrink-0">
-            <img
-              src={logoUrl}
-              alt="Insure Audit Expert"
-              className="h-10 sm:h-11 w-auto transition-transform group-hover:scale-105"
-            />
+            <div className="w-11 h-11 rounded-full bg-white p-0.5 shadow-2xs border border-sky-200/80 shrink-0 flex items-center justify-center transition-transform group-hover:scale-105">
+              <img
+                src={logoUrl}
+                alt="Insure Audit Expert"
+                className="w-full h-full object-contain rounded-full"
+              />
+            </div>
             <span className="hidden xl:block leading-tight">
               <span className="block text-[16px] font-extrabold text-night tracking-tight">
                 Insure Audit Expert
@@ -127,8 +129,8 @@ export function SiteHeader() {
             <Link
               to="/"
               activeOptions={{ exact: true }}
-              activeProps={{ className: "text-brand font-bold bg-brand-soft/60" }}
-              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-cloud/70 transition"
+              activeProps={{ className: "text-brand font-bold bg-white/90 shadow-2xs" }}
+              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-white/70 transition"
             >
               Home
             </Link>
@@ -141,8 +143,8 @@ export function SiteHeader() {
                 onMouseEnter={() => setActiveDropdown("insurance")}
                 className={`inline-flex items-center gap-1 px-3 py-2 rounded-lg transition cursor-pointer ${
                   activeDropdown === "insurance" || location.pathname.includes("insurance")
-                    ? "text-brand font-bold bg-brand-soft/60"
-                    : "hover:text-brand hover:bg-cloud/70"
+                    ? "text-brand font-bold bg-white/90 shadow-2xs"
+                    : "hover:text-brand hover:bg-white/70"
                 }`}
               >
                 Insurance <ChevronDown className="w-3.5 h-3.5 opacity-70" />
@@ -333,8 +335,8 @@ export function SiteHeader() {
                 onMouseEnter={() => setActiveDropdown("tracking")}
                 className={`inline-flex items-center gap-1 px-3 py-2 rounded-lg transition cursor-pointer ${
                   activeDropdown === "tracking" || location.pathname.includes("tracking")
-                    ? "text-brand font-bold bg-brand-soft/60"
-                    : "hover:text-brand hover:bg-cloud/70"
+                    ? "text-brand font-bold bg-white/90 shadow-2xs"
+                    : "hover:text-brand hover:bg-white/70"
                 }`}
               >
                 Tracking Software <ChevronDown className="w-3.5 h-3.5 opacity-70" />
@@ -388,8 +390,8 @@ export function SiteHeader() {
                 onMouseEnter={() => setActiveDropdown("devices")}
                 className={`inline-flex items-center gap-1 px-3 py-2 rounded-lg transition cursor-pointer ${
                   activeDropdown === "devices" || location.pathname.includes("devices")
-                    ? "text-brand font-bold bg-brand-soft/60"
-                    : "hover:text-brand hover:bg-cloud/70"
+                    ? "text-brand font-bold bg-white/90 shadow-2xs"
+                    : "hover:text-brand hover:bg-white/70"
                 }`}
               >
                 Devices <ChevronDown className="w-3.5 h-3.5 opacity-70" />
@@ -459,8 +461,8 @@ export function SiteHeader() {
             {/* Claim Assistance */}
             <Link
               to="/claim-assistance"
-              activeProps={{ className: "text-brand font-bold bg-brand-soft/60" }}
-              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-cloud/70 transition"
+              activeProps={{ className: "text-brand font-bold bg-white/90 shadow-2xs" }}
+              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-white/70 transition"
             >
               Claim Assistance
             </Link>
@@ -468,8 +470,8 @@ export function SiteHeader() {
             {/* About Us */}
             <Link
               to="/about"
-              activeProps={{ className: "text-brand font-bold bg-brand-soft/60" }}
-              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-cloud/70 transition"
+              activeProps={{ className: "text-brand font-bold bg-white/90 shadow-2xs" }}
+              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-white/70 transition"
             >
               About Us
             </Link>
@@ -477,8 +479,8 @@ export function SiteHeader() {
             {/* Resources / Blogs */}
             <Link
               to="/blogs"
-              activeProps={{ className: "text-brand font-bold bg-brand-soft/60" }}
-              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-cloud/70 transition"
+              activeProps={{ className: "text-brand font-bold bg-white/90 shadow-2xs" }}
+              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-white/70 transition"
             >
               Resources / Blogs
             </Link>
@@ -486,8 +488,8 @@ export function SiteHeader() {
             {/* Contact Us */}
             <Link
               to="/contact"
-              activeProps={{ className: "text-brand font-bold bg-brand-soft/60" }}
-              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-cloud/70 transition"
+              activeProps={{ className: "text-brand font-bold bg-white/90 shadow-2xs" }}
+              className="px-3 py-2 rounded-lg hover:text-brand hover:bg-white/70 transition"
             >
               Contact Us
             </Link>
@@ -499,7 +501,7 @@ export function SiteHeader() {
               <button
                 type="button"
                 onClick={() => openQuoteModal()}
-                className="sheen inline-flex items-center gap-2 bg-brand hover:bg-brand-deep text-white font-bold text-[13.5px] px-4 py-2.5 rounded-xl transition-colors shrink-0 shadow-xs cursor-pointer"
+                className="sheen inline-flex items-center gap-2 bg-brand hover:bg-brand-deep text-white font-bold text-[13.5px] px-5 py-2.5 rounded-full transition-all shrink-0 shadow-sm hover:shadow-md cursor-pointer"
               >
                 <ShieldCheck className="w-4 h-4 text-accent-yellow" /> Get Quote
               </button>
@@ -509,7 +511,7 @@ export function SiteHeader() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl text-night hover:bg-cloud transition"
+              className="lg:hidden p-2 rounded-full text-night hover:bg-white/80 transition"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -519,7 +521,7 @@ export function SiteHeader() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-ink/10 bg-white max-h-[85vh] overflow-y-auto px-6 py-5 space-y-4 animate-reveal shadow-xl">
+          <div className="lg:hidden border-t border-sky-200/60 bg-sky-50/98 backdrop-blur-md max-h-[85vh] overflow-y-auto px-6 py-5 space-y-4 animate-reveal shadow-xl">
             <Link
               to="/"
               onClick={() => setMobileMenuOpen(false)}
@@ -607,7 +609,7 @@ export function SiteHeader() {
                   setMobileMenuOpen(false);
                   openQuoteModal();
                 }}
-                className="w-full bg-brand text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2"
+                className="w-full bg-brand hover:bg-brand-deep text-white font-bold py-3 rounded-full flex items-center justify-center gap-2 shadow-sm transition"
               >
                 <ShieldCheck className="w-4 h-4 text-accent-yellow" /> Get Audited Quote
               </button>
